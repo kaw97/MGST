@@ -32,18 +32,6 @@ A Python package for analyzing Elite Dangerous galaxy data using flexible JSON p
    ```
 
 2. **Download Database**:
-   ```bash
-   # Clone repository
-   git clone https://github.com/your-username/mgst.git
-   cd mgst
-
-   # Create and activate environment (automatically installs MGST)
-   micromamba create -f environment.yml
-   micromamba activate mgst
-
-   # Verify installation
-   mgst --help
-   ```
 
 Building the initial database is very time-consuming (>24 hours with 12 processors on a 7950X), but users can download a preformatted database at https://drive.google.com/drive/folders/1m4Fl14xxaEm5rY9uoo9w9BKsAj7gHq_a . I plan on fully implementing database updating, but I want to implement BGS tracking alongside it so I haven't gotten to it yet. 
 
