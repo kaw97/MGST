@@ -1,0 +1,27 @@
+# Include important files
+include README.md
+include LICENSE
+include requirements*.txt
+include pyproject.toml
+include MANIFEST.in
+
+# Include source code
+recursive-include src *.py
+
+# Include tests
+recursive-include tests *.py
+
+# Include examples
+recursive-include examples *.py *.json
+
+# Include documentation
+recursive-include docs *.rst *.md *.py
+
+# Exclude unwanted files
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .git*
+global-exclude *.so
+global-exclude *.tsv
+global-exclude *.csv
+global-exclude *.xlsx

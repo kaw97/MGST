@@ -1,0 +1,46 @@
+[
+  {
+    "name": "Sol",
+    "coords": {"x": 0.0, "y": 0.0, "z": 0.0},
+    "bodies": [
+      {
+        "bodyName": "Earth",
+        "atmosphereType": "Nitrogen-Oxygen",
+        "surfacePressure": 1.0,
+        "surfaceTemperature": 287.0,
+        "gravity": 1.0,
+        "subType": "Earth-like world"
+      }
+    ]
+  },
+  {
+    "name": "Alpha Centauri",
+    "coords": {"x": -6.25, "y": -1.25, "z": -1.25},
+    "bodies": [
+      {
+        "bodyName": "Alpha Centauri A 1",
+        "atmosphereType": "Thin Carbon dioxide", 
+        "surfacePressure": 0.05,
+        "surfaceTemperature": 250.0,
+        "gravity": 0.3,
+        "subType": "Rocky body",
+        "updateTime": "2021-05-15 10:30:00+00:00",
+        "bioscan_predictions": {
+          "predicted_species": [
+            {
+              "genus": "Stratum",
+              "species": "Excutitus",
+              "name": "Stratum Excutitus",
+              "value": 16000000
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "Wolf 359",
+    "coords": {"x": 7.86, "y": 0.82, "z": -2.14},
+    "bodies": []
+  }
+]

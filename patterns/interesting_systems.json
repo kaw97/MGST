@@ -1,0 +1,19 @@
+{
+  "description": "Interesting Systems - Find systems with rare or valuable bodies",
+  "comment": "Searches for systems containing at least one of: Earth-like world, Water world, Ammonia world, Black hole, or Neutron star",
+
+  "name": "*",
+
+  "bodies": [
+    {
+      "comment": "Match any body with one of the interesting types",
+      "subType": [
+        "Earth-like world",
+        "Water world",
+        "Ammonia world",
+        "Black Hole",
+        "Neutron Star"
+      ]
+    }
+  ]
+}

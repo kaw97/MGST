@@ -1,0 +1,21 @@
+{
+  "description": "Supply Hub Candidates - ELW or Water World with rocky moon",
+  "comment": "Finds systems with Earth-like worlds or Water worlds that have rocky body moons orbiting them specifically. These rocky moons are potential supply hub locations. Manual filtering for signals required.",
+
+  "name": "*",
+
+  "bodies": [
+    {
+      "comment": "Match ELW or Water World (the parent planet) - mark with $elw_water variable",
+      "bodyId": "$elw_water",
+      "type": "Planet",
+      "subType": ["Earth-like world", "Water world"]
+    },
+    {
+      "comment": "Match rocky moon orbiting the specific ELW/Water World marked above",
+      "type": "Planet",
+      "subType": "Rocky body",
+      "parents": [{"Planet": "$elw_water"}]
+    }
+  ]
+}
