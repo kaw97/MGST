@@ -2,44 +2,28 @@
 
 **Elite Dangerous galaxy analysis toolkit with flexible JSON pattern matching**
 
-A Python package for analyzing Elite Dangerous galaxy data using flexible JSON patterns and powerful search modes. Find systems matching complex criteria across the galaxy, specific sectors, subsectors, or along corridor routes.
+A Python package for analyzing Elite Dangerous galaxy data using flexible JSON patterns and powerful search modes. Find systems matching complex criteria across the galaxy, specific sectors, or along corridor routes. Future plans include system list-based proximity searches, BGS tracking, and colonization routing tools.
 
-## Features
+## Key Features
 
-- **🔍 Flexible Pattern Matching** - Define search criteria using JSON patterns
-- **🗺️ Multiple Search Modes** - Galaxy-wide, sectors, subsectors, or corridor searches
-- **⚡ High Performance** - Parallel processing with compressed database support
-- **📊 Comprehensive Logging** - Full reproducibility with automatic run documentation
-- **🛠️ Database Tools** - Build and manage galaxy databases from Spansh data
+- **🔍 Flexible Pattern Matching** - Define search criteria using JSON patterns (implemented)
+- **🗺️ Multiple Search Modes** - Galaxy-wide, sectors, or corridor searches (implemented)
+- **⚡ High Performance** - Parallel processing with compressed database support (implemented)
+- **📊 Comprehensive Logging** - Full reproducibility with automatic run documentation (implemented)
+- **🛠️ Database Tools** - Build and update galaxy databases from Spansh data (planned)
 
 ## Installation
 
-### Via pip
+### Via Micromamba
 
-```bash
-pip install mgst
-```
 
-### Via Micromamba (Recommended)
-
-Micromamba is a fast, lightweight package manager ideal for scientific Python packages.
-
-1. **Install Micromamba** (if not already installed):
-   ```bash
-   # Linux/macOS
-   "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
-
-   # Windows (PowerShell)
-   Invoke-Expression ((Invoke-WebRequest -Uri https://micro.mamba.pm/install.ps1).Content)
-   ```
-
-2. **Install MGST**:
+1. **Install MGST**:
    ```bash
    # Clone repository
-   git clone https://github.com/your-username/mgst.git
+   git clone https://github.com/kaw97/MGST
    cd mgst
 
-   # Create and activate environment
+   # Create and activate environment (automatically installs MGST)
    micromamba create -f environment.yml
    micromamba activate mgst
 
@@ -47,20 +31,21 @@ Micromamba is a fast, lightweight package manager ideal for scientific Python pa
    mgst --help
    ```
 
-### For Development
+2. **Download Database**:
+   ```bash
+   # Clone repository
+   git clone https://github.com/your-username/mgst.git
+   cd mgst
 
-```bash
-git clone https://github.com/your-username/mgst.git
-cd mgst
+   # Create and activate environment (automatically installs MGST)
+   micromamba create -f environment.yml
+   micromamba activate mgst
 
-# With micromamba
-micromamba create -f environment.yml
-micromamba activate mgst
-pip install -e .[dev]
+   # Verify installation
+   mgst --help
+   ```
 
-# Or with pip
-pip install -e .[dev]
-```
+Building the initial database is very time-consuming (>24 hours with 12 processors on a 7950X), but users can download a preformatted database at https://drive.google.com/drive/folders/1m4Fl14xxaEm5rY9uoo9w9BKsAj7gHq_a . I plan on fully implementing database updating, but I want to implement BGS tracking alongside it so I haven't gotten to it yet. 
 
 ## Quick Start
 
@@ -108,13 +93,12 @@ Flexible galaxy data filtering with multiple search modes.
 **Search Modes:**
 - `galaxy` - Search entire galaxy
 - `sectors` - Search specific sectors
-- `subsectors` - Search specific subsectors
 - `corridor` - Search corridor between two coordinates
-- `pattern` - Pattern-based system search
+
 
 **Common Options:**
 - `--pattern-file PATH` - JSON file defining search criteria
-- `--database PATH` - Galaxy database directory (sector/subsector files)
+- `--database PATH` - Galaxy database directory (sector files)
 - `--output PATH` - Output file (auto-creates subdirectory with logs)
 - `--workers N` - Number of parallel workers (default: 8)
 - `--format [tsv|jsonl]` - Output format (default: tsv)
@@ -150,24 +134,6 @@ mgst filter --mode corridor \
   --pattern-file patterns/all_systems.json \
   --database galaxy_sectors/ \
   --dry-run
-```
-
-### `mgst db`
-
-Database construction and management commands.
-
-```bash
-# Build galaxy database from Spansh data
-mgst db build --source spansh_dump.json --target galaxy_db/
-
-# Verify database integrity
-mgst db verify --database galaxy_db/
-
-# Show database information
-mgst db info --database galaxy_db/
-
-# Update database with latest changes
-mgst db update --database galaxy_db/ --changes changes.json
 ```
 
 ## JSON Pattern Format
@@ -249,7 +215,7 @@ galaxy_sectors_compressed/
 
 - **Parallel Processing**: 12+ workers for large searches
 - **Compressed Support**: Automatic gzip detection and decompression
-- **Smart Filtering**: Sector/subsector prefiltering reduces search space
+- **Smart Filtering**: Sector-level prefiltering reduces search space
 - **Fast Processing**: 20,000+ systems/sec on modern hardware
 
 ## Requirements
@@ -257,36 +223,16 @@ galaxy_sectors_compressed/
 - Python 3.8+
 - pandas ≥1.5.0
 - numpy ≥1.21.0
+- scikit-learn ≥1.1.0
+- tqdm ≥4.64.0
 - click ≥8.0.0
 - pydantic ≥1.10.0
+- requests ≥2.28.0
 
-## Development
+All dependencies are automatically installed when using the micromamba environment files.
 
-```bash
-# Install development dependencies
-pip install -e .[dev]
 
-# Run tests
-pytest
 
-# Format code
-black src/ tests/
-
-# Type checking
-mypy src/
-
-# Build documentation
-cd docs/
-make html
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
 ## License
 
@@ -296,8 +242,8 @@ This project is licensed under the GNU General Public License Version 3 - see th
 
 - Elite Dangerous community for galaxy data and exploration knowledge
 - Spansh for comprehensive galaxy database dumps
-- Contributors to pattern matching and search optimization
+- Mercs of Mikunn for feedback and search suggestions
 
 ---
 
-**Fly safe, Commander! o7** 🚀✨
+**Colonize the galaxy. Rise with us.** 🚀✨

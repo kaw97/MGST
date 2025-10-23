@@ -1,15 +1,14 @@
 """
-Search Mode System for HITEC Galaxy
+Search Mode System for MGST
 
-This module defines the different search modes available in HITEC Galaxy and provides
-the logic for determining which subsectors to search based on the selected mode.
+This module defines the different search modes available in MGST and provides
+the logic for determining which sector files to search based on the selected mode.
 
 Search Modes:
-1. galaxy - Search entire galaxy (all subsectors)
+1. galaxy - Search entire galaxy (all sectors)
 2. sectors - Search specific sectors
-3. subsectors - Search specific subsectors
-4. corridor - Search corridor between two points
-5. pattern - Pattern-based system search
+3. corridor - Search corridor between two points
+4. pattern - Pattern-based system search
 """
 
 import re
@@ -28,7 +27,6 @@ class SearchMode(Enum):
     """Enumeration of available search modes."""
     GALAXY = "galaxy"
     SECTORS = "sectors"
-    SUBSECTORS = "subsectors"
     CORRIDOR = "corridor"
     PATTERN = "pattern"
 
@@ -93,231 +91,128 @@ class SearchParameters:
 
     # Mode-specific parameters
     sectors: Optional[List[str]] = None
-    subsectors: Optional[List[str]] = None
     start_coords: Optional[Coordinates] = None
     end_coords: Optional[Coordinates] = None
     radius: Optional[float] = None
     pattern_file: Optional[Path] = None
 
 
-class SubsectorResolver:
-    """Resolves which subsector files to search based on search parameters."""
+class SectorResolver:
+    """Resolves which sector files to search based on search parameters."""
 
     def __init__(self, database_path: Path):
         self.database_path = Path(database_path)
-        self._subsector_coords_cache = {}
+        self._sector_coords_cache = {}
 
-        # Subsector naming pattern
-        self.pattern = re.compile(r'^([A-Za-z\s_]+)_([A-Z]{2}-[A-Z])\.jsonl\.gz$')
+        # Sector naming pattern (just sector name, no subsector code)
+        self.pattern = re.compile(r'^([A-Za-z\s_0-9]+)\.jsonl(\.gz)?$')
 
-    def get_all_subsector_files(self) -> List[Path]:
-        """Get list of all subsector/sector files in the database."""
-        subsector_files = []
+    def get_all_sector_files(self) -> List[Path]:
+        """Get list of all sector files in the database."""
+        sector_files = []
 
-        # First try nested structure (sector directories containing subsector files)
-        nested_files = list(self.database_path.glob("*/*_*-*.jsonl.gz"))
-        if not nested_files:
-            # Fallback to uncompressed nested files
-            nested_files = list(self.database_path.glob("*/*_*-*.jsonl"))
+        # Look for compressed sector files
+        sector_files = list(self.database_path.glob("*.jsonl.gz"))
+        if not sector_files:
+            # Fallback to uncompressed
+            sector_files = list(self.database_path.glob("*.jsonl"))
 
-        if nested_files:
-            subsector_files = nested_files
-            logger.debug(f"Using nested structure: found {len(subsector_files)} subsector files")
-        else:
-            # Try subsector flat structure
-            subsector_files = list(self.database_path.glob("*_*-*.jsonl.gz"))
-            if not subsector_files:
-                subsector_files = list(self.database_path.glob("*_*-*.jsonl"))
+        logger.debug(f"Found {len(sector_files)} sector files")
+        return sector_files
 
-            if subsector_files:
-                logger.debug(f"Using flat subsector structure: found {len(subsector_files)} subsector files")
-            else:
-                # Fallback to sector-level files (no subsector code in filename)
-                sector_files = list(self.database_path.glob("*.jsonl.gz"))
-                if not sector_files:
-                    sector_files = list(self.database_path.glob("*.jsonl"))
-
-                subsector_files = sector_files
-                logger.debug(f"Using sector-level files: found {len(subsector_files)} sector files")
-
-        return subsector_files
-
-    def parse_subsector_name(self, filename: str) -> Optional[Tuple[str, str]]:
-        """Parse subsector filename to extract sector and subsector codes.
+    def parse_sector_name(self, filename: str) -> Optional[str]:
+        """Parse sector filename to extract sector name.
 
         Args:
-            filename: Subsector filename (e.g., "Aaekaae_OD-T.jsonl.gz")
+            filename: Sector filename (e.g., "Col_285_Sector.jsonl.gz")
 
         Returns:
-            Tuple of (sector, subsector) or None if parsing fails
+            Sector name or None if parsing fails
         """
         match = self.pattern.match(filename)
         if match:
             sector = match.group(1).replace('_', ' ')
-            subsector = match.group(2)
-            return sector, subsector
+            return sector
         return None
 
-    def get_subsector_center(self, sector: str, subsector: str) -> Optional[Coordinates]:
-        """Calculate the approximate center coordinates of a subsector.
-
-        This uses the Elite Dangerous coordinate system where each subsector
-        covers approximately 1280 LY x 1280 LY x 1280 LY.
-        """
-        cache_key = f"{sector}_{subsector}"
-        if cache_key in self._subsector_coords_cache:
-            return self._subsector_coords_cache[cache_key]
-
-        # TODO: Implement proper subsector coordinate calculation
-        # For now, return estimated coordinates based on sector name patterns
-        # This would need to be implemented with proper Elite Dangerous
-        # galactic coordinate mapping
-
-        # Placeholder: return origin for all subsectors
-        # In real implementation, this would calculate based on:
-        # 1. Sector name hash to base coordinates
-        # 2. Subsector code to offset within sector
-        coords = Coordinates(0.0, 0.0, 0.0)
-
-        self._subsector_coords_cache[cache_key] = coords
-        return coords
-
     def resolve_galaxy_mode(self, params: SearchParameters) -> List[Path]:
-        """Resolve subsector files for galaxy-wide search."""
-        return self.get_all_subsector_files()
+        """Resolve sector files for galaxy-wide search."""
+        return self.get_all_sector_files()
 
     def resolve_sectors_mode(self, params: SearchParameters) -> List[Path]:
-        """Resolve subsector files for specific sectors search."""
+        """Resolve sector files for specific sectors search."""
         if not params.sectors:
             raise ValueError("Sectors mode requires --sectors parameter")
 
         target_files = []
-        all_files = self.get_all_subsector_files()
+        all_files = self.get_all_sector_files()
 
         for file_path in all_files:
-            parsed = self.parse_subsector_name(file_path.name)
-            if parsed:
-                sector, subsector = parsed
-                if sector in params.sectors:
-                    target_files.append(file_path)
-
-        logger.info(f"Found {len(target_files)} subsector files in {len(params.sectors)} sectors")
-        return target_files
-
-    def resolve_subsectors_mode(self, params: SearchParameters) -> List[Path]:
-        """Resolve subsector files for specific subsectors search."""
-        if not params.subsectors:
-            raise ValueError("Subsectors mode requires --subsectors parameter")
-
-        target_files = []
-        all_files = self.get_all_subsector_files()
-
-        # Convert subsector names to expected filenames
-        target_filenames = set()
-        for subsector_name in params.subsectors:
-            if '_' in subsector_name:
-                # Already in sector_subsector format
-                target_filenames.add(f"{subsector_name}.jsonl.gz")
-                target_filenames.add(f"{subsector_name}.jsonl")
-            else:
-                # Just subsector code, need to find all matching sectors
-                for file_path in all_files:
-                    parsed = self.parse_subsector_name(file_path.name)
-                    if parsed and parsed[1] == subsector_name:
-                        target_filenames.add(file_path.name)
-
-        # Find matching files
-        for file_path in all_files:
-            if file_path.name in target_filenames:
+            sector_name = self.parse_sector_name(file_path.name)
+            if sector_name and sector_name in params.sectors:
                 target_files.append(file_path)
 
-        logger.info(f"Found {len(target_files)} subsector files for {len(params.subsectors)} subsectors")
+        logger.info(f"Found {len(target_files)} sector files for {len(params.sectors)} sectors")
         return target_files
 
     def resolve_corridor_mode(self, params: SearchParameters) -> List[Path]:
-        """Resolve sector/subsector files for corridor search using spatial prefiltering."""
+        """Resolve sector files for corridor search using spatial prefiltering."""
         if not all([params.start_coords, params.end_coords, params.radius]):
             raise ValueError("Corridor mode requires --start, --end, and --radius parameters")
 
-        all_files = self.get_all_subsector_files()
+        # Use sector index for spatial prefiltering
+        index_file = self.database_path / 'sector_index.json'
 
-        # Check if we're using sector-level files (no subsector pattern)
-        has_subsectors = any(self.parse_subsector_name(f.name) for f in all_files[:10])
+        if index_file.exists():
+            logger.info(f"Using sector index for spatial prefiltering...")
 
-        if has_subsectors:
-            # Use old subsector-based logic with estimated centers
+            with open(index_file, 'r') as f:
+                index = json.load(f)
+
             target_files = []
             max_distance = 2.2 * params.radius
 
-            for file_path in all_files:
-                parsed = self.parse_subsector_name(file_path.name)
-                if parsed:
-                    sector, subsector = parsed
-                    center = self.get_subsector_center(sector, subsector)
+            for sector_name, sector_data in index['sectors'].items():
+                coords = sector_data['center_coords']
+                center = Coordinates(coords['x'], coords['y'], coords['z'])
 
-                    if center:
-                        distance = center.distance_to_line(params.start_coords, params.end_coords)
-                        if distance <= max_distance:
-                            target_files.append(file_path)
+                # Calculate distance from sector center to corridor
+                distance = center.distance_to_line(params.start_coords, params.end_coords)
 
-            logger.info(f"Found {len(target_files)} subsector files in corridor "
-                       f"(radius: {params.radius})")
+                if distance <= max_distance:
+                    sector_file = self.database_path / sector_data['filename']
+                    if sector_file.exists():
+                        target_files.append(sector_file)
+
+            logger.info(f"Found {len(target_files)} sector files near corridor "
+                       f"(radius: {params.radius}, max_distance: {max_distance:.1f} LY, "
+                       f"reduced search space by {100*(1-len(target_files)/len(index['sectors'])):.1f}%)")
             return target_files
         else:
-            # Use sector-level files with index-based prefiltering
-            index_file = self.database_path / 'sector_index.json'
-
-            if index_file.exists():
-                logger.info(f"Using sector index for spatial prefiltering...")
-
-                with open(index_file, 'r') as f:
-                    index = json.load(f)
-
-                target_files = []
-                max_distance = 2.2 * params.radius
-
-                for sector_name, sector_data in index['sectors'].items():
-                    coords = sector_data['center_coords']
-                    center = Coordinates(coords['x'], coords['y'], coords['z'])
-
-                    # Calculate distance from sector center to corridor
-                    distance = center.distance_to_line(params.start_coords, params.end_coords)
-
-                    if distance <= max_distance:
-                        sector_file = self.database_path / sector_data['filename']
-                        if sector_file.exists():
-                            target_files.append(sector_file)
-
-                logger.info(f"Found {len(target_files)} sector files near corridor "
-                           f"(radius: {params.radius}, max_distance: {max_distance:.1f} LY, "
-                           f"reduced search space by {100*(1-len(target_files)/len(index['sectors'])):.1f}%)")
-                return target_files
-            else:
-                logger.warning(f"Sector index not found at {index_file}, searching all sectors")
-                return all_files
+            logger.warning(f"Sector index not found at {index_file}, searching all sectors")
+            return self.get_all_sector_files()
 
     def resolve_pattern_mode(self, params: SearchParameters) -> List[Path]:
-        """Resolve subsector files for pattern-based search."""
+        """Resolve sector files for pattern-based search."""
         if not params.pattern_file:
             raise ValueError("Pattern mode requires --pattern-file parameter")
 
-        # For pattern mode, we typically search all subsectors unless
+        # For pattern mode, we typically search all sectors unless
         # the pattern file specifies spatial constraints
-        return self.get_all_subsector_files()
+        return self.get_all_sector_files()
 
     def resolve_search_files(self, params: SearchParameters) -> List[Path]:
-        """Resolve which subsector files to search based on parameters.
+        """Resolve which sector files to search based on parameters.
 
         Args:
             params: Search parameters including mode and mode-specific options
 
         Returns:
-            List of subsector file paths to search
+            List of sector file paths to search
         """
         resolver_map = {
             SearchMode.GALAXY: self.resolve_galaxy_mode,
             SearchMode.SECTORS: self.resolve_sectors_mode,
-            SearchMode.SUBSECTORS: self.resolve_subsectors_mode,
             SearchMode.CORRIDOR: self.resolve_corridor_mode,
             SearchMode.PATTERN: self.resolve_pattern_mode,
         }
@@ -329,7 +224,7 @@ class SubsectorResolver:
         files = resolver(params)
 
         if not files:
-            logger.warning(f"No subsector files found for search mode {params.mode.value}")
+            logger.warning(f"No sector files found for search mode {params.mode.value}")
 
         return files
 
@@ -368,9 +263,6 @@ def validate_search_parameters(params: SearchParameters) -> None:
 
     if params.mode == SearchMode.SECTORS and not params.sectors:
         raise ValueError("Sectors mode requires --sectors parameter")
-
-    if params.mode == SearchMode.SUBSECTORS and not params.subsectors:
-        raise ValueError("Subsectors mode requires --subsectors parameter")
 
     if params.mode == SearchMode.CORRIDOR:
         if not all([params.start_coords, params.end_coords, params.radius]):

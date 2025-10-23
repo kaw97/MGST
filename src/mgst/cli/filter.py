@@ -10,7 +10,7 @@ from typing import Optional, List
 from ..core.filtering import filter_galaxy_data, validate_config
 from ..core.spatial import SpatialPrefilter
 from ..core.search_modes import (
-    SearchMode, SearchParameters, SubsectorResolver,
+    SearchMode, SearchParameters, SectorResolver,
     parse_coordinates, validate_search_parameters
 )
 from ..configs.config_loader import config_loader
@@ -20,21 +20,19 @@ from ..configs.config_loader import config_loader
 @click.option('--config', '-c',
               help='Configuration name (e.g., exobiology) or path to config file')
 @click.option('--mode', '-m',
-              type=click.Choice(['galaxy', 'sectors', 'subsectors', 'corridor', 'pattern']),
+              type=click.Choice(['galaxy', 'sectors', 'corridor', 'pattern']),
               required=True,
-              help='Search mode: galaxy (all), sectors (specific sectors), subsectors (specific subsectors), corridor (between points), pattern (system pattern matching)')
+              help='Search mode: galaxy (all sectors), sectors (specific sectors), corridor (between points), pattern (system pattern matching)')
 
-# Database path - now supports subsector databases
+# Database path
 @click.option('--database', '-d',
               type=click.Path(exists=True, path_type=Path),
               required=True,
-              help='Database directory containing subsector JSONL files')
+              help='Database directory containing sector JSONL files')
 
 # Search mode specific options
 @click.option('--sectors',
               help='Comma-separated list of sectors to search (for sectors mode)')
-@click.option('--subsectors',
-              help='Comma-separated list of subsectors to search (for subsectors mode)')
 @click.option('--start',
               help='Start coordinates for corridor search (format: x,y,z)')
 @click.option('--end',
@@ -81,14 +79,13 @@ from ..configs.config_loader import config_loader
               help='List all available built-in configurations')
 @click.option('--dry-run',
               is_flag=True,
-              help='Show which subsector files would be searched without executing')
+              help='Show which sector files would be searched without executing')
 
 def filter_cmd(
     config: Optional[str],
     mode: str,
     database: Path,
     sectors: Optional[str],
-    subsectors: Optional[str],
     start: Optional[str],
     end: Optional[str],
     radius: Optional[float],
@@ -108,22 +105,21 @@ def filter_cmd(
     MGST Filter with mandatory search mode selection.
 
     Search Modes:
-    - galaxy: Search entire galaxy (all subsectors)
-    - sectors: Search specific sectors (--sectors "Aaekaae,Col_285")
-    - subsectors: Search specific subsectors (--subsectors "Aaekaae_OD-T,...")
+    - galaxy: Search entire galaxy (all sectors)
+    - sectors: Search specific sectors (--sectors "Col_285,Lagoon_Sector")
     - corridor: Search corridor between points (--start X,Y,Z --end X,Y,Z --radius R)
     - pattern: Pattern-based system search (--pattern-file file.json)
 
     Examples:
 
     # Search entire galaxy
-    mgst filter --mode galaxy --config exobiology --database /path/to/subsectors
+    mgst filter --mode galaxy --config exobiology --database /path/to/sectors
 
     # Search specific sectors
-    mgst filter --mode sectors --sectors "Aaekaae,Eorld" --config exobiology --database /path/to/subsectors
+    mgst filter --mode sectors --sectors "Col_285,Lagoon_Sector" --config exobiology --database /path/to/sectors
 
     # Search corridor from Sol to Colonia
-    mgst filter --mode corridor --start "0,0,0" --end "22000,-1000,49000" --radius 500 --config exobiology --database /path/to/subsectors
+    mgst filter --mode corridor --start "0,0,0" --end "22000,-1000,49000" --radius 500 --config exobiology --database /path/to/sectors
     """
 
     # List configurations if requested
@@ -169,11 +165,6 @@ def filter_cmd(
                 raise click.ClickException("Sectors mode requires --sectors parameter")
             params.sectors = [s.strip() for s in sectors.split(',')]
 
-        elif mode == 'subsectors':
-            if not subsectors:
-                raise click.ClickException("Subsectors mode requires --subsectors parameter")
-            params.subsectors = [s.strip() for s in subsectors.split(',')]
-
         elif mode == 'corridor':
             if not all([start, end, radius]):
                 raise click.ClickException("Corridor mode requires --start, --end, and --radius parameters")
@@ -189,24 +180,24 @@ def filter_cmd(
         # Validate search parameters
         validate_search_parameters(params)
 
-        # Resolve which subsector files to search
-        resolver = SubsectorResolver(database)
-        subsector_files = resolver.resolve_search_files(params)
+        # Resolve which sector files to search
+        resolver = SectorResolver(database)
+        sector_files = resolver.resolve_search_files(params)
 
-        if not subsector_files:
-            click.echo("No subsector files found for search criteria", err=True)
+        if not sector_files:
+            click.echo("No sector files found for search criteria", err=True)
             return
 
         logger.info(f"Search mode: {mode}")
-        logger.info(f"Subsector files to search: {len(subsector_files)}")
+        logger.info(f"Sector files to search: {len(sector_files)}")
 
         # Show what would be searched in dry-run mode
         if dry_run:
-            click.echo(f"DRY RUN: Would search {len(subsector_files)} subsector files:")
-            for file_path in subsector_files[:10]:  # Show first 10
+            click.echo(f"DRY RUN: Would search {len(sector_files)} sector files:")
+            for file_path in sector_files[:10]:  # Show first 10
                 click.echo(f"  {file_path.name}")
-            if len(subsector_files) > 10:
-                click.echo(f"  ... and {len(subsector_files) - 10} more files")
+            if len(sector_files) > 10:
+                click.echo(f"  ... and {len(sector_files) - 10} more files")
             return
 
         # Load and validate configuration
@@ -232,10 +223,10 @@ def filter_cmd(
             config_name = config if config else f"pattern:{pattern_file.name}"
             click.echo(f"Configuration '{config_name}' is valid")
             click.echo(f"Search parameters for mode '{mode}' are valid")
-            click.echo(f"Would search {len(subsector_files)} subsector files")
+            click.echo(f"Would search {len(sector_files)} sector files")
             return
 
-        # Create temporary input directory with symlinks to target subsector files
+        # Create temporary input directory with symlinks to target sector files
         # This allows us to use the existing filtering infrastructure
         import tempfile
         import os
@@ -243,32 +234,31 @@ def filter_cmd(
         with tempfile.TemporaryDirectory() as temp_dir:
             temp_path = Path(temp_dir)
 
-            # Create symlinks to target subsector files
-            for subsector_file in subsector_files:
-                symlink_path = temp_path / subsector_file.name
+            # Create symlinks to target sector files
+            for sector_file in sector_files:
+                symlink_path = temp_path / sector_file.name
                 try:
                     # Use absolute path for symlink target
-                    os.symlink(subsector_file.absolute(), symlink_path)
+                    os.symlink(sector_file.absolute(), symlink_path)
                 except OSError:
                     # If symlinks not supported, copy files (slower but compatible)
                     import shutil
-                    shutil.copy2(subsector_file, symlink_path)
+                    shutil.copy2(sector_file, symlink_path)
 
-            logger.info(f"Created temporary search directory with {len(subsector_files)} files")
+            logger.info(f"Created temporary search directory with {len(sector_files)} files")
 
             # Record search metadata
             search_metadata = {
                 'search_mode': mode,
                 'search_parameters': {
                     'sectors': params.sectors,
-                    'subsectors': params.subsectors,
                     'start_coords': [params.start_coords.x, params.start_coords.y, params.start_coords.z] if params.start_coords else None,
                     'end_coords': [params.end_coords.x, params.end_coords.y, params.end_coords.z] if params.end_coords else None,
                     'radius': params.radius,
                     'pattern_file': str(params.pattern_file) if params.pattern_file else None
                 },
-                'subsector_files_searched': len(subsector_files),
-                'subsector_files': [f.name for f in subsector_files],
+                'sector_files_searched': len(sector_files),
+                'sector_files': [f.name for f in sector_files],
                 'timestamp': datetime.now().isoformat()
             }
 
@@ -307,8 +297,6 @@ def filter_cmd(
                 # Mode-specific parameters
                 if mode == 'sectors' and sectors:
                     f.write(f"# --sectors: {sectors}\n")
-                elif mode == 'subsectors' and subsectors:
-                    f.write(f"# --subsectors: {subsectors}\n")
                 elif mode == 'corridor' and all([start, end, radius]):
                     f.write(f"# --start: {start}\n")
                     f.write(f"# --end: {end}\n")
@@ -388,79 +376,6 @@ def filter_cmd(
             import traceback
             traceback.print_exc()
         raise click.ClickException(f"Filtering failed: {e}")
-
-
-# Also create a migration helper command
-@click.command()
-@click.option('--source',
-              type=click.Path(exists=True, path_type=Path),
-              required=True,
-              help='Source directory with sector files')
-@click.option('--target',
-              type=click.Path(path_type=Path),
-              required=True,
-              help='Target directory for subsector files')
-@click.option('--workers',
-              type=int,
-              default=4,
-              help='Number of worker threads')
-@click.option('--max-sectors',
-              type=int,
-              help='Maximum sectors to process (for testing)')
-@click.option('--resume/--no-resume',
-              default=True,
-              help='Resume previous migration')
-@click.option('--validate',
-              is_flag=True,
-              help='Validate migration after completion')
-@click.option('--dry-run',
-              is_flag=True,
-              help='Show what would be done without executing')
-def migrate_to_subsectors_cmd(
-    source: Path,
-    target: Path,
-    workers: int,
-    max_sectors: Optional[int],
-    resume: bool,
-    validate: bool,
-    dry_run: bool
-):
-    """Migrate galaxy database from sectors to subsectors."""
-
-    if dry_run:
-        click.echo(f"DRY RUN: Would migrate from {source} to {target}")
-        click.echo(f"Workers: {workers}")
-        click.echo(f"Max sectors: {max_sectors or 'unlimited'}")
-        click.echo(f"Resume: {resume}")
-        return
-
-    # Import here to avoid circular imports
-    from ...scripts.reorganize_to_subsectors import SubsectorMigrator
-
-    migrator = SubsectorMigrator(
-        source_dir=source,
-        target_dir=target,
-        workers=workers
-    )
-
-    try:
-        summary = migrator.migrate_database(
-            max_sectors=max_sectors,
-            resume=resume
-        )
-
-        click.echo(f"Migration completed:")
-        click.echo(f"  Sectors processed: {summary['successful_sectors']}")
-        click.echo(f"  Subsectors created: {summary['total_subsectors']}")
-        click.echo(f"  Systems migrated: {summary['total_systems']}")
-        click.echo(f"  Error rate: {summary['error_rate']:.2%}")
-
-        if validate:
-            validation = migrator.validate_migration()
-            click.echo(f"Validation: {validation['matches_found']}/{validation['samples_tested']} samples verified")
-
-    except Exception as e:
-        raise click.ClickException(f"Migration failed: {e}")
 
 
 def main():

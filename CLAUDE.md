@@ -4,17 +4,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-MGST (Mikunn Galactic Search Tool) is an Elite Dangerous galaxy analysis toolkit built as a modular Python package. It provides flexible JSON pattern-based filtering with multiple search modes (corridor, sectors, subsectors, galaxy) and database management tools. The project is designed around a simple, powerful pattern matching system that allows complex searches without modifying core code.
+MGST (Mikunn Galactic Search Tool) is an Elite Dangerous galaxy analysis toolkit built as a modular Python package. It provides flexible JSON pattern-based filtering with multiple search modes (corridor, sectors, galaxy) and database management tools. The project is designed around a simple, powerful pattern matching system that allows complex searches without modifying core code.
 
 ## Development Commands
 
 ### Environment Setup
 ```bash
-# Install in development mode
-pip install -e .[dev]
+# Create and activate base environment (automatically installs MGST)
+micromamba create -f environment.yml
+micromamba activate mgst
 
-# Install with documentation dependencies
-pip install -e .[docs]
+# Or create development environment (includes testing and linting tools)
+micromamba create -f environment-dev.yml
+micromamba activate mgst-dev
 ```
 
 ### Testing
@@ -47,27 +49,16 @@ flake8 src/
 pre-commit run --all-files
 ```
 
-### Documentation
-```bash
-# Build documentation
-cd docs/
-make html
-
-# Serve documentation locally
-cd docs/_build/html && python -m http.server
-```
-
 ### Database Management
 ```bash
 # Compress existing sector database (saves 83.6% space)
 python scripts/compress_sector_database.py
 
-# Build subsector index for efficient searches (required for subsector/corridor modes)
-python scripts/build_lightweight_index.py \
+# Build sector index for efficient corridor searches
+python scripts/build_sector_index.py \
   --source Databases/galaxy_sectors_compressed \
   --target Databases/galaxy_sectors_compressed \
-  --workers 12 \
-  --batch-size 500
+  --workers 12
 ```
 
 **Database Compression Benefits:**
@@ -76,11 +67,11 @@ python scripts/build_lightweight_index.py \
 - **Compatibility**: All existing commands work transparently with compressed databases
 - **Dual Support**: System automatically detects and uses compressed files when available
 
-**Subsector Index Benefits:**
-- **Efficient Subsector Searches**: Maps subsectors to sector files for fast targeted searches
-- **Low Memory Usage**: <1GB RAM regardless of database size (stores counts, not offsets)
-- **Parallel Search**: Enables multi-threaded subsector and corridor searches
-- **Incremental Updates**: Rebuild index quickly after database updates (~10-15 minutes)
+**Sector Index Benefits:**
+- **Efficient Corridor Searches**: Maps sector center coordinates for fast spatial prefiltering
+- **Low Memory Usage**: <1GB RAM regardless of database size
+- **Parallel Search**: Enables multi-threaded sector-based corridor searches
+- **Incremental Updates**: Rebuild index quickly after database updates
 
 ## Package Architecture
 
@@ -91,7 +82,7 @@ The package follows a layered architecture with clear separation of concerns:
 **`src/mgst/core/`** - Core processing engines
 - `filtering.py` - High-performance parallel galaxy data filtering with JSONL streaming
 - `spatial.py` - Spatial prefiltering and corridor search optimization
-- `search_modes.py` - Search mode implementations (corridor, sectors, subsectors, galaxy)
+- `search_modes.py` - Search mode implementations (corridor, sectors, galaxy)
 
 **`src/mgst/configs/`** - Pattern matching system
 - `json_pattern.py` - JSON pattern matching engine
@@ -102,7 +93,7 @@ The package follows a layered architecture with clear separation of concerns:
 - `loaders.py` - Data loading utilities with validation and batch processing
 - `validators.py` - Comprehensive data validation for system and body data
 - `compressed_reader.py` - Transparent gzip compression support with streaming decompression
-- `indexed_reader.py` - Indexed database reader for efficient subsector-based searches
+- `indexed_reader.py` - Indexed database reader for efficient sector-based searches
 
 **`src/mgst/cli/`** - Command-line interfaces
 - `main.py` - Main entry point with subcommands (filter, db)
@@ -120,7 +111,6 @@ The package follows a layered architecture with clear separation of concerns:
 **Multiple Search Modes**: The filtering system supports:
 - **Galaxy**: Search entire galaxy
 - **Sectors**: Search specific named sectors
-- **Subsectors**: Search specific subsectors
 - **Corridor**: Search cylindrical corridor between two coordinates
 - **Pattern**: Generic pattern-based search
 
@@ -138,14 +128,14 @@ The package follows a layered architecture with clear separation of concerns:
 - Compatible with all existing processing: filtering, spatial prefiltering
 - Use compressed databases with: `mgst filter --database Databases/galaxy_sectors_compressed ...`
 
-**Indexed Database Architecture**: For efficient subsector-based searching:
+**Indexed Database Architecture**: For efficient sector-based searching:
 - **Database Structure**: Sector-level JSONL.gz files (one per sector, ~12,000 files total)
-- **Lightweight Index**: JSON file mapping subsectors to sector files with system counts
+- **Lightweight Index**: JSON file with sector center coordinates for spatial prefiltering
 - **Memory Efficient**: Index uses <1GB RAM regardless of database size
-- **Parallel Search**: `IndexedDatabaseReader` enables multi-threaded subsector searches
-- **Search Strategy**: When searching a subsector, scan only its sector file and filter by subsector code
+- **Parallel Search**: `SectorResolver` enables multi-threaded sector-based searches
+- **Search Strategy**: For corridor searches, use sector index to identify nearby sectors, then scan only those sector files
 - **Performance**: With 12 workers processing different sectors in parallel, searches remain very fast
-- **Easy Updates**: Update individual sector files, then rebuild index (10-15 minutes)
+- **Easy Updates**: Update individual sector files, then rebuild index quickly
 
 ## JSON Pattern System
 
@@ -189,7 +179,7 @@ mgst filter --mode corridor \
 **IMPORTANT**: All analysis runs should be organized into unique subdirectories within the `output/` directory to prevent file conflicts and maintain clean organization. Each run should use a descriptive subdirectory name that includes:
 
 - **Run identifier**: Sequential number, timestamp, or descriptive name
-- **Search type**: Corridor, sector, or subsector search
+- **Search type**: Corridor, sector, or galaxy search
 - **Purpose**: Brief description of the search criteria
 
 **Recommended naming patterns**:
@@ -260,7 +250,7 @@ These log files enable full reproducibility and debugging of any analysis run. E
 1. **Input Processing**: JSONL.gz files are read with streaming decompression across multiple worker processes
 2. **Pattern Matching**: Each system passes through the JSON pattern matcher
 3. **Output Generation**: Qualifying systems are written to TSV/JSONL with automatic logging
-4. **Spatial Optimization**: Corridor/subsector searches use spatial indexing for efficiency
+4. **Spatial Optimization**: Corridor searches use sector-level spatial indexing for efficiency
 
 ## Testing Strategy
 
