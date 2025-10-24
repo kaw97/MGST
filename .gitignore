@@ -71,7 +71,7 @@ dmypy.json
 *~
 
 # Project specific
-data/
+/data/
 Databases/
 output/
 archive/
