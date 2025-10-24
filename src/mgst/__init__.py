@@ -1,27 +1,25 @@
 """
-HITEC Galaxy Analysis Package
+MGST - Mikunn Galactic Search Tool
 
-A comprehensive toolkit for Elite Dangerous galaxy data analysis, 
+A comprehensive toolkit for Elite Dangerous galaxy data analysis,
 exobiology research, and exploration route planning.
 """
 
-from .__version__ import __version__
+try:
+    from .__version__ import __version__
+except ImportError:
+    __version__ = "dev"
 
-__author__ = "HITEC Galaxy Team"
-__email__ = "hitec@example.com"
+__author__ = "MGST Team"
+__email__ = "mgst@example.com"
 
-# Main package imports
-from .core import clustering, filtering, routing
-from .data import converters, loaders
-from .configs import base
-from .utils import math_utils, file_utils
+# Submodules are available for import but not loaded at package level
+# This prevents circular import issues during installation
+# Import submodules explicitly when needed:
+#   from mgst.core import filtering
+#   from mgst.data import loaders
+#   from mgst.configs import base
 
 __all__ = [
     "__version__",
-    "clustering", 
-    "filtering", 
-    "routing",
-    "converters",
-    "loaders", 
-    "base"
 ]

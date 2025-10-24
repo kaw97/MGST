@@ -158,7 +158,7 @@ Patterns are JSON files that define search criteria for systems and bodies:
 See `patterns/` directory for examples:
 - `supply_hub_1.json` - ELW/Water worlds with rocky moons
 - `interesting_systems.json` - High-value exploration targets
-- `all_systems.json` - Match any system (useful for testing)
+- `all_systems.json` - Match any system
 
 ## Output Organization
 
