@@ -5,7 +5,8 @@ import logging
 from pathlib import Path
 from typing import Optional
 
-from ..database import GalaxyDatabaseBuilder, GalaxyDatabaseUpdater
+from ..database.builder import GalaxyDatabaseBuilder
+from ..database.updater import GalaxyDatabaseUpdater
 
 logger = logging.getLogger(__name__)
 

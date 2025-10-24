@@ -1,17 +1,16 @@
 """High-performance time-series galaxy database system."""
 
-from .builder import GalaxyDatabaseBuilder
-from .updater import GalaxyDatabaseUpdater
-from .schema import TimeSeriesRecord, SystemChangeRecord, StationChangeRecord
-from .change_detector import ChangeDetector
-from .downloader import SpanshDownloader
+# Submodules are available for import but not loaded at package level
+# This prevents circular import issues during installation
+# Import submodules explicitly when needed:
+#   from mgst.database.builder import GalaxyDatabaseBuilder
+#   from mgst.database.updater import GalaxyDatabaseUpdater
+#   from mgst.database.schema import TimeSeriesRecord
 
 __all__ = [
-    'GalaxyDatabaseBuilder',
-    'GalaxyDatabaseUpdater', 
-    'TimeSeriesRecord',
-    'SystemChangeRecord',
-    'StationChangeRecord',
-    'ChangeDetector',
-    'SpanshDownloader'
+    "builder",
+    "change_detector",
+    "downloader",
+    "schema",
+    "updater",
 ]
