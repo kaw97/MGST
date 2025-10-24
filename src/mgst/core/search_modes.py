@@ -88,6 +88,7 @@ class SearchParameters:
 
     # Common parameters
     database_path: Path
+    sector_index_path: Optional[Path] = None  # Optional path to sector index file
 
     # Mode-specific parameters
     sectors: Optional[List[str]] = None
@@ -160,11 +161,14 @@ class SectorResolver:
         if not all([params.start_coords, params.end_coords, params.radius]):
             raise ValueError("Corridor mode requires --start, --end, and --radius parameters")
 
-        # Use sector index for spatial prefiltering
-        index_file = self.database_path / 'sector_index.json'
+        # Determine sector index path (custom path or default)
+        if params.sector_index_path:
+            index_file = params.sector_index_path
+        else:
+            index_file = self.database_path / 'sector_index.json'
 
         if index_file.exists():
-            logger.info(f"Using sector index for spatial prefiltering...")
+            logger.info(f"Using sector index for spatial prefiltering: {index_file}")
 
             with open(index_file, 'r') as f:
                 index = json.load(f)

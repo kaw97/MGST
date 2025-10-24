@@ -40,6 +40,9 @@ from ..configs.config_loader import config_loader
 @click.option('--radius',
               type=float,
               help='Corridor radius in light years')
+@click.option('--sector-index',
+              type=click.Path(exists=True, path_type=Path),
+              help='Optional path to sector index file (default: database/sector_index.json)')
 @click.option('--pattern-file',
               type=click.Path(exists=True, path_type=Path),
               help='JSON/JSONL file with system pattern for pattern mode')
@@ -89,6 +92,7 @@ def filter_cmd(
     start: Optional[str],
     end: Optional[str],
     radius: Optional[float],
+    sector_index: Optional[Path],
     pattern_file: Optional[Path],
     output: Path,
     output_format: str,
@@ -118,8 +122,11 @@ def filter_cmd(
     # Search specific sectors
     mgst filter --mode sectors --sectors "Col_285,Lagoon_Sector" --config exobiology --database /path/to/sectors
 
-    # Search corridor from Sol to Colonia
+    # Search corridor from Sol to Colonia (with default sector index)
     mgst filter --mode corridor --start "0,0,0" --end "22000,-1000,49000" --radius 500 --config exobiology --database /path/to/sectors
+
+    # Search corridor with custom sector index path
+    mgst filter --mode corridor --start "0,0,0" --end "22000,-1000,49000" --radius 500 --sector-index /path/to/sector_index.json --config exobiology --database /path/to/sectors
     """
 
     # List configurations if requested
@@ -157,7 +164,8 @@ def filter_cmd(
         # Parse mode-specific parameters
         params = SearchParameters(
             mode=search_mode,
-            database_path=database
+            database_path=database,
+            sector_index_path=sector_index  # Optional: custom sector index path
         )
 
         if mode == 'sectors':
