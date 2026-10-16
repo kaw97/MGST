@@ -1,0 +1,670 @@
+[
+  {
+    "name": "Fonticulua Fluctus",
+    "value": 20000000,
+    "min_value": 20000000,
+    "genus_signal": "$Codex_Ent_Fonticulus_Genus_Name;",
+    "rulesets": [
+      {
+        "body_type": [
+          "Icy body"
+        ],
+        "atmosphere": [
+          "Oxygen"
+        ],
+        "min_gravity": 0.248,
+        "max_gravity": 0.276,
+        "min_temperature": 143.0,
+        "max_temperature": 200.0,
+        "min_pressure": 0.012
+      }
+    ]
+  },
+  {
+    "name": "Fonticulua Segmentatus",
+    "value": 19010800,
+    "min_value": 19010800,
+    "genus_signal": "$Codex_Ent_Fonticulus_Genus_Name;",
+    "rulesets": [
+      {
+        "body_type": [
+          "Icy body"
+        ],
+        "atmosphere": [
+          "Neon",
+          "NeonRich"
+        ],
+        "volcanism": "None",
+        "min_gravity": 0.25,
+        "max_gravity": 0.2744,
+        "min_temperature": 50.0,
+        "max_temperature": 75.0,
+        "max_pressure": 0.006,
+        "constraints": [
+          {
+            "field": "distanceToArrival",
+            "max": 82420
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Stratum Tectonicas",
+    "value": 19010800,
+    "min_value": 19010800,
+    "genus_signal": "$Codex_Ent_Stratum_Genus_Name;",
+    "exclude_star_classes": [
+      "G",
+      "A"
+    ],
+    "rulesets": [
+      {
+        "body_type": [
+          "High metal content body"
+        ],
+        "atmosphere": [
+          "Ammonia"
+        ],
+        "min_gravity": 0.045,
+        "max_gravity": 0.275,
+        "min_temperature": 165.0,
+        "max_temperature": 177.0
+      },
+      {
+        "body_type": [
+          "High metal content body"
+        ],
+        "atmosphere": [
+          "CarbonDioxide"
+        ],
+        "min_gravity": 0.045,
+        "max_gravity": 0.275,
+        "min_temperature": 165.0,
+        "max_temperature": 197.0,
+        "constraints": [
+          {
+            "field": "atm_Sulphur_dioxide",
+            "min": 0.9901
+          }
+        ]
+      },
+      {
+        "body_type": [
+          "High metal content body"
+        ],
+        "atmosphere": [
+          "SulphurDioxide"
+        ],
+        "min_gravity": 0.265,
+        "max_gravity": 0.275,
+        "min_temperature": 165.0,
+        "max_temperature": 210.0
+      },
+      {
+        "body_type": [
+          "High metal content body"
+        ],
+        "atmosphere": [
+          "Water"
+        ],
+        "volcanism": "None",
+        "exclude_star_classes": [
+          "M"
+        ],
+        "min_gravity": 0.045,
+        "max_gravity": 0.063
+      }
+    ]
+  },
+  {
+    "name": "Tussock Stigmasis",
+    "value": 19010800,
+    "min_value": 19010800,
+    "genus_signal": "$Codex_Ent_Tussocks_Genus_Name;",
+    "rulesets": [
+      {
+        "body_type": [
+          "Rocky body",
+          "High metal content body"
+        ],
+        "atmosphere": [
+          "SulphurDioxide"
+        ],
+        "min_gravity": 0.04,
+        "max_gravity": 0.2733,
+        "min_temperature": 132.0,
+        "max_temperature": 180.0,
+        "max_pressure": 0.01
+      }
+    ]
+  },
+  {
+    "name": "Concha Biconcavis",
+    "value": 16777215,
+    "min_value": 16777215,
+    "genus_signal": "$Codex_Ent_Conchas_Genus_Name;",
+    "rulesets": [
+      {
+        "body_type": [
+          "Rocky body",
+          "High metal content body"
+        ],
+        "atmosphere": [
+          "Nitrogen"
+        ],
+        "volcanism": "None",
+        "min_gravity": 0.053,
+        "max_gravity": 0.275,
+        "min_temperature": 42.0,
+        "max_temperature": 49.7,
+        "max_pressure": 0.0047
+      }
+    ]
+  },
+  {
+    "name": "Cactoida Vermis",
+    "value": 16202800,
+    "min_value": 16202800,
+    "genus_signal": "$Codex_Ent_Cactoid_Genus_Name;",
+    "exclude_star_classes": [
+      "K"
+    ],
+    "rulesets": [
+      {
+        "body_type": [
+          "Rocky body"
+        ],
+        "atmosphere": [
+          "SulphurDioxide"
+        ],
+        "volcanism": "None",
+        "min_gravity": 0.265,
+        "max_gravity": 0.276,
+        "min_temperature": 160.0,
+        "max_temperature": 210.0,
+        "max_pressure": 0.005
+      },
+      {
+        "body_type": [
+          "Rocky body",
+          "High metal content body"
+        ],
+        "atmosphere": [
+          "Water"
+        ],
+        "volcanism": "None",
+        "min_gravity": 0.04,
+        "max_gravity": 0.0612
+      },
+      {
+        "body_type": [
+          "Rocky body",
+          "High metal content body"
+        ],
+        "atmosphere": [
+          "Water"
+        ],
+        "volcanism": [
+          "water"
+        ],
+        "min_gravity": 0.04,
+        "max_gravity": 0.276
+      }
+    ]
+  },
+  {
+    "name": "Fumerola Extremus",
+    "value": 16202800,
+    "min_value": 16202800,
+    "genus_signal": "$Codex_Ent_Fumerolas_Genus_Name;",
+    "rulesets": [
+      {
+        "body_type": [
+          "Rocky body",
+          "Rocky ice body",
+          "High metal content body"
+        ],
+        "atmosphere": [
+          "Ammonia"
+        ],
+        "volcanism": [
+          "silicate",
+          "metallic",
+          "rocky"
+        ],
+        "min_gravity": 0.04,
+        "max_gravity": 0.09,
+        "min_temperature": 161.0,
+        "max_temperature": 177.0,
+        "max_pressure": 0.0135
+      },
+      {
+        "body_type": [
+          "Rocky body",
+          "Rocky ice body",
+          "High metal content body"
+        ],
+        "atmosphere": [
+          "Argon"
+        ],
+        "volcanism": [
+          "silicate",
+          "metallic",
+          "rocky"
+        ],
+        "min_gravity": 0.07,
+        "max_gravity": 0.276,
+        "min_temperature": 50.0,
+        "max_temperature": 121.0
+      },
+      {
+        "body_type": [
+          "Rocky body",
+          "Rocky ice body",
+          "High metal content body"
+        ],
+        "atmosphere": [
+          "Methane"
+        ],
+        "volcanism": [
+          "silicate",
+          "metallic",
+          "rocky"
+        ],
+        "min_gravity": 0.025,
+        "max_gravity": 0.127,
+        "min_temperature": 77.0,
+        "max_temperature": 109.0,
+        "min_pressure": 0.01,
+        "constraints": [
+          {
+            "field": "star_solar_radius",
+            "min": 0.605
+          }
+        ]
+      },
+      {
+        "body_type": [
+          "Rocky body",
+          "Rocky ice body"
+        ],
+        "atmosphere": [
+          "SulphurDioxide"
+        ],
+        "volcanism": [
+          "silicate",
+          "metallic",
+          "rocky"
+        ],
+        "min_gravity": 0.2656,
+        "max_gravity": 0.276,
+        "min_temperature": 54.0,
+        "max_temperature": 210.0
+      }
+    ]
+  },
+  {
+    "name": "Recepta Deltahedronix",
+    "value": 16202800,
+    "min_value": 12934900,
+    "genus_signal": "$Codex_Ent_Recepta_Genus_Name;",
+    "rulesets": [
+      {
+        "atmosphere": [
+          "SulphurDioxide"
+        ],
+        "min_gravity": 0.04,
+        "max_gravity": 0.276,
+        "min_temperature": 132.0,
+        "max_temperature": 272.0,
+        "atmosphere_component": {
+          "atm_Sulphur_dioxide": 1.05
+        }
+      }
+    ]
+  },
+  {
+    "name": "Stratum Cucumisis",
+    "value": 16202800,
+    "min_value": 16202800,
+    "genus_signal": "$Codex_Ent_Stratum_Genus_Name;",
+    "region": "sagittarius-carina",
+    "rulesets": [
+      {
+        "body_type": [
+          "Rocky body"
+        ],
+        "atmosphere": [
+          "CarbonDioxide"
+        ],
+        "volcanism": "None",
+        "min_gravity": 0.04,
+        "max_gravity": 0.6,
+        "min_temperature": 191.0,
+        "max_temperature": 371.0
+      },
+      {
+        "body_type": [
+          "Rocky body"
+        ],
+        "atmosphere": [
+          "CarbonDioxideRich"
+        ],
+        "volcanism": "None",
+        "min_gravity": 0.44,
+        "max_gravity": 0.56,
+        "min_temperature": 210.0,
+        "max_temperature": 246.0,
+        "min_pressure": 0.01
+      },
+      {
+        "body_type": [
+          "Rocky body"
+        ],
+        "atmosphere": [
+          "Oxygen"
+        ],
+        "min_gravity": 0.4,
+        "max_gravity": 0.6,
+        "min_temperature": 200.0,
+        "max_temperature": 250.0,
+        "min_pressure": 0.01
+      },
+      {
+        "body_type": [
+          "Rocky body"
+        ],
+        "atmosphere": [
+          "SulphurDioxide"
+        ],
+        "min_gravity": 0.26,
+        "max_gravity": 0.55,
+        "min_temperature": 191.0,
+        "max_temperature": 373.0
+      }
+    ]
+  },
+  {
+    "name": "Clypeus Speculumi",
+    "value": 16202800,
+    "min_value": 16202800,
+    "genus_signal": "$Codex_Ent_Clypeus_Genus_Name;",
+    "min_distance_from_sol": 2000.0,
+    "rulesets": [
+      {
+        "body_type": [
+          "Rocky body"
+        ],
+        "atmosphere": [
+          "CarbonDioxide"
+        ],
+        "volcanism": "None",
+        "min_gravity": 0.04,
+        "max_gravity": 0.276,
+        "min_temperature": 190.0,
+        "max_temperature": 197.0,
+        "min_pressure": 0.055
+      },
+      {
+        "body_type": [
+          "Rocky body"
+        ],
+        "atmosphere": [
+          "Water"
+        ],
+        "volcanism": "None",
+        "min_gravity": 0.04,
+        "max_gravity": 0.276
+      },
+      {
+        "body_type": [
+          "Rocky body"
+        ],
+        "atmosphere": [
+          "Water"
+        ],
+        "volcanism": [
+          "water"
+        ],
+        "min_gravity": 0.04,
+        "max_gravity": 0.276
+      }
+    ]
+  },
+  {
+    "name": "Recepta Conditivus",
+    "value": 14313700,
+    "min_value": 14313700,
+    "genus_signal": "$Codex_Ent_Recepta_Genus_Name;",
+    "rulesets": [
+      {
+        "body_type": [
+          "Icy body",
+          "Rocky body",
+          "High metal content body"
+        ],
+        "atmosphere": [
+          "CarbonDioxide",
+          "CarbonDioxideRich"
+        ],
+        "volcanism": "None",
+        "min_gravity": 0.04,
+        "max_gravity": 0.276,
+        "min_temperature": 150.0,
+        "max_temperature": 195.0,
+        "atmosphere_component": {
+          "atm_Sulphur_dioxide": 1.05
+        }
+      },
+      {
+        "atmosphere": [
+          "SulphurDioxide"
+        ],
+        "min_gravity": 0.04,
+        "max_gravity": 0.276,
+        "min_temperature": 132.0,
+        "max_temperature": 275.0,
+        "atmosphere_component": {
+          "atm_Sulphur_dioxide": 1.05
+        }
+      }
+    ]
+  },
+  {
+    "name": "Tussock Virgam",
+    "value": 14313700,
+    "min_value": 14313700,
+    "genus_signal": "$Codex_Ent_Tussocks_Genus_Name;",
+    "exclude_star_classes": [
+      "A",
+      "T",
+      "B"
+    ],
+    "rulesets": [
+      {
+        "body_type": [
+          "Rocky body",
+          "High metal content body"
+        ],
+        "atmosphere": [
+          "Water"
+        ],
+        "volcanism": "None",
+        "min_gravity": 0.0463,
+        "max_gravity": 0.065
+      },
+      {
+        "body_type": [
+          "Rocky body",
+          "High metal content body"
+        ],
+        "atmosphere": [
+          "Water"
+        ],
+        "volcanism": [
+          "water"
+        ],
+        "min_gravity": 0.04,
+        "max_gravity": 0.065
+      }
+    ]
+  },
+  {
+    "name": "Recepta Umbrux",
+    "value": 12934900,
+    "min_value": 12934900,
+    "genus_signal": "$Codex_Ent_Recepta_Genus_Name;",
+    "rulesets": [
+      {
+        "atmosphere": [
+          "CarbonDioxide"
+        ],
+        "min_gravity": 0.04,
+        "max_gravity": 0.276,
+        "min_temperature": 151.0,
+        "max_temperature": 200.0,
+        "atmosphere_component": {
+          "atm_Sulphur_dioxide": 1.05
+        }
+      },
+      {
+        "atmosphere": [
+          "SulphurDioxide"
+        ],
+        "min_gravity": 0.04,
+        "max_gravity": 0.276,
+        "min_temperature": 132.0,
+        "max_temperature": 273.0,
+        "atmosphere_component": {
+          "atm_Sulphur_dioxide": 1.05
+        }
+      }
+    ]
+  },
+  {
+    "name": "Aleoida Gravis",
+    "value": 12934900,
+    "min_value": 12934900,
+    "genus_signal": "$Codex_Ent_Aleoids_Genus_Name;",
+    "rulesets": [
+      {
+        "body_type": [
+          "Rocky body",
+          "High metal content body"
+        ],
+        "atmosphere": [
+          "CarbonDioxide"
+        ],
+        "volcanism": "None",
+        "min_gravity": 0.04,
+        "max_gravity": 0.276,
+        "min_temperature": 190.0,
+        "max_temperature": 197.0,
+        "min_pressure": 0.054
+      }
+    ]
+  },
+  {
+    "name": "Clypeus Margaritus",
+    "value": 11873200,
+    "min_value": 11873200,
+    "genus_signal": "$Codex_Ent_Clypeus_Genus_Name;",
+    "exclude_star_classes": [
+      "T"
+    ],
+    "rulesets": [
+      {
+        "body_type": [
+          "High metal content body"
+        ],
+        "atmosphere": [
+          "CarbonDioxide"
+        ],
+        "volcanism": "None",
+        "min_gravity": 0.04,
+        "max_gravity": 0.276,
+        "min_temperature": 190.0,
+        "max_temperature": 195.0,
+        "min_pressure": 0.0657
+      },
+      {
+        "body_type": [
+          "High metal content body"
+        ],
+        "atmosphere": [
+          "Water"
+        ],
+        "volcanism": "None",
+        "min_gravity": 0.04,
+        "max_gravity": 0.276
+      }
+    ]
+  },
+  {
+    "name": "Osseus Discus",
+    "value": 12934900,
+    "min_value": 12934900,
+    "genus_signal": "$Codex_Ent_Osseus_Genus_Name;",
+    "rulesets": [
+      {
+        "body_type": [
+          "Rocky body",
+          "High metal content body"
+        ],
+        "atmosphere": [
+          "Water"
+        ],
+        "min_gravity": 0.04,
+        "max_gravity": 0.063,
+        "min_temperature": 400.0,
+        "max_temperature": 455.0
+      }
+    ]
+  },
+  {
+    "name": "Tubus Cavas",
+    "value": 11873200,
+    "min_value": 11873200,
+    "genus_signal": "$Codex_Ent_Tubus_Genus_Name;",
+    "region": "scutum-centaurus",
+    "rulesets": [
+      {
+        "body_type": [
+          "Rocky body"
+        ],
+        "atmosphere": [
+          "CarbonDioxide"
+        ],
+        "volcanism": "None",
+        "min_gravity": 0.04,
+        "max_gravity": 0.152,
+        "min_temperature": 160.0,
+        "max_temperature": 197.0,
+        "min_pressure": 0.003
+      }
+    ]
+  },
+  {
+    "name": "Frutexa Flammasis",
+    "value": 10326000,
+    "min_value": 10326000,
+    "genus_signal": "$Codex_Ent_Shrubs_Genus_Name;",
+    "region": "scutum-centaurus",
+    "rulesets": [
+      {
+        "body_type": [
+          "Rocky body"
+        ],
+        "atmosphere": [
+          "Ammonia"
+        ],
+        "min_gravity": 0.04,
+        "max_gravity": 0.276,
+        "min_temperature": 152.0,
+        "max_temperature": 177.0,
+        "max_pressure": 0.0135
+      }
+    ]
+  }
+]

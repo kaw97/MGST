@@ -1,0 +1,5 @@
+{
+  "description": "Systems with population greater than zero (inhabited systems)",
+  "name": "*",
+  "population": {"min": 1}
+}

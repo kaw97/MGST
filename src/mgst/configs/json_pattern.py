@@ -10,6 +10,7 @@ from typing import Dict, Any, Optional, List, Tuple
 
 from .base import BaseConfig
 from ..core.json_pattern_matcher import JSONPatternMatcher
+from ..utils.math_utils import distance_to_line_segment
 
 
 class JSONPatternConfig(BaseConfig):
@@ -59,33 +60,7 @@ class JSONPatternConfig(BaseConfig):
         Returns:
             Distance in light years
         """
-        line_x = end[0] - start[0]
-        line_y = end[1] - start[1]
-        line_z = end[2] - start[2]
-        line_length = math.sqrt(line_x**2 + line_y**2 + line_z**2)
-
-        if line_length == 0:
-            dx = point[0] - start[0]
-            dy = point[1] - start[1]
-            dz = point[2] - start[2]
-            return math.sqrt(dx**2 + dy**2 + dz**2)
-
-        point_x = point[0] - start[0]
-        point_y = point[1] - start[1]
-        point_z = point[2] - start[2]
-
-        dot_product = point_x * line_x + point_y * line_y + point_z * line_z
-        projection_length = dot_product / line_length
-        projection_length = max(0, min(line_length, projection_length))
-
-        closest_x = start[0] + (line_x / line_length) * projection_length
-        closest_y = start[1] + (line_y / line_length) * projection_length
-        closest_z = start[2] + (line_z / line_length) * projection_length
-
-        dx = point[0] - closest_x
-        dy = point[1] - closest_y
-        dz = point[2] - closest_z
-        return math.sqrt(dx**2 + dy**2 + dz**2)
+        return distance_to_line_segment(point, start, end)
 
     def filter_system(self, system_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """Filter systems using JSON pattern matching.

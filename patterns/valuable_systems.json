@@ -1,0 +1,11 @@
+{
+  "description": "Unpopulated systems with valuable bodies (ELW, WW, AW, NS, BH)",
+  "name": "*",
+  "population": [0, null],
+  "bodies": [
+    {
+      "comment": "Any valuable body - planets (ELW, WW, AW) or stars (NS, BH)",
+      "subType": ["Earth-like world", "Water world", "Ammonia world", "Neutron Star", "Black Hole"]
+    }
+  ]
+}

@@ -28,10 +28,14 @@ def db():
               help='Systems per batch for processing')
 @click.option('--force-download', '-f', is_flag=True,
               help='Force redownload even if file exists')
+@click.option('--format', 'output_format',
+              type=click.Choice(['jsonl', 'parquet']),
+              default='jsonl',
+              help='Output format: jsonl (gzip-compressed JSONL) or parquet')
 @click.option('--verbose', '-v', is_flag=True,
               help='Enable verbose logging')
-def build(output_dir: Path, dataset_type: str, workers: Optional[int], 
-          batch_size: int, force_download: bool, verbose: bool):
+def build(output_dir: Path, dataset_type: str, workers: Optional[int],
+          batch_size: int, force_download: bool, output_format: str, verbose: bool):
     """Build galaxy database from scratch using Spansh data.
     
     Downloads the specified dataset and creates a compressed, organized
@@ -58,11 +62,13 @@ def build(output_dir: Path, dataset_type: str, workers: Optional[int],
         
     click.echo(f"Building galaxy database from {dataset_type} dataset...")
     click.echo(f"Output directory: {output_dir}")
+    click.echo(f"Output format: {output_format}")
     click.echo(f"Workers: {workers or 'auto'}")
     click.echo(f"Batch size: {batch_size:,}")
-    
+
     try:
-        builder = GalaxyDatabaseBuilder(output_dir, workers, batch_size)
+        builder = GalaxyDatabaseBuilder(output_dir, workers, batch_size,
+                                        output_format=output_format)
         
         with click.progressbar(length=100, label='Building database') as bar:
             # Note: Real progress tracking would require callback mechanism
@@ -79,7 +85,8 @@ def build(output_dir: Path, dataset_type: str, workers: Optional[int],
         click.echo(f"Original size: {stats.original_size_mb:.1f} MB")
         click.echo(f"Compressed size: {stats.compressed_size_mb:.1f} MB")
         click.echo(f"Compression ratio: {stats.compression_ratio:.1f}% savings")
-        click.echo(f"Database location: {output_dir / 'galaxy_sectors_compressed'}")
+        db_subdir = 'galaxy_sectors_parquet' if output_format == 'parquet' else 'galaxy_sectors_compressed'
+        click.echo(f"Database location: {output_dir / db_subdir}")
         
     except Exception as e:
         click.echo(f"Error building database: {e}", err=True)

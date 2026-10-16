@@ -1,0 +1,509 @@
+
+==========================================================================================
+  Fonticulua Fluctus
+  Baseline: 521 TP, 13 FP, 97.6% precision, 80.2% recall
+==========================================================================================
+
+  Variant                                         Prec  Recall  TP Lost   FP Rem Pareto
+  --------------------------------------------- ------ ------- -------- -------- ------
+  rs0_max_temperature_p90                        99.4%   72.2%       52       10      *
+  rs0_max_temperature_p85                        99.3%   68.2%       78       10       
+  rs0_max_temperature_p95                        99.0%   76.2%       26        8      *
+  rs0_combined_top3                              99.0%   72.3%       51        8       
+  rs0_max_pressure_add_p90                       98.5%   72.2%       52        6       
+  rs0_max_gravity_p85                            98.2%   68.2%       78        5       
+  rs0_max_pressure_add_p95                       98.2%   76.2%       26        4       
+  rs0_max_gravity_p95                            97.8%   76.2%       26        2       
+  rs0_excl_star_A                                97.7%   72.5%       50        2       
+  rs0_max_gravity_p90                            97.7%   72.2%       52        2       
+  rs0_min_pressure_p5                            97.6%   76.2%       26        1       
+  rs0_excl_star_T                                97.5%   78.6%       10        0       
+  rs0_min_pressure_p10                           97.5%   72.2%       52        1       
+  rs0_excl_star_L                                97.5%   78.5%       11        0       
+  rs0_excl_star_G                                97.5%   71.4%       57        1       
+
+  >> RECOMMENDED: rs0_max_temperature_p90
+     Precision: 97.6% -> 99.4% (+1.8pp)
+     TP Lost: 52 (10.0%)
+     FP Removed: 10
+     Changes: {"max_temperature": 157.610107}
+
+
+==========================================================================================
+  Fonticulua Segmentatus
+  Baseline: 1655 TP, 0 FP, 100.0% precision, 82.3% recall
+==========================================================================================
+
+  Variant                                         Prec  Recall  TP Lost   FP Rem Pareto
+  --------------------------------------------- ------ ------- -------- -------- ------
+  rs0_excl_star_A                               100.0%   79.9%       48        0       
+  rs0_excl_star_F                               100.0%   80.0%       45        0       
+  rs0_excl_star_G                               100.0%   76.5%      116        0       
+  rs0_excl_star_L                               100.0%   80.9%       27        0       
+  rs0_excl_star_T                               100.0%   80.9%       28        0       
+
+
+==========================================================================================
+  Stratum Tectonicas
+  Baseline: 13697 TP, 9234 FP, 59.7% precision, 41.1% recall
+==========================================================================================
+
+  Variant                                         Prec  Recall  TP Lost   FP Rem Pareto
+  --------------------------------------------- ------ ------- -------- -------- ------
+  rs3_excl_star_K                                62.0%   39.8%      432     1091      *
+  rs1_max_temperature_p75                        61.1%   37.6%     1148     1259       
+  rs1_max_pressure_add_p75                       61.1%   37.6%     1148     1232       
+  rs1_max_gravity_p75                            61.0%   37.6%     1148     1229       
+  rs3_combined_top2                              60.8%   40.5%      179      522      *
+  rs3_combined_top3                              60.8%   40.5%      180      524       
+  rs1_excl_star_K                                60.8%   35.7%     1790     1558       
+  rs1_max_temperature_p80                        60.8%   38.3%      918      992       
+  rs1_max_gravity_p80                            60.8%   38.3%      918      984       
+  rs3_min_temperature_add_p25                    60.6%   40.6%      147      442      *
+  rs3_min_pressure_add_p25                       60.6%   40.6%      147      421       
+  rs3_min_gravity_p25                            60.6%   40.6%      147      418       
+  rs1_max_gravity_p85                            60.5%   39.0%      689      744       
+  rs1_max_temperature_p85                        60.5%   39.0%      689      744       
+  rs3_excl_star_F                                60.5%   40.8%      113      356      *
+
+  >> RECOMMENDED: rs3_excl_star_K
+     Precision: 59.7% -> 62.0% (+2.2pp)
+     TP Lost: 432 (3.2%)
+     FP Removed: 1091
+     Changes: {"exclude_star": "K"}
+
+
+==========================================================================================
+  Tussock Stigmasis
+  Baseline: 3330 TP, 931 FP, 78.2% precision, 94.4% recall
+==========================================================================================
+
+  Variant                                         Prec  Recall  TP Lost   FP Rem Pareto
+  --------------------------------------------- ------ ------- -------- -------- ------
+  rs0_excl_star_A                                83.8%   92.9%       52      297      *
+  rs0_max_temperature_p85                        79.0%   80.2%      500      181       
+  rs0_max_pressure_p85                           78.9%   80.2%      500      174       
+  rs0_combined_top2                              78.8%   88.3%      214       94       
+  rs0_combined_top3                              78.8%   88.3%      214       94       
+  rs0_max_temperature_p95                        78.8%   89.7%      167       81       
+  rs0_max_temperature_p90                        78.8%   85.0%      333      125       
+  rs0_max_pressure_p90                           78.7%   85.0%      333      120       
+  rs0_max_pressure_p95                           78.6%   89.7%      167       69       
+  rs0_excl_star_T                                78.2%   94.0%       14        9      *
+  rs0_min_temperature_p10                        78.2%   85.0%      333       95       
+  rs0_excl_star_Y                                78.1%   94.0%       13        3       
+  rs0_excl_star_L                                78.1%   94.0%       14        3       
+  rs0_max_gravity_p85                            78.1%   80.2%      500      137       
+  rs0_min_temperature_p5                         78.1%   89.7%      167       43       
+
+  >> RECOMMENDED: rs0_excl_star_A
+     Precision: 78.2% -> 83.8% (+5.6pp)
+     TP Lost: 52 (1.6%)
+     FP Removed: 297
+     Changes: {"exclude_star": "A"}
+
+
+==========================================================================================
+  Concha Biconcavis
+  Baseline: 862 TP, 3 FP, 99.7% precision, 89.9% recall
+==========================================================================================
+
+  Variant                                         Prec  Recall  TP Lost   FP Rem Pareto
+  --------------------------------------------- ------ ------- -------- -------- ------
+  rs0_excl_star_K                                99.9%   79.0%      104        2      *
+  rs0_excl_star_M                                99.7%   77.9%      115        1       
+  rs0_excl_star_L                                99.7%   88.5%       13        0       
+  rs0_excl_star_F                                99.6%   86.8%       30        0       
+  rs0_excl_star_G                                99.6%   87.8%       20        0       
+  rs0_excl_star_T                                99.6%   78.7%      107        0       
+
+
+==========================================================================================
+  Cactoida Vermis
+  Baseline: 10183 TP, 4970 FP, 67.2% precision, 89.4% recall
+==========================================================================================
+
+  Variant                                         Prec  Recall  TP Lost   FP Rem Pareto
+  --------------------------------------------- ------ ------- -------- -------- ------
+  rs1_excl_star_B                                71.3%   88.0%      161      945      *
+  rs1_max_gravity_p85                            68.0%   76.1%     1517      902       
+  rs1_max_gravity_p90                            67.8%   80.5%     1011      618       
+  rs1_max_gravity_p95                            67.5%   85.0%      506      300       
+  rs1_min_pressure_add_p10                       67.5%   80.5%     1011      543       
+  rs1_excl_star_Y                                67.3%   89.3%       12       36      *
+  rs1_max_temperature_add_p90                    67.3%   80.5%     1011      510       
+  rs1_max_temperature_add_p95                    67.3%   85.0%      506      261       
+  rs2_excl_star_A                                67.3%   89.2%       20       25       
+  rs1_min_gravity_p5                             67.3%   85.0%      506      259       
+  rs2_combined_top2                              67.3%   89.3%        8       17      *
+  rs2_combined_top3                              67.3%   89.3%        9       17       
+  rs1_min_gravity_p10                            67.2%   80.5%     1011      503       
+  rs2_min_temperature_add_p25                    67.2%   89.3%       11       17       
+  rs2_excl_star_B                                67.2%   89.4%        0       10      *
+
+  >> RECOMMENDED: rs1_excl_star_B
+     Precision: 67.2% -> 71.3% (+4.1pp)
+     TP Lost: 161 (1.6%)
+     FP Removed: 945
+     Changes: {"exclude_star": "B"}
+
+
+==========================================================================================
+  Fumerola Extremus
+  Baseline: 1760 TP, 97 FP, 94.8% precision, 70.6% recall
+==========================================================================================
+
+  Variant                                         Prec  Recall  TP Lost   FP Rem Pareto
+  --------------------------------------------- ------ ------- -------- -------- ------
+  rs3_max_gravity_p85                            95.3%   69.9%       17       11      *
+  rs3_max_gravity_p80                            95.3%   69.7%       23       11       
+  rs3_max_gravity_p75                            95.3%   69.5%       29       11       
+  rs3_max_gravity_p95                            95.2%   70.4%        6        8      *
+  rs3_max_gravity_p90                            95.2%   70.1%       12        8       
+  rs3_max_temperature_p85                        95.0%   69.9%       17        6       
+  rs0_combined_top3                              95.0%   67.4%       81        9       
+  rs3_max_temperature_p80                        95.0%   69.7%       23        6       
+  rs3_max_temperature_p75                        95.0%   69.5%       29        6       
+  rs3_max_temperature_p90                        95.0%   70.1%       12        5       
+  rs0_min_gravity_p20                            95.0%   68.7%       49        6       
+  rs3_min_temperature_p25                        95.0%   69.5%       29        5       
+  rs3_max_pressure_add_p75                       95.0%   69.5%       29        5       
+  rs0_min_gravity_p25                            94.9%   68.2%       61        6       
+  rs0_excl_star_K                                94.9%   67.5%       78        7       
+
+  >> RECOMMENDED: rs3_max_gravity_p85
+     Precision: 94.8% -> 95.3% (+0.5pp)
+     TP Lost: 17 (1.0%)
+     FP Removed: 11
+     Changes: {"max_gravity": 0.273707}
+
+
+==========================================================================================
+  Recepta Deltahedronix
+  Baseline: 2014 TP, 11157 FP, 15.3% precision, 74.7% recall
+==========================================================================================
+
+  Variant                                         Prec  Recall  TP Lost   FP Rem Pareto
+  --------------------------------------------- ------ ------- -------- -------- ------
+  rs0_combined_top2                              29.5%   63.4%      303     7076      *
+  rs0_combined_top3                              29.5%   63.4%      303     7076      *
+  rs0_max_temperature_p85                        29.2%   63.5%      302     7016      *
+  rs0_max_pressure_add_p90                       21.5%   67.2%      202     4533      *
+  rs0_max_temperature_p90                        20.7%   67.2%      202     4229       
+  rs0_max_pressure_add_p95                       18.4%   70.9%      101     2652      *
+  rs0_excl_star_M                                17.6%   65.0%      261     2964       
+  rs0_max_temperature_p95                        16.9%   70.9%      101     1721       
+  rs0_excl_star_A                                16.2%   69.1%      150     1507       
+  rs0_excl_star_B                                15.4%   74.5%        5      103      *
+  rs0_excl_star_L                                15.3%   74.2%       12       94       
+  rs0_excl_star_T                                15.3%   74.0%       16      101       
+  rs0_excl_star_Y                                15.3%   74.5%        3       23      *
+  rs0_max_gravity_p95                            15.1%   70.9%      101      430       
+  rs0_min_gravity_p5                             14.8%   70.9%      101      149       
+
+  >> RECOMMENDED: rs0_max_pressure_add_p90
+     Precision: 15.3% -> 21.5% (+6.2pp)
+     TP Lost: 202 (10.0%)
+     FP Removed: 4533
+     Changes: {"max_pressure": 0.00751}
+
+
+==========================================================================================
+  Stratum Cucumisis
+  Baseline: 10066 TP, 8407 FP, 54.5% precision, 99.8% recall
+==========================================================================================
+
+  Variant                                         Prec  Recall  TP Lost   FP Rem Pareto
+  --------------------------------------------- ------ ------- -------- -------- ------
+  rs3_excl_star_A                                62.6%   97.2%      270     2561      *
+  rs0_min_gravity_p25                            60.0%   91.7%      820     2253       
+  rs0_min_temperature_p25                        59.6%   91.7%      820     2148       
+  rs0_max_pressure_add_p75                       59.2%   91.7%      820     2026       
+  rs0_min_gravity_p20                            59.1%   93.3%      656     1891       
+  rs0_excl_star_G                                58.6%   99.3%       53     1334      *
+  rs0_min_temperature_p20                        58.2%   93.3%      656     1639       
+  rs0_min_gravity_p15                            57.9%   95.0%      492     1451       
+  rs0_min_temperature_p15                        57.1%   95.0%      492     1226       
+  rs0_min_gravity_p10                            56.7%   96.6%      328      964       
+  rs0_max_pressure_add_p90                       56.3%   96.6%      328      859       
+  rs0_min_temperature_p10                        56.2%   96.6%      328      807       
+  rs0_excl_star_A                                55.8%   99.0%       91      503       
+  rs0_min_gravity_p5                             55.7%   98.2%      164      535       
+  rs3_excl_star_B                                55.6%   99.5%       30      382      *
+
+  >> RECOMMENDED: rs3_excl_star_A
+     Precision: 54.5% -> 62.6% (+8.1pp)
+     TP Lost: 270 (2.7%)
+     FP Removed: 2561
+     Changes: {"exclude_star": "A"}
+
+
+==========================================================================================
+  Clypeus Speculumi
+  Baseline: 5903 TP, 18712 FP, 24.0% precision, 89.6% recall
+==========================================================================================
+
+  Variant                                         Prec  Recall  TP Lost   FP Rem Pareto
+  --------------------------------------------- ------ ------- -------- -------- ------
+  rs1_excl_star_F                                27.3%   89.3%       18     3066      *
+  rs1_excl_star_A                                26.8%   88.5%       72     2801       
+  rs0_excl_star_K                                26.6%   85.6%      262     3139       
+  rs1_max_gravity_p75                            25.7%   83.7%      385     2768       
+  rs1_max_pressure_add_p75                       25.5%   83.7%      385     2553       
+  rs1_min_temperature_add_p25                    25.4%   83.7%      385     2508       
+  rs1_max_gravity_p80                            25.4%   84.9%      308     2270       
+  rs1_max_temperature_add_p75                    25.2%   83.7%      385     2309       
+  rs1_max_gravity_p85                            25.1%   86.1%      231     1828       
+  rs1_excl_star_G                                25.1%   89.3%       18     1139       
+  rs1_min_pressure_add_p25                       25.0%   83.7%      385     2147       
+  rs1_max_gravity_p90                            24.8%   87.2%      154     1287       
+  rs1_min_gravity_p25                            24.8%   83.7%      385     1946       
+  rs1_excl_star_K                                24.6%   89.2%       23      724       
+  rs1_min_gravity_p20                            24.6%   84.9%      308     1576       
+
+  >> RECOMMENDED: rs1_excl_star_F
+     Precision: 24.0% -> 27.3% (+3.3pp)
+     TP Lost: 18 (0.3%)
+     FP Removed: 3066
+     Changes: {"exclude_star": "F"}
+
+
+==========================================================================================
+  Recepta Conditivus
+  Baseline: 4391 TP, 13472 FP, 24.6% precision, 99.4% recall
+==========================================================================================
+
+  Variant                                         Prec  Recall  TP Lost   FP Rem Pareto
+  --------------------------------------------- ------ ------- -------- -------- ------
+  rs0_max_pressure_add_p75                       28.8%   98.6%       37     2715      *
+  rs0_max_temperature_p75                        28.6%   98.6%       37     2593       
+  rs0_max_temperature_p80                        28.1%   98.7%       30     2314      *
+  rs1_min_temperature_p15                        27.8%   85.0%      637     3702       
+  rs0_max_temperature_p85                        27.2%   98.9%       23     1813      *
+  rs1_min_temperature_p10                        27.2%   89.8%      425     2880       
+  rs0_max_pressure_add_p90                       27.1%   99.1%       15     1671      *
+  rs1_min_pressure_add_p10                       26.8%   89.8%      425     2660       
+  rs0_min_gravity_p25                            26.7%   98.6%       37     1541       
+  rs0_excl_star_F                                26.6%   98.1%       59     1507       
+  rs0_min_gravity_p20                            26.5%   98.7%       30     1395       
+  rs1_combined_top3                              26.4%   92.4%      311     2122       
+  rs0_max_temperature_p90                        26.4%   99.1%       15     1278       
+  rs0_combined_top3                              26.4%   99.1%       14     1253      *
+  rs0_excl_star_K                                26.3%   98.7%       31     1234       
+
+  >> RECOMMENDED: rs0_max_pressure_add_p75
+     Precision: 24.6% -> 28.8% (+4.2pp)
+     TP Lost: 37 (0.8%)
+     FP Removed: 2715
+     Changes: {"max_pressure": 0.04752}
+
+
+==========================================================================================
+  Tussock Virgam
+  Baseline: 9788 TP, 2535 FP, 79.4% precision, 87.9% recall
+==========================================================================================
+
+  Variant                                         Prec  Recall  TP Lost   FP Rem Pareto
+  --------------------------------------------- ------ ------- -------- -------- ------
+  rs0_combined_top2                              80.6%   74.8%     1465      537      *
+  rs0_combined_top3                              80.6%   74.8%     1465      537      *
+  rs0_min_gravity_p15                            80.4%   74.7%     1466      509       
+  rs0_min_gravity_p10                            80.2%   79.1%      977      359      *
+  rs0_max_temperature_add_p90                    79.9%   79.1%      977      318       
+  rs0_max_temperature_add_p95                    79.8%   83.5%      489      178      *
+  rs0_min_gravity_p5                             79.7%   83.5%      488      166      *
+  rs0_max_pressure_add_p90                       79.6%   79.1%      977      276       
+  rs0_excl_star_Y                                79.6%   87.8%       14       26      *
+  rs1_excl_star_F                                79.5%   87.8%       13       17       
+  rs0_max_pressure_add_p95                       79.5%   83.5%      489      139       
+  rs1_min_temperature_add_p10                    79.5%   87.9%        2        8      *
+  rs1_min_temperature_add_p25                    79.5%   87.9%        5        9       
+  rs1_min_gravity_p20                            79.5%   87.9%        4        7       
+  rs1_min_gravity_p25                            79.5%   87.9%        5        8       
+
+  >> RECOMMENDED: rs0_min_gravity_p10
+     Precision: 79.4% -> 80.2% (+0.8pp)
+     TP Lost: 977 (10.0%)
+     FP Removed: 359
+     Changes: {"min_gravity": 0.047855}
+
+
+==========================================================================================
+  Recepta Umbrux
+  Baseline: 7522 TP, 10352 FP, 42.1% precision, 99.4% recall
+==========================================================================================
+
+  Variant                                         Prec  Recall  TP Lost   FP Rem Pareto
+  --------------------------------------------- ------ ------- -------- -------- ------
+  rs0_max_pressure_add_p75                       47.1%   96.2%      238     2177      *
+  rs0_max_temperature_p75                        46.8%   96.2%      238     2061       
+  rs0_max_temperature_p80                        46.2%   96.9%      190     1804      *
+  rs0_max_temperature_p85                        45.3%   97.5%      143     1450      *
+  rs0_min_gravity_p25                            45.3%   96.2%      238     1550       
+  rs0_min_gravity_p20                            44.8%   96.9%      190     1324       
+  rs0_max_pressure_add_p90                       44.8%   98.1%       95     1181      *
+  rs0_max_temperature_p90                        44.7%   98.1%       95     1155       
+  rs0_combined_top2                              44.5%   98.3%       82     1087      *
+  rs0_combined_top3                              44.5%   98.3%       82     1087      *
+  rs0_excl_star_F                                44.5%   95.8%      274     1296       
+  rs0_min_gravity_p15                            44.4%   97.5%      143     1099       
+  rs0_max_temperature_p95                        43.9%   98.7%       48      802      *
+  rs0_min_gravity_p10                            43.7%   98.1%       95      799       
+  rs0_excl_star_K                                43.6%   95.8%      274      994       
+
+  >> RECOMMENDED: rs0_max_pressure_add_p75
+     Precision: 42.1% -> 47.1% (+5.0pp)
+     TP Lost: 238 (3.2%)
+     FP Removed: 2177
+     Changes: {"max_pressure": 0.054948}
+
+
+==========================================================================================
+  Aleoida Gravis
+  Baseline: 10110 TP, 14053 FP, 41.8% precision, 100.0% recall
+==========================================================================================
+
+  Variant                                         Prec  Recall  TP Lost   FP Rem Pareto
+  --------------------------------------------- ------ ------- -------- -------- ------
+  rs0_excl_star_G                                49.2%   96.9%      311     3947      *
+  rs0_max_gravity_p85                            42.3%   85.0%     1517     2317       
+  rs0_max_gravity_p90                            42.0%   90.0%     1011     1503       
+  rs0_max_gravity_p95                            42.0%   95.0%      506      791       
+  rs0_max_temperature_p85                        42.0%   85.0%     1517     2169       
+  rs0_min_pressure_p15                           42.0%   85.0%     1517     2169       
+  rs0_max_pressure_add_p95                       42.0%   95.0%      506      765       
+  rs0_max_temperature_p95                        41.9%   95.0%      506      751       
+  rs0_max_pressure_add_p90                       41.9%   90.0%     1011     1453       
+  rs0_max_temperature_p90                        41.9%   90.0%     1011     1437       
+  rs0_min_pressure_p5                            41.9%   95.0%      506      723       
+  rs0_min_pressure_p10                           41.9%   90.0%     1011     1408       
+  rs0_excl_star_B                                41.8%   99.9%       11       12       
+  rs0_excl_star_T                                41.8%   99.7%       28       21       
+  rs0_excl_star_L                                41.8%   99.6%       35       28       
+
+  >> RECOMMENDED: rs0_excl_star_G
+     Precision: 41.8% -> 49.2% (+7.4pp)
+     TP Lost: 311 (3.1%)
+     FP Removed: 3947
+     Changes: {"exclude_star": "G"}
+
+
+==========================================================================================
+  Clypeus Margaritus
+  Baseline: 9497 TP, 3389 FP, 73.7% precision, 90.3% recall
+==========================================================================================
+
+  Variant                                         Prec  Recall  TP Lost   FP Rem Pareto
+  --------------------------------------------- ------ ------- -------- -------- ------
+  rs0_excl_star_M                                74.8%   77.6%     1335      639      *
+  rs0_max_temperature_p75                        74.1%   77.5%     1344      541       
+  rs0_min_pressure_p20                           73.9%   80.1%     1075      420      *
+  rs0_max_temperature_p80                        73.9%   80.1%     1075      419       
+  rs0_min_gravity_p25                            73.9%   77.5%     1344      511       
+  rs0_combined_top2                              73.9%   85.2%      538      226      *
+  rs0_combined_top3                              73.9%   85.2%      538      226      *
+  rs0_min_gravity_p20                            73.9%   80.1%     1075      415       
+  rs0_min_gravity_p15                            73.9%   82.6%      806      317       
+  rs0_min_pressure_p25                           73.9%   77.5%     1344      505       
+  rs0_min_gravity_p10                            73.8%   85.2%      538      216       
+  rs0_max_temperature_p85                        73.8%   82.6%      806      312       
+  rs0_min_pressure_p15                           73.8%   82.6%      806      310       
+  rs0_min_gravity_p5                             73.8%   87.7%      269      114      *
+  rs0_max_temperature_p90                        73.8%   85.2%      538      208       
+
+  >> RECOMMENDED: rs0_combined_top2
+     Precision: 73.7% -> 73.9% (+0.2pp)
+     TP Lost: 538 (5.7%)
+     FP Removed: 226
+     Changes: {"min_gravity": 0.223773, "max_temperature": 194.720862}
+
+
+==========================================================================================
+  Osseus Discus
+  Baseline: 9450 TP, 8602 FP, 52.4% precision, 89.2% recall
+==========================================================================================
+
+  Variant                                         Prec  Recall  TP Lost   FP Rem Pareto
+  --------------------------------------------- ------ ------- -------- -------- ------
+  rs0_max_gravity_p85                            60.5%   75.8%     1418     3360      *
+  rs0_max_gravity_p90                            58.0%   80.3%      945     2441      *
+  rs0_excl_star_M                                55.0%   77.9%     1198     1841       
+  rs0_max_gravity_p95                            54.9%   84.8%      473     1236      *
+  rs0_excl_star_K                                53.2%   77.5%     1244     1393       
+  rs0_min_pressure_add_p10                       52.7%   80.3%      945      958       
+  rs0_excl_star_G                                52.6%   79.9%      992      971       
+  rs0_min_temperature_p10                        52.5%   80.3%      945      911       
+  rs0_min_pressure_add_p5                        52.5%   84.8%      473      463       
+  rs0_min_temperature_p15                        52.4%   75.8%     1418     1318       
+  rs0_max_temperature_p95                        52.4%   84.8%      473      456       
+  rs0_min_temperature_p5                         52.4%   84.8%      473      455       
+  rs0_max_pressure_add_p90                       52.4%   80.3%      945      883       
+  rs0_excl_star_T                                52.4%   89.2%        4       29      *
+  rs0_max_temperature_p90                        52.4%   80.3%      945      874       
+
+  >> RECOMMENDED: rs0_max_gravity_p90
+     Precision: 52.4% -> 58.0% (+5.6pp)
+     TP Lost: 945 (10.0%)
+     FP Removed: 2441
+     Changes: {"max_gravity": 0.055336}
+
+
+==========================================================================================
+  Tubus Cavas
+  Baseline: 10313 TP, 3660 FP, 73.8% precision, 100.0% recall
+==========================================================================================
+
+  Variant                                         Prec  Recall  TP Lost   FP Rem Pareto
+  --------------------------------------------- ------ ------- -------- -------- ------
+  rs0_max_gravity_p85                            80.3%   85.0%     1547     1515      *
+  rs0_combined_top3                              80.3%   90.1%     1023     1379      *
+  rs0_max_temperature_p85                        80.2%   85.0%     1547     1490       
+  rs0_max_pressure_add_p90                       80.2%   90.0%     1032     1362       
+  rs0_combined_top2                              79.8%   91.0%      929     1281      *
+  rs0_max_gravity_p90                            79.4%   90.0%     1032     1257       
+  rs0_max_temperature_p90                        79.0%   90.0%     1032     1191       
+  rs0_max_gravity_p95                            78.1%   95.0%      516      916      *
+  rs0_max_pressure_add_p95                       77.4%   95.0%      516      806       
+  rs0_max_temperature_p95                        77.0%   95.0%      516      732       
+  rs0_excl_star_B                                73.8%   99.9%       11        2       
+  rs0_excl_star_M                                73.8%   97.2%      284       99       
+  rs0_excl_star_Y                                73.8%   99.9%       13        4       
+  rs0_min_gravity_p5                             73.7%   95.0%      516      162       
+  rs0_min_gravity_p10                            73.4%   90.0%     1032      301       
+
+  >> RECOMMENDED: rs0_combined_top3
+     Precision: 73.8% -> 80.3% (+6.5pp)
+     TP Lost: 1023 (9.9%)
+     FP Removed: 1379
+     Changes: {"max_gravity": 0.135416, "max_pressure": 0.038786, "max_temperature": 181.135944}
+
+
+==========================================================================================
+  Frutexa Flammasis
+  Baseline: 11392 TP, 9270 FP, 55.1% precision, 100.0% recall
+==========================================================================================
+
+  Variant                                         Prec  Recall  TP Lost   FP Rem Pareto
+  --------------------------------------------- ------ ------- -------- -------- ------
+  rs0_excl_star_K                                62.4%   97.3%      307     2602      *
+  rs0_excl_star_A                                59.4%   98.5%      165     1587      *
+  rs0_max_temperature_p85                        57.2%   85.0%     1709     2021       
+  rs0_max_temperature_p90                        56.6%   90.0%     1140     1396       
+  rs0_max_pressure_p85                           55.9%   85.0%     1709     1632       
+  rs0_max_temperature_p95                        55.9%   95.0%      570      726       
+  rs0_min_gravity_p15                            55.8%   85.0%     1709     1596       
+  rs0_min_gravity_p10                            55.8%   90.0%     1140     1135       
+  rs0_max_pressure_p90                           55.7%   90.0%     1140     1125       
+  rs0_max_pressure_p95                           55.5%   95.0%      570      601       
+  rs0_min_gravity_p5                             55.4%   95.0%      570      559       
+  rs0_max_gravity_p85                            55.3%   85.0%     1709     1451       
+  rs0_max_gravity_p90                            55.3%   90.0%     1140      969       
+  rs0_min_pressure_add_p5                        55.2%   95.0%      570      487       
+  rs0_max_gravity_p95                            55.2%   95.0%      570      476       
+
+  >> RECOMMENDED: rs0_excl_star_K
+     Precision: 55.1% -> 62.4% (+7.3pp)
+     TP Lost: 307 (2.7%)
+     FP Removed: 2602
+     Changes: {"exclude_star": "K"}
+

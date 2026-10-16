@@ -308,3 +308,129 @@ mgst filter --mode corridor \
 ```
 
 This will show which sector files would be searched without actually running the search.
+
+## Exobiology Species Prediction Search
+
+The primary bio search tool is `scripts/find_high_value_systems.py`. It uses species-level rules from `src/mgst/bio/species_rules.py` to predict which bodies host high-value (>=10M credit) exobiology species based on environmental parameters (atmosphere, gravity, temperature, pressure, volcanism, star class, galactic region).
+
+**IMPORTANT**: This script operates on the **Parquet database** at `/data/Databases_v2/galaxy_sectors_parquet`, not the compressed JSONL database. It uses `--database`, not `--db`.
+
+**IMPORTANT**: By default it applies a date cutoff (`--max-system-date 2021-04-01`) to exclude systems already visited after Odyssey launched, since those have real bio data. To search ALL systems regardless of visit date, pass `--max-system-date none`.
+
+### Sphere Search (Near a Location)
+
+Use corridor mode with the same start and end coordinates to search a sphere:
+
+```bash
+# Search within 500 ly of Hen 2-333
+python -I scripts/find_high_value_systems.py \
+  --mode search \
+  --database /data/Databases_v2/galaxy_sectors_parquet \
+  --output output/hen2_333_bio_$(date +%Y%m%d)/results.tsv \
+  --corridor-start "-840.66,-561.16,13361.81" \
+  --corridor-end "-840.66,-561.16,13361.81" \
+  --corridor-radius 500 \
+  --workers 8 \
+  --min-bodies 1
+```
+
+### Corridor Search (Between Two Points)
+
+```bash
+# Search corridor from Sol to Colonia
+python -I scripts/find_high_value_systems.py \
+  --mode search \
+  --database /data/Databases_v2/galaxy_sectors_parquet \
+  --output output/sol_colonia_bio_$(date +%Y%m%d)/results.tsv \
+  --corridor-start "0,0,0" \
+  --corridor-end "-9530.5,-910.28125,19808.125" \
+  --corridor-radius 500 \
+  --workers 8 \
+  --min-bodies 1
+```
+
+### Sector Search
+
+```bash
+# Search specific sectors by name prefix
+python -I scripts/find_high_value_systems.py \
+  --mode search \
+  --database /data/Databases_v2/galaxy_sectors_parquet \
+  --output output/lagoon_bio_$(date +%Y%m%d)/results.tsv \
+  --sectors "Lagoon_Sector,Trifid_Sector" \
+  --workers 8 \
+  --min-bodies 1
+```
+
+### Galaxy-Wide Search
+
+```bash
+# Search entire galaxy (takes ~5 min with 8 workers)
+python -I scripts/find_high_value_systems.py \
+  --mode search \
+  --database /data/Databases_v2/galaxy_sectors_parquet \
+  --output output/galaxy_bio_$(date +%Y%m%d)/results.tsv \
+  --workers 12 \
+  --min-bodies 2
+```
+
+### Key Parameters
+
+| Parameter | Default | Description |
+|---|---|---|
+| `--min-bodies` | 2 | Minimum qualifying bodies per system. Use 1 for all predictions, 2+ for multi-body systems |
+| `--max-system-date` | `2021-04-01` | Exclude systems visited after this date. Use `none` to include all |
+| `--workers` | 4 | Parallel workers. 8-12 recommended for large searches |
+| `--mode` | `search` | `search` finds systems, `validate` checks prediction accuracy |
+
+### Species Rules Architecture
+
+Rules are defined in `src/mgst/bio/species_rules.py`:
+- 18 high-value species (>=10M credits) with environmental rulesets
+- Each species has one or more rulesets defining atmosphere, body type, gravity, temperature, pressure, volcanism, and star class requirements
+- Some species have galactic region constraints (e.g., Tubus Cavas → Scutum-Centaurus, Stratum Cucumisis → Sagittarius-Carina)
+- Some species have minimum distance from Sol requirements (e.g., Clypeus Speculumi → 2000+ ly)
+- The `score_body()` function takes a flat dict of body properties and returns matching species
+
+### Validation Mode
+
+Checks prediction accuracy against actual genus signal data in the database:
+
+```bash
+python -I scripts/find_high_value_systems.py \
+  --mode validate \
+  --database /data/Databases_v2/galaxy_sectors_parquet \
+  --output output/validation_$(date +%Y%m%d)/results.tsv \
+  --workers 8
+```
+
+### Clustering and Routing
+
+After a bio search, cluster nearby systems and generate nearest-neighbor routes:
+
+```bash
+# Cluster results using HDBSCAN (adaptive density — no distance param needed)
+python -I scripts/cluster_systems.py \
+  -i output/hen2_333_bio_search/results.tsv \
+  -d 50 \
+  -o output/hen2_333_bio_search/clusters.tsv \
+  -m hdbscan \
+  --min-cluster-size 3 \
+  --min-samples 2
+```
+
+This produces:
+- `clusters.tsv` — one row per cluster with centroid, size, diameter, system list
+- `clusters_summary.txt` — human-readable summary with top-20 clusters and size distribution
+- `clusters/` directory — per-cluster TSV files with systems in **nearest-neighbor order** and `jump_distance` column
+- `clusters/clusters_index.tsv` — index of all multi-system cluster files
+
+The per-cluster files are ready-to-use route plans: systems are ordered by greedy nearest-neighbor traversal starting from the system closest to galactic center, with jump distances between consecutive systems.
+
+### Spansh Landmark Validation (Galaxy-Wide)
+
+For deeper validation against species-level ground truth from Spansh:
+
+1. **Download landmarks**: `python -I scripts/download_spansh_landmarks.py` — downloads confirmed species sightings (10K cap per species, ~1.5 hours)
+2. **Merge into database**: `python -I scripts/merge_landmarks_to_parquet.py` — adds landmark columns to Parquet DB
+3. **Validate**: `python -I scripts/validate_species_galaxy.py` — compares predictions vs confirmed landmarks galaxy-wide

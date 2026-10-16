@@ -362,24 +362,141 @@ def process_sector_worker(args: Tuple[List[Dict[str, Any]],
         }
 
 
+def _flatten_batch(batch):
+    """Worker function: flatten a batch of (sector_name, system_dict) tuples.
+
+    Must be a top-level function for pickling by ProcessPoolExecutor.
+    Returns list of (sector_name, flat_system, [flat_bodies], [flat_stations]).
+    """
+    from mgst.data.parquet_schema import flatten_system, flatten_body, flatten_station
+
+    results = []
+    for sector_name, system in batch:
+        sid = system.get("id64", 0)
+        flat_sys = flatten_system(system)
+        flat_bodies = [flatten_body(b, sid) for b in system.get("bodies", [])]
+        flat_stations = [flatten_station(s, sid) for s in system.get("stations", [])]
+        results.append((sector_name, flat_sys, flat_bodies, flat_stations))
+    return results
+
+
+def _flatten_batch_raw(batch):
+    """Worker function: parse raw JSON bytes and flatten each system.
+
+    Receives a list of raw JSON byte strings (one per system).
+    Returns (standard_results, nonstandard_results) where:
+      - standard_results: list of (sanitized, sector_name, flat_sys,
+            flat_bodies, flat_stations, coords_tuple, station_count)
+      - nonstandard_results: list of (raw_bytes, station_count)
+
+    Must be a top-level function for pickling by ProcessPoolExecutor.
+    """
+    import orjson
+    from mgst.data.parquet_schema import flatten_system, flatten_body, flatten_station
+
+    standard_results = []
+    nonstandard_results = []
+
+    for raw_bytes in batch:
+        system = orjson.loads(raw_bytes)
+
+        system_name = system.get('name', '')
+        coords = system.get('coords', {})
+        stations = system.get('stations', [])
+        station_count = len(stations)
+
+        sector_name, _ = parse_system_name(system_name)
+
+        if sector_name:
+            sanitized = sanitize_filename(sector_name)
+            sid = system.get('id64', 0)
+            flat_sys = flatten_system(system)
+            flat_bodies = [flatten_body(b, sid) for b in system.get('bodies', [])]
+            flat_stations = [flatten_station(s, sid) for s in stations]
+
+            coords_tuple = None
+            if coords:
+                coords_tuple = (
+                    float(coords.get('x', 0)),
+                    float(coords.get('y', 0)),
+                    float(coords.get('z', 0)),
+                )
+
+            standard_results.append((
+                sanitized, sector_name, flat_sys,
+                flat_bodies, flat_stations, coords_tuple, station_count
+            ))
+        else:
+            nonstandard_results.append((raw_bytes, station_count))
+
+    return standard_results, nonstandard_results
+
+
+def _flatten_batch_raw_pass2(batch, sector_centers):
+    """Worker function: parse raw bytes for non-standard systems (Pass 2).
+
+    Receives a list of raw JSON byte strings and sector_centers dict.
+    Returns list of (sanitized, flat_sys, flat_bodies, flat_stations)
+    for systems that were assigned to a sector.
+
+    Must be a top-level function for pickling by ProcessPoolExecutor.
+    """
+    import orjson
+    from mgst.data.parquet_schema import flatten_system, flatten_body, flatten_station
+
+    results = []
+
+    for raw_bytes in batch:
+        system = orjson.loads(raw_bytes)
+        coords = system.get('coords', {})
+
+        if not coords:
+            continue
+
+        system_coords = (
+            float(coords.get('x', 0)),
+            float(coords.get('y', 0)),
+            float(coords.get('z', 0)),
+        )
+        nearest_sector = find_nearest_sector(system_coords, sector_centers)
+
+        if nearest_sector == "Unknown":
+            continue
+
+        sanitized = sanitize_filename(nearest_sector)
+        sid = system.get('id64', 0)
+        flat_sys = flatten_system(system)
+        flat_bodies = [flatten_body(b, sid) for b in system.get('bodies', [])]
+        flat_stations = [flatten_station(s, sid) for s in system.get('stations', [])]
+
+        results.append((sanitized, flat_sys, flat_bodies, flat_stations))
+
+    return results
+
+
 class GalaxyDatabaseBuilder:
     """High-performance galaxy database builder with multiprocessing."""
-    
+
     def __init__(self, output_base_dir: Path, max_workers: Optional[int] = None,
-                 batch_size: int = 50000):
+                 batch_size: int = 50000, output_format: str = "jsonl"):
         """Initialize database builder.
-        
+
         Args:
             output_base_dir: Base directory for database files
             max_workers: Maximum worker processes (default: CPU count)
             batch_size: Systems per batch for processing
+            output_format: Output format ('jsonl' for gzip JSONL, 'parquet' for Parquet)
         """
         self.output_base_dir = Path(output_base_dir)
         self.max_workers = max_workers or mp.cpu_count()
         self.batch_size = batch_size
-        
+        self.output_format = output_format
+
         # Create directory structure
-        self.galaxy_sectors_dir = self.output_base_dir / "galaxy_sectors_compressed"
+        if output_format == "parquet":
+            self.galaxy_sectors_dir = self.output_base_dir / "galaxy_sectors_parquet"
+        else:
+            self.galaxy_sectors_dir = self.output_base_dir / "galaxy_sectors_compressed"
         self.timeseries_dir = self.output_base_dir / "galaxy_timeseries"
         
         # Use shared downloads directory to avoid redownloading
@@ -428,8 +545,11 @@ class GalaxyDatabaseBuilder:
         stats.build_time_seconds = build_time
         stats.original_size_mb = file_info['size_bytes'] / (1024**2)
         
-        # Calculate compressed database size
-        compressed_size = sum(f.stat().st_size for f in self.galaxy_sectors_dir.rglob('*.gz'))
+        # Calculate output database size
+        if self.output_format == "parquet":
+            compressed_size = sum(f.stat().st_size for f in self.galaxy_sectors_dir.rglob('*.parquet'))
+        else:
+            compressed_size = sum(f.stat().st_size for f in self.galaxy_sectors_dir.rglob('*.gz'))
         stats.compressed_size_mb = compressed_size / (1024**2)
         stats.compression_ratio = (1 - stats.compressed_size_mb / stats.original_size_mb) * 100
         
@@ -449,10 +569,14 @@ class GalaxyDatabaseBuilder:
         stats = BuildStats()
         
         logger.info("🚀 Starting optimized single-pass streaming with 2-pass approach...")
-        
+        logger.info(f"Output format: {self.output_format}")
+
         # PASS 1: Stream once, write standard systems directly, collect non-standard
         logger.info("⚡ Pass 1: Streaming → standard systems → sector files (+ collect non-standard)...")
-        pass1_results = self._execute_streaming_pass1(galaxy_file, stats)
+        if self.output_format == "parquet":
+            pass1_results = self._execute_streaming_pass1_parquet(galaxy_file, stats)
+        else:
+            pass1_results = self._execute_streaming_pass1(galaxy_file, stats)
         
         logger.info(f"✅ Pass 1: {pass1_results['standard_processed']:,} standard → sector files")
         logger.info(f"   📊 Non-standard: {pass1_results['non_standard_count']:,} → temp file")
@@ -461,11 +585,25 @@ class GalaxyDatabaseBuilder:
         if pass1_results['non_standard_count'] > 0:
             logger.info("📐 Calculating sector centers...")
             sector_centers = self._calculate_sector_centers(pass1_results['sector_stats'])
-            
+
             logger.info(f"🎯 Pass 2: Assigning {pass1_results['non_standard_count']:,} → nearest sectors...")
-            pass2_results = self._execute_streaming_pass2(pass1_results, sector_centers)
-            
+            if self.output_format == "parquet":
+                pass2_results = self._execute_streaming_pass2_parquet(
+                    pass1_results, sector_centers, pass1_results.get('parquet_writer')
+                )
+            else:
+                pass2_results = self._execute_streaming_pass2(pass1_results, sector_centers)
+
             logger.info(f"✅ Pass 2: {pass2_results['assigned']:,} assigned → sector files")
+
+        # Finalize Parquet writer if applicable
+        if self.output_format == "parquet" and 'parquet_writer' in pass1_results:
+            logger.info("📦 Finalizing Parquet files (consolidating multi-part files)...")
+            pass1_results['parquet_writer'].finalize()
+            writer = pass1_results['parquet_writer']
+            logger.info(f"   Systems: {writer.total_systems_written:,}, "
+                       f"Bodies: {writer.total_bodies_written:,}, "
+                       f"Stations: {writer.total_stations_written:,}")
         
         # Update statistics
         stats.sectors_created = len(pass1_results.get('sector_stats', {}))
@@ -568,6 +706,274 @@ class GalaxyDatabaseBuilder:
             'sector_stats': dict(all_sector_stats)
         }
     
+    def _execute_streaming_pass1_parquet(self, galaxy_file: Path, stats: BuildStats) -> Dict[str, Any]:
+        """Pass 1 (Parquet): Stream raw bytes, parse+flatten in parallel, write to Parquet.
+
+        Uses a byte-level JSON scanner instead of ijson:
+        1. Producer (main thread): stream_raw_systems() extracts raw JSON bytes
+        2. Workers (ProcessPoolExecutor): orjson.loads() + categorize + flatten
+        3. Consumer (main thread): routes flattened data to ParquetSectorWriter
+        """
+        from ..data.parquet_writer import ParquetSectorWriter
+
+        all_sector_stats = defaultdict(lambda: {'count': 0, 'sum_x': 0.0, 'sum_y': 0.0, 'sum_z': 0.0})
+
+        writer = ParquetSectorWriter(
+            self.galaxy_sectors_dir,
+            flush_threshold=1000,
+            compression="zstd",
+            compression_level=3,
+        )
+
+        # Non-standard systems: write raw bytes directly (binary mode)
+        import tempfile
+        non_standard_temp = tempfile.NamedTemporaryFile(mode='wb', delete=False, suffix='.jsonl')
+        non_standard_count = 0
+        standard_processed = 0
+        systems_processed = 0
+        last_log_time = time.time()
+
+        batch_size = 500
+        current_batch = []  # list of raw bytes
+
+        max_in_flight = self.max_workers * 2
+        futures = []  # list of futures
+
+        # Station count tracked via instance var (updated by _ingest_raw_results)
+        self._build_stats_stations = 0
+
+        num_workers = self.max_workers
+        logger.info(f"   🔧 Raw parallel flattening with {num_workers} workers, "
+                    f"batch size {batch_size}, max in-flight {max_in_flight}")
+
+        ctx = mp.get_context("spawn")
+        executor = ProcessPoolExecutor(max_workers=num_workers, mp_context=ctx)
+
+        try:
+            for raw_bytes in self.downloader.stream_raw_systems(galaxy_file):
+                systems_processed += 1
+                current_batch.append(raw_bytes)
+
+                # Submit batch when full
+                if len(current_batch) >= batch_size:
+                    future = executor.submit(_flatten_batch_raw, current_batch)
+                    futures.append(future)
+                    current_batch = []
+
+                    # Drain completed futures to limit memory
+                    if len(futures) >= max_in_flight:
+                        s, n = self._drain_raw_futures(
+                            futures, writer, all_sector_stats, non_standard_temp
+                        )
+                        standard_processed += s
+                        non_standard_count += n
+
+                current_time = time.time()
+                if current_time - last_log_time > 30:
+                    logger.info(f"   💫 Extracted: {systems_processed:,} systems "
+                               f"({standard_processed:,} standard, "
+                               f"{non_standard_count:,} non-standard, "
+                               f"{len(futures)} batches in-flight)")
+                    last_log_time = current_time
+
+            # Submit final partial batch
+            if current_batch:
+                future = executor.submit(_flatten_batch_raw, current_batch)
+                futures.append(future)
+
+            # Drain all remaining futures
+            s, n = self._drain_raw_futures(
+                futures, writer, all_sector_stats, non_standard_temp, drain_all=True
+            )
+            standard_processed += s
+            non_standard_count += n
+
+        finally:
+            executor.shutdown(wait=True)
+
+        non_standard_temp.close()
+        stats.total_systems = systems_processed
+        stats.total_stations = self._build_stats_stations
+
+        return {
+            'systems_processed': systems_processed,
+            'standard_processed': standard_processed,
+            'non_standard_temp_file': non_standard_temp.name,
+            'non_standard_count': non_standard_count,
+            'sector_stats': dict(all_sector_stats),
+            'parquet_writer': writer,
+        }
+
+    def _drain_raw_futures(self, futures, writer, all_sector_stats,
+                           non_standard_temp, drain_all=False):
+        """Drain completed raw-flatten futures.
+
+        Returns (standard_count, nonstandard_count) processed in this drain.
+        """
+        total_standard = 0
+        total_nonstandard = 0
+
+        if drain_all:
+            for future in futures:
+                s, n = self._ingest_raw_results(
+                    future.result(), writer, all_sector_stats, non_standard_temp
+                )
+                total_standard += s
+                total_nonstandard += n
+            futures.clear()
+        else:
+            still_pending = []
+            for future in futures:
+                if future.done():
+                    s, n = self._ingest_raw_results(
+                        future.result(), writer, all_sector_stats, non_standard_temp
+                    )
+                    total_standard += s
+                    total_nonstandard += n
+                else:
+                    still_pending.append(future)
+            futures.clear()
+            futures.extend(still_pending)
+
+            # If still too many in-flight, block on the oldest
+            while len(futures) >= self.max_workers * 2:
+                future = futures.pop(0)
+                s, n = self._ingest_raw_results(
+                    future.result(), writer, all_sector_stats, non_standard_temp
+                )
+                total_standard += s
+                total_nonstandard += n
+
+        return total_standard, total_nonstandard
+
+    def _ingest_raw_results(self, batch_result, writer, all_sector_stats,
+                            non_standard_temp):
+        """Process results from a single _flatten_batch_raw() call.
+
+        Returns (standard_count, nonstandard_count).
+        """
+        standard_results, nonstandard_results = batch_result
+
+        for (sanitized, sector_name, flat_sys, flat_bodies, flat_stations,
+             coords_tuple, station_count) in standard_results:
+            writer.add_flat(sanitized, flat_sys, flat_bodies, flat_stations)
+            self._build_stats_stations += station_count
+            if coords_tuple:
+                sd = all_sector_stats[sector_name]
+                sd['count'] += 1
+                sd['sum_x'] += coords_tuple[0]
+                sd['sum_y'] += coords_tuple[1]
+                sd['sum_z'] += coords_tuple[2]
+
+        for raw_bytes, station_count in nonstandard_results:
+            non_standard_temp.write(raw_bytes)
+            non_standard_temp.write(b'\n')
+            self._build_stats_stations += station_count
+
+        return len(standard_results), len(nonstandard_results)
+
+    def _execute_streaming_pass2_parquet(self, pass1_result: Dict[str, Any],
+                                         sector_centers: Dict[str, Tuple[float, float, float]],
+                                         writer) -> Dict[str, Any]:
+        """Pass 2 (Parquet): Assign non-standard systems to nearest sectors.
+
+        Reads the binary temp file and uses orjson + parallel workers.
+        """
+        temp_file_path = pass1_result['non_standard_temp_file']
+        non_standard_count = pass1_result['non_standard_count']
+
+        if non_standard_count == 0:
+            return {'assigned': 0, 'skipped': 0}
+
+        logger.info(f"   📂 Reading {non_standard_count:,} non-standard systems from temp file...")
+
+        assigned = 0
+        batch_size = 500
+        current_batch = []
+        lines_read = 0
+        max_in_flight = self.max_workers * 2
+        futures = []
+
+        ctx = mp.get_context("spawn")
+        executor = ProcessPoolExecutor(max_workers=self.max_workers, mp_context=ctx)
+
+        try:
+            with open(temp_file_path, 'rb') as f:
+                for line in f:
+                    line = line.rstrip(b'\n').rstrip(b'\r')
+                    if not line:
+                        continue
+                    current_batch.append(line)
+                    lines_read += 1
+
+                    if len(current_batch) >= batch_size:
+                        future = executor.submit(
+                            _flatten_batch_raw_pass2, current_batch, sector_centers
+                        )
+                        futures.append(future)
+                        current_batch = []
+
+                        if len(futures) >= max_in_flight:
+                            assigned += self._drain_raw_futures_pass2(futures, writer)
+
+                    if lines_read % 10000 == 0:
+                        logger.info(f"   🎯 Pass 2 progress: {lines_read:,}/{non_standard_count:,} "
+                                   f"({assigned:,} assigned)")
+
+            if current_batch:
+                future = executor.submit(
+                    _flatten_batch_raw_pass2, current_batch, sector_centers
+                )
+                futures.append(future)
+
+            assigned += self._drain_raw_futures_pass2(futures, writer, drain_all=True)
+
+        finally:
+            executor.shutdown(wait=True)
+
+        # Clean up temp file
+        import os
+        try:
+            os.unlink(temp_file_path)
+        except OSError:
+            pass
+
+        skipped = non_standard_count - assigned
+        return {'assigned': assigned, 'skipped': skipped}
+
+    def _drain_raw_futures_pass2(self, futures, writer, drain_all=False):
+        """Drain pass 2 futures. Returns count of assigned systems."""
+        total_assigned = 0
+
+        if drain_all:
+            for future in futures:
+                results = future.result()
+                for sanitized, flat_sys, flat_bodies, flat_stations in results:
+                    writer.add_flat(sanitized, flat_sys, flat_bodies, flat_stations)
+                total_assigned += len(results)
+            futures.clear()
+        else:
+            still_pending = []
+            for future in futures:
+                if future.done():
+                    results = future.result()
+                    for sanitized, flat_sys, flat_bodies, flat_stations in results:
+                        writer.add_flat(sanitized, flat_sys, flat_bodies, flat_stations)
+                    total_assigned += len(results)
+                else:
+                    still_pending.append(future)
+            futures.clear()
+            futures.extend(still_pending)
+
+            while len(futures) >= self.max_workers * 2:
+                future = futures.pop(0)
+                results = future.result()
+                for sanitized, flat_sys, flat_bodies, flat_stations in results:
+                    writer.add_flat(sanitized, flat_sys, flat_bodies, flat_stations)
+                total_assigned += len(results)
+
+        return total_assigned
+
     def _flush_sector_batch(self, sector_name: str, lines: List[str]) -> None:
         """Flush a single sector's batch to file."""
         filename = sanitize_filename(sector_name) + '.jsonl.gz'

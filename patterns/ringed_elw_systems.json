@@ -1,0 +1,12 @@
+{
+  "description": "Unpopulated systems with ringed Earth-like worlds",
+  "name": "*",
+  "population": [0, null],
+  "bodies": [
+    {
+      "type": "Planet",
+      "subType": "Earth-like world",
+      "rings": ["*"]
+    }
+  ]
+}

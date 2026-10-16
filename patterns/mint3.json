@@ -1,0 +1,39 @@
+{
+  "description": "Systems with both high metal content body with volcanism and icy body orbiting gas giants",
+  "name": "*",
+  "bodies": [
+    {
+      "comment": "High metal content body with volcanism orbiting a gas giant",
+      "type": "Planet",
+      "subType": "High metal content world",
+      "volcanismType": [
+        "Carbon Dioxide Geysers",
+        "Major Metallic Magma",
+        "Major Rocky Magma",
+        "Major Silicate Vapour Geysers",
+        "Major Water Geysers",
+        "Major Water Magma",
+        "Metallic Magma",
+        "Minor Ammonia Magma",
+        "Minor Carbon Dioxide Geysers",
+        "Minor Metallic Magma",
+        "Minor Methane Magma",
+        "Minor Nitrogen Magma",
+        "Minor Rocky Magma",
+        "Minor Silicate Vapour Geysers",
+        "Minor Water Geysers",
+        "Minor Water Magma",
+        "Rocky Magma",
+        "Water Geysers",
+        "Water Magma"
+      ],
+      "parents": [{"Planet": "*"}]
+    },
+    {
+      "comment": "Icy body, ELW, water world, or ammonia world orbiting a gas giant",
+      "type": "Planet",
+      "subType": ["Icy body", "Earth-like world", "Water world", "Ammonia world"],
+      "parents": [{"Planet": "*"}]
+    }
+  ]
+}

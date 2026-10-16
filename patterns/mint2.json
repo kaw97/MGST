@@ -1,0 +1,28 @@
+{
+  "description": "MINT2 targets - ELW/Water/Ammonia world in binary orbit with HMC (no volcanism)",
+  "comment": "Finds systems where an Earth-like world, Water world, or Ammonia world is in binary orbit with a High Metal Content body. The pattern explicitly matches the Barycentre and both planet children. The HMC must have no volcanism, making it an ideal pristine mining target in binary configuration with a valuable world.",
+
+  "name": "*",
+
+  "bodies": [
+    {
+      "comment": "Match the Barycentre body that defines the binary orbit - bind its bodyId to $bary",
+      "type": "Barycentre",
+      "bodyId": "$bary"
+    },
+    {
+      "comment": "Match ELW, Water world, or Ammonia world in binary - references barycentre via Null parent",
+      "type": "Planet",
+      "subType": ["Earth-like world", "Water world", "Ammonia world"],
+      "parents": [{"Null": "$bary"}]
+    },
+    {
+      "comment": "Match HMC in binary with the ELW/Water/Ammonia (shares same Null parent pointing to barycentre) - must be landable",
+      "type": "Planet",
+      "subType": "High metal content world",
+      "parents": [{"Null": "$bary"}],
+      "volcanismType": "No volcanism",
+      "isLandable": true
+    }
+  ]
+}

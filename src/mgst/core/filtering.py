@@ -16,12 +16,19 @@ from dataclasses import dataclass
 from ..configs.base import BaseConfig
 from .spatial import SpatialRange, SectorIndex, SpatialPrefilter
 from ..data.compressed_reader import CompressedFileReader
+from ..data.parquet_reader import detect_parquet_database
 
 try:
     from tqdm import tqdm
     HAS_TQDM = True
 except ImportError:
     HAS_TQDM = False
+
+try:
+    import fcntl
+    HAS_FCNTL = True
+except ImportError:
+    HAS_FCNTL = False
 
 @dataclass
 class FilteringResult:
@@ -119,24 +126,24 @@ class StreamingTSVWriter:
         self.file_handle.flush()
 
 
-def write_result_to_file(result: Dict[str, Any], system_data: Dict[str, Any], 
+def write_result_to_file(result: Dict[str, Any], system_data: Dict[str, Any],
                         output_path: str, output_format: str, config: BaseConfig):
     """Write a single result to the output file with file locking."""
-    import fcntl
-    
+    logger = logging.getLogger(__name__)
+
     try:
         if output_format.lower() == 'tsv':
             # Write TSV format
             with open(output_path, 'a', encoding='utf-8') as f:
-                fcntl.flock(f.fileno(), fcntl.LOCK_EX)
-                
+                if HAS_FCNTL:
+                    fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+
                 # Check if file is empty (need header)
-                import os
                 if os.path.getsize(output_path) == 0:
                     columns = config.get_output_columns()
                     header = '\t'.join(columns)
                     f.write(header + '\n')
-                
+
                 # Write data row
                 columns = config.get_output_columns()
                 row = []
@@ -147,18 +154,18 @@ def write_result_to_file(result: Dict[str, Any], system_data: Dict[str, Any],
                     row.append(str_value)
                 f.write('\t'.join(row) + '\n')
                 f.flush()
-                
+
         elif output_format.lower() == 'jsonl':
             # Write JSONL format
             with open(output_path, 'a', encoding='utf-8') as f:
-                fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+                if HAS_FCNTL:
+                    fcntl.flock(f.fileno(), fcntl.LOCK_EX)
                 # Write the complete system record
                 f.write(json.dumps(system_data) + '\n')
                 f.flush()
-                
+
     except Exception as e:
-        # Silently handle write errors to avoid breaking workers
-        pass
+        logger.warning(f"Write error for {output_path}: {e}")
 
 
 def process_jsonl_file(args: Tuple) -> Dict[str, Any]:
@@ -514,6 +521,20 @@ def filter_galaxy_data(
                 print(f"  ... and {len(result.errors) - 10} more errors")
     
     return result
+
+
+def detect_database_format(path: Path) -> str:
+    """Detect whether a database path is JSONL or Parquet format.
+
+    Args:
+        path: Database directory path
+
+    Returns:
+        'parquet' if Parquet sector database detected, 'jsonl' otherwise
+    """
+    if detect_parquet_database(path):
+        return "parquet"
+    return "jsonl"
 
 
 def validate_config(config: BaseConfig, sample_system: Optional[Dict] = None) -> bool:

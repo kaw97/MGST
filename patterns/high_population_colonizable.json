@@ -1,0 +1,11 @@
+{
+  "description": "Unpopulated systems with Earth-like worlds",
+  "name": "*",
+  "population": [0, null],
+  "bodies": [
+    {
+      "type": "Planet",
+      "subType": ["Earth-like world","Water world","Ammonia world"]
+    }
+  ]
+}

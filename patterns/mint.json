@@ -1,0 +1,22 @@
+{
+  "description": "MINT targets - ELW or Water World with pristine HMC moon (no bio/geo/volcanism)",
+  "comment": "Finds systems with Earth-like worlds or Water worlds that have High Metal Content moons orbiting them. The HMC moons must have no biological signals, no geological signals, and no volcanism - making them ideal pristine mining targets.",
+
+  "name": "*",
+
+  "bodies": [
+    {
+      "comment": "Match ELW or Water World (the parent planet) - mark with $elw_water variable",
+      "bodyId": "$elw_water",
+      "type": "Planet",
+      "subType": ["Earth-like world", "Water world", "Ammonia world"]
+    },
+    {
+      "comment": "Match High Metal Content body orbiting the specific ELW/Water World - must be pristine (no volcanism)",
+      "type": "Planet",
+      "subType": "High metal content world",
+      "parents": [{"Planet": "$elw_water"}],
+      "volcanismType": "*"
+    }
+  ]
+}

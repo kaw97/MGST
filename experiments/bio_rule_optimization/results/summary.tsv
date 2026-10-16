@@ -1,0 +1,1045 @@
+species	variant	ruleset	changes	tp	fp	precision	recall	tp_lost	fp_removed	tp_lost_pct	pareto
+Fonticulua Fluctus	baseline	all	{}	521	13	97.57	80.15	0	0	0.0	Y
+Fonticulua Fluctus	rs0_max_temperature_p80	0:Oxygen	{"max_temperature": 155.892441}	417	1	99.76	64.15	104	12	20.0	Y
+Fonticulua Fluctus	rs0_max_temperature_p75	0:Oxygen	{"max_temperature": 155.203827}	391	1	99.74	60.15	130	12	25.0	
+Fonticulua Fluctus	rs0_max_temperature_p90	0:Oxygen	{"max_temperature": 157.610107}	469	3	99.36	72.15	52	10	10.0	Y
+Fonticulua Fluctus	rs0_max_temperature_p85	0:Oxygen	{"max_temperature": 156.546127}	443	3	99.33	68.15	78	10	15.0	
+Fonticulua Fluctus	rs0_max_temperature_p95	0:Oxygen	{"max_temperature": 167.784714}	495	5	99.00	76.15	26	8	5.0	Y
+Fonticulua Fluctus	rs0_combined_top3	0:Oxygen	{"max_temperature": 167.784714, "max_pressure": 0.06417}	470	5	98.95	72.31	51	8	9.8	
+Fonticulua Fluctus	rs0_max_pressure_add_p90	0:Oxygen	{"max_pressure": 0.053045}	469	7	98.53	72.15	52	6	10.0	
+Fonticulua Fluctus	rs0_max_gravity_p75	0:Oxygen	{"max_gravity": 0.270556}	391	6	98.49	60.15	130	7	25.0	
+Fonticulua Fluctus	rs0_max_pressure_add_p75	0:Oxygen	{"max_pressure": 0.04534}	391	7	98.24	60.15	130	6	25.0	
+Fonticulua Fluctus	rs0_max_gravity_p85	0:Oxygen	{"max_gravity": 0.272517}	443	8	98.23	68.15	78	5	15.0	
+Fonticulua Fluctus	rs0_max_pressure_add_p95	0:Oxygen	{"max_pressure": 0.06417}	495	9	98.21	76.15	26	4	5.0	
+Fonticulua Fluctus	rs0_max_gravity_p80	0:Oxygen	{"max_gravity": 0.271486}	417	8	98.12	64.15	104	5	20.0	
+Fonticulua Fluctus	rs0_excl_star_F	0:Oxygen	{"exclude_star": "F"}	363	7	98.11	55.85	158	6	30.3	
+Fonticulua Fluctus	rs0_max_gravity_p95	0:Oxygen	{"max_gravity": 0.274076}	495	11	97.83	76.15	26	2	5.0	
+Fonticulua Fluctus	rs0_excl_star_A	0:Oxygen	{"exclude_star": "A"}	471	11	97.72	72.46	50	2	9.6	
+Fonticulua Fluctus	rs0_max_gravity_p90	0:Oxygen	{"max_gravity": 0.273309}	469	11	97.71	72.15	52	2	10.0	
+Fonticulua Fluctus	rs0_min_pressure_p5	0:Oxygen	{"min_pressure": 0.016484}	495	12	97.63	76.15	26	1	5.0	
+Fonticulua Fluctus	rs0_excl_star_T	0:Oxygen	{"exclude_star": "T"}	511	13	97.52	78.62	10	0	1.9	
+Fonticulua Fluctus	rs0_min_pressure_p10	0:Oxygen	{"min_pressure": 0.01954}	469	12	97.51	72.15	52	1	10.0	
+Fonticulua Fluctus	rs0_excl_star_L	0:Oxygen	{"exclude_star": "L"}	510	13	97.51	78.46	11	0	2.1	
+Fonticulua Fluctus	rs0_excl_star_G	0:Oxygen	{"exclude_star": "G"}	464	12	97.48	71.38	57	1	10.9	
+Fonticulua Fluctus	rs0_min_gravity_p5	0:Oxygen	{"min_gravity": 0.249689}	495	13	97.44	76.15	26	0	5.0	
+Fonticulua Fluctus	rs0_min_temperature_p5	0:Oxygen	{"min_temperature": 147.767838}	495	13	97.44	76.15	26	0	5.0	
+Fonticulua Fluctus	rs0_excl_star_K	0:Oxygen	{"exclude_star": "K"}	418	11	97.44	64.31	103	2	19.8	
+Fonticulua Fluctus	rs0_min_gravity_p15	0:Oxygen	{"min_gravity": 0.253075}	443	12	97.36	68.15	78	1	15.0	
+Fonticulua Fluctus	rs0_min_pressure_p15	0:Oxygen	{"min_pressure": 0.022061}	443	12	97.36	68.15	78	1	15.0	
+Fonticulua Fluctus	rs0_min_gravity_p10	0:Oxygen	{"min_gravity": 0.250925}	469	13	97.30	72.15	52	0	10.0	
+Fonticulua Fluctus	rs0_min_temperature_p10	0:Oxygen	{"min_temperature": 148.455383}	469	13	97.30	72.15	52	0	10.0	
+Fonticulua Fluctus	rs0_min_gravity_p25	0:Oxygen	{"min_gravity": 0.258383}	391	11	97.26	60.15	130	2	25.0	
+Fonticulua Fluctus	rs0_min_pressure_p25	0:Oxygen	{"min_pressure": 0.026406}	391	11	97.26	60.15	130	2	25.0	
+Fonticulua Fluctus	rs0_min_gravity_p20	0:Oxygen	{"min_gravity": 0.255405}	417	12	97.20	64.15	104	1	20.0	
+Fonticulua Fluctus	rs0_min_pressure_p20	0:Oxygen	{"min_pressure": 0.02411}	417	12	97.20	64.15	104	1	20.0	
+Fonticulua Fluctus	rs0_min_temperature_p15	0:Oxygen	{"min_temperature": 149.083115}	443	13	97.15	68.15	78	0	15.0	
+Fonticulua Fluctus	rs0_excl_star_M	0:Oxygen	{"exclude_star": "M"}	399	12	97.08	61.38	122	1	23.4	
+Fonticulua Fluctus	rs0_min_temperature_p20	0:Oxygen	{"min_temperature": 149.526352}	417	13	96.98	64.15	104	0	20.0	
+Fonticulua Fluctus	rs0_min_temperature_p25	0:Oxygen	{"min_temperature": 149.898804}	391	13	96.78	60.15	130	0	25.0	
+Fonticulua Segmentatus	baseline	all	{}	1655	0	100.00	82.26	0	0	0.0	Y
+Fonticulua Segmentatus	rs0_excl_star_A	0:Neon/NeonRich	{"exclude_star": "A"}	1607	0	100.00	79.87	48	0	2.9	
+Fonticulua Segmentatus	rs0_excl_star_F	0:Neon/NeonRich	{"exclude_star": "F"}	1610	0	100.00	80.02	45	0	2.7	
+Fonticulua Segmentatus	rs0_excl_star_G	0:Neon/NeonRich	{"exclude_star": "G"}	1539	0	100.00	76.49	116	0	7.0	
+Fonticulua Segmentatus	rs0_excl_star_K	0:Neon/NeonRich	{"exclude_star": "K"}	1007	0	100.00	50.05	648	0	39.2	
+Fonticulua Segmentatus	rs0_excl_star_M	0:Neon/NeonRich	{"exclude_star": "M"}	954	0	100.00	47.42	701	0	42.4	
+Fonticulua Segmentatus	rs0_excl_star_L	0:Neon/NeonRich	{"exclude_star": "L"}	1628	0	100.00	80.91	27	0	1.6	
+Fonticulua Segmentatus	rs0_excl_star_T	0:Neon/NeonRich	{"exclude_star": "T"}	1627	0	100.00	80.86	28	0	1.7	
+Stratum Tectonicas	baseline	all	{}	13697	9234	59.73	41.08	0	0	0.0	
+Stratum Tectonicas	rs3_excl_star_K	3:Water	{"exclude_star": "K"}	13265	8143	61.96	39.79	432	1091	3.2	Y
+Stratum Tectonicas	rs1_max_temperature_p75	1:CarbonDioxide	{"max_temperature": 191.987426}	12549	7975	61.14	37.64	1148	1259	8.4	
+Stratum Tectonicas	rs1_max_pressure_add_p75	1:CarbonDioxide	{"max_pressure": 0.068993}	12549	8002	61.06	37.64	1148	1232	8.4	
+Stratum Tectonicas	rs1_max_gravity_p75	1:CarbonDioxide	{"max_gravity": 0.225169}	12549	8005	61.05	37.64	1148	1229	8.4	
+Stratum Tectonicas	rs3_combined_top2	3:Water	{"min_pressure": 0.067756, "min_temperature": 416.251343}	13518	8712	60.81	40.55	179	522	1.3	Y
+Stratum Tectonicas	rs3_combined_top3	3:Water	{"min_pressure": 0.067756, "min_temperature": 416.251343, "min_gravity": 0.05165}	13517	8710	60.81	40.54	180	524	1.3	
+Stratum Tectonicas	rs1_excl_star_K	1:CarbonDioxide	{"exclude_star": "K"}	11907	7676	60.80	35.71	1790	1558	13.1	
+Stratum Tectonicas	rs1_max_temperature_p80	1:CarbonDioxide	{"max_temperature": 192.697861}	12779	8242	60.79	38.33	918	992	6.7	
+Stratum Tectonicas	rs1_max_gravity_p80	1:CarbonDioxide	{"max_gravity": 0.230315}	12779	8250	60.77	38.33	918	984	6.7	
+Stratum Tectonicas	rs3_min_temperature_add_p25	3:Water	{"min_temperature": 416.251343}	13550	8792	60.65	40.64	147	442	1.1	Y
+Stratum Tectonicas	rs3_min_pressure_add_p25	3:Water	{"min_pressure": 0.073462}	13550	8813	60.59	40.64	147	421	1.1	
+Stratum Tectonicas	rs3_min_gravity_p25	3:Water	{"min_gravity": 0.053859}	13550	8816	60.58	40.64	147	418	1.1	
+Stratum Tectonicas	rs1_max_gravity_p85	1:CarbonDioxide	{"max_gravity": 0.235195}	13008	8490	60.51	39.02	689	744	5.0	
+Stratum Tectonicas	rs1_max_temperature_p85	1:CarbonDioxide	{"max_temperature": 193.444061}	13008	8490	60.51	39.02	689	744	5.0	
+Stratum Tectonicas	rs3_excl_star_F	3:Water	{"exclude_star": "F"}	13584	8878	60.48	40.75	113	356	0.8	Y
+Stratum Tectonicas	rs3_min_gravity_p20	3:Water	{"min_gravity": 0.053309}	13579	8885	60.45	40.73	118	349	0.9	
+Stratum Tectonicas	rs3_max_temperature_add_p75	3:Water	{"max_temperature": 433.844849}	13550	8875	60.42	40.64	147	359	1.1	
+Stratum Tectonicas	rs3_max_gravity_p75	3:Water	{"max_gravity": 0.059822}	13550	8889	60.39	40.64	147	345	1.1	
+Stratum Tectonicas	rs3_max_pressure_add_p75	3:Water	{"max_pressure": 0.090513}	13550	8889	60.39	40.64	147	345	1.1	
+Stratum Tectonicas	rs1_combined_top3	1:CarbonDioxide	{"max_temperature": 194.69999, "max_gravity": 0.240215}	13187	8669	60.34	39.55	510	565	3.7	
+Stratum Tectonicas	rs1_excl_star_F	1:CarbonDioxide	{"exclude_star": "F"}	12967	8537	60.30	38.89	730	697	5.3	
+Stratum Tectonicas	rs1_max_temperature_p90	1:CarbonDioxide	{"max_temperature": 194.113037}	13238	8722	60.28	39.71	459	512	3.4	
+Stratum Tectonicas	rs3_max_gravity_p80	3:Water	{"max_gravity": 0.060218}	13579	8948	60.28	40.73	118	286	0.9	
+Stratum Tectonicas	rs1_max_gravity_p90	1:CarbonDioxide	{"max_gravity": 0.240215}	13238	8729	60.26	39.71	459	505	3.4	
+Stratum Tectonicas	rs3_min_gravity_p15	3:Water	{"min_gravity": 0.052403}	13608	8987	60.23	40.82	89	247	0.6	Y
+Stratum Tectonicas	rs1_max_pressure_add_p90	1:CarbonDioxide	{"max_pressure": 0.078775}	13238	8757	60.19	39.71	459	477	3.4	
+Stratum Tectonicas	rs3_max_gravity_p85	3:Water	{"max_gravity": 0.060692}	13608	9014	60.15	40.82	89	220	0.6	
+Stratum Tectonicas	rs3_min_pressure_add_p10	3:Water	{"min_pressure": 0.067756}	13638	9052	60.11	40.91	59	182	0.4	Y
+Stratum Tectonicas	rs1_max_temperature_p95	1:CarbonDioxide	{"max_temperature": 194.69999}	13467	8939	60.10	40.39	230	295	1.7	
+Stratum Tectonicas	rs3_min_gravity_p10	3:Water	{"min_gravity": 0.05165}	13638	9059	60.09	40.91	59	175	0.4	
+Stratum Tectonicas	rs3_min_temperature_add_p10	3:Water	{"min_temperature": 408.956275}	13638	9061	60.08	40.91	59	173	0.4	
+Stratum Tectonicas	rs3_max_temperature_add_p90	3:Water	{"max_temperature": 439.905652}	13638	9069	60.06	40.91	59	165	0.4	
+Stratum Tectonicas	rs1_excl_star_M	1:CarbonDioxide	{"exclude_star": "M"}	11745	7831	60.00	35.23	1952	1403	14.3	
+Stratum Tectonicas	rs1_max_gravity_p95	1:CarbonDioxide	{"max_gravity": 0.247693}	13467	8988	59.97	40.39	230	246	1.7	
+Stratum Tectonicas	rs3_max_gravity_p90	3:Water	{"max_gravity": 0.061408}	13638	9102	59.97	40.91	59	132	0.4	
+Stratum Tectonicas	rs1_max_pressure_add_p95	1:CarbonDioxide	{"max_pressure": 0.083504}	13467	8993	59.96	40.39	230	241	1.7	
+Stratum Tectonicas	rs3_max_pressure_add_p90	3:Water	{"max_pressure": 0.095505}	13638	9107	59.96	40.91	59	127	0.4	
+Stratum Tectonicas	rs3_min_gravity_p5	3:Water	{"min_gravity": 0.049943}	13667	9155	59.89	40.99	30	79	0.2	Y
+Stratum Tectonicas	rs3_max_gravity_p95	3:Water	{"max_gravity": 0.061827}	13667	9154	59.89	40.99	30	80	0.2	Y
+Stratum Tectonicas	rs3_min_temperature_add_p5	3:Water	{"min_temperature": 405.567505}	13667	9153	59.89	40.99	30	81	0.2	Y
+Stratum Tectonicas	rs3_min_pressure_add_p5	3:Water	{"min_pressure": 0.063061}	13667	9154	59.89	40.99	30	80	0.2	Y
+Stratum Tectonicas	rs3_max_temperature_add_p95	3:Water	{"max_temperature": 443.734808}	13667	9161	59.87	40.99	30	73	0.2	
+Stratum Tectonicas	rs3_max_pressure_add_p95	3:Water	{"max_pressure": 0.096893}	13667	9161	59.87	40.99	30	73	0.2	
+Stratum Tectonicas	rs1_min_temperature_p25	1:CarbonDioxide	{"min_temperature": 175.257576}	12549	8425	59.83	37.64	1148	809	8.4	
+Stratum Tectonicas	rs3_excl_star_L	3:Water	{"exclude_star": "L"}	13671	9186	59.81	41.01	26	48	0.2	Y
+Stratum Tectonicas	rs1_min_gravity_p25	1:CarbonDioxide	{"min_gravity": 0.116751}	12549	8439	59.79	37.64	1148	795	8.4	
+Stratum Tectonicas	rs1_min_pressure_add_p25	1:CarbonDioxide	{"min_pressure": 0.0189}	12549	8442	59.78	37.64	1148	792	8.4	
+Stratum Tectonicas	rs1_min_temperature_p20	1:CarbonDioxide	{"min_temperature": 173.091141}	12779	8600	59.77	38.33	918	634	6.7	
+Stratum Tectonicas	rs3_excl_star_T	3:Water	{"exclude_star": "T"}	13692	9216	59.77	41.07	5	18	0.0	Y
+Stratum Tectonicas	rs1_min_gravity_p20	1:CarbonDioxide	{"min_gravity": 0.104914}	12779	8604	59.76	38.33	918	630	6.7	
+Stratum Tectonicas	rs3_excl_star_B	3:Water	{"exclude_star": "B"}	13697	9224	59.76	41.08	0	10	0.0	Y
+Stratum Tectonicas	rs1_excl_star_L	1:CarbonDioxide	{"exclude_star": "L"}	13645	9198	59.73	40.93	52	36	0.4	
+Stratum Tectonicas	rs1_excl_star_T	1:CarbonDioxide	{"exclude_star": "T"}	13668	9221	59.71	41.00	29	13	0.2	
+Stratum Tectonicas	rs1_min_gravity_p5	1:CarbonDioxide	{"min_gravity": 0.077322}	13467	9091	59.70	40.39	230	143	1.7	
+Stratum Tectonicas	rs1_min_gravity_p10	1:CarbonDioxide	{"min_gravity": 0.083911}	13238	8937	59.70	39.71	459	297	3.4	
+Stratum Tectonicas	rs1_min_temperature_p15	1:CarbonDioxide	{"min_temperature": 171.021141}	13008	8780	59.70	39.02	689	454	5.0	
+Stratum Tectonicas	rs1_min_pressure_add_p5	1:CarbonDioxide	{"min_pressure": 0.00829}	13467	9090	59.70	40.39	230	144	1.7	
+Stratum Tectonicas	rs1_min_pressure_add_p10	1:CarbonDioxide	{"min_pressure": 0.009776}	13238	8937	59.70	39.71	459	297	3.4	
+Stratum Tectonicas	rs1_min_gravity_p15	1:CarbonDioxide	{"min_gravity": 0.094139}	13008	8787	59.68	39.02	689	447	5.0	
+Stratum Tectonicas	rs1_min_temperature_p10	1:CarbonDioxide	{"min_temperature": 168.788727}	13238	8945	59.68	39.71	459	289	3.4	
+Stratum Tectonicas	rs0_excl_star_T	0:Ammonia	{"exclude_star": "T"}	13620	9214	59.65	40.85	77	20	0.6	
+Stratum Tectonicas	rs1_min_temperature_p5	1:CarbonDioxide	{"min_temperature": 166.537957}	13467	9113	59.64	40.39	230	121	1.7	
+Stratum Tectonicas	rs0_excl_star_L	0:Ammonia	{"exclude_star": "L"}	13589	9198	59.63	40.76	108	36	0.8	
+Stratum Tectonicas	rs0_min_pressure_add_p5	0:Ammonia	{"min_pressure": 0.001088}	13271	9024	59.52	39.81	426	210	3.1	
+Stratum Tectonicas	rs0_max_gravity_p95	0:Ammonia	{"max_gravity": 0.268834}	13271	9032	59.50	39.81	426	202	3.1	
+Stratum Tectonicas	rs0_max_temperature_p95	0:Ammonia	{"max_temperature": 174.212949}	13271	9041	59.48	39.81	426	193	3.1	
+Stratum Tectonicas	rs0_min_gravity_p5	0:Ammonia	{"min_gravity": 0.152759}	13271	9044	59.47	39.81	426	190	3.1	
+Stratum Tectonicas	rs0_max_pressure_add_p95	0:Ammonia	{"max_pressure": 0.003308}	13271	9054	59.44	39.81	426	180	3.1	
+Stratum Tectonicas	rs0_max_temperature_p90	0:Ammonia	{"max_temperature": 173.78645}	12845	8790	59.37	38.53	852	444	6.2	
+Stratum Tectonicas	rs0_min_temperature_p5	0:Ammonia	{"min_temperature": 165.614563}	13271	9085	59.36	39.81	426	149	3.1	
+Stratum Tectonicas	rs0_max_gravity_p90	0:Ammonia	{"max_gravity": 0.262726}	12845	8827	59.27	38.53	852	407	6.2	
+Stratum Tectonicas	rs0_max_pressure_add_p90	0:Ammonia	{"max_pressure": 0.003159}	12845	8848	59.21	38.53	852	386	6.2	
+Stratum Tectonicas	rs0_min_gravity_p10	0:Ammonia	{"min_gravity": 0.159899}	12845	8866	59.16	38.53	852	368	6.2	
+Stratum Tectonicas	rs0_min_pressure_add_p10	0:Ammonia	{"min_pressure": 0.001184}	12845	8869	59.16	38.53	852	365	6.2	
+Stratum Tectonicas	rs0_max_temperature_p85	0:Ammonia	{"max_temperature": 173.40748}	12419	8591	59.11	37.25	1278	643	9.3	
+Stratum Tectonicas	rs0_max_gravity_p85	0:Ammonia	{"max_gravity": 0.256453}	12419	8623	59.02	37.25	1278	611	9.3	
+Stratum Tectonicas	rs0_excl_star_F	0:Ammonia	{"exclude_star": "F"}	12469	8661	59.01	37.40	1228	573	9.0	
+Stratum Tectonicas	rs0_min_temperature_p10	0:Ammonia	{"min_temperature": 166.187759}	12845	8933	58.98	38.53	852	301	6.2	
+Stratum Tectonicas	rs0_max_temperature_p80	0:Ammonia	{"max_temperature": 172.961353}	11993	8349	58.96	35.97	1704	885	12.4	
+Stratum Tectonicas	rs0_min_gravity_p15	0:Ammonia	{"min_gravity": 0.166288}	12419	8692	58.83	37.25	1278	542	9.3	
+Stratum Tectonicas	rs0_max_gravity_p80	0:Ammonia	{"max_gravity": 0.250111}	11993	8432	58.72	35.97	1704	802	12.4	
+Stratum Tectonicas	rs0_max_temperature_p75	0:Ammonia	{"max_temperature": 172.568512}	11568	8138	58.70	34.70	2129	1096	15.5	
+Stratum Tectonicas	rs0_min_temperature_p15	0:Ammonia	{"min_temperature": 166.807193}	12419	8750	58.67	37.25	1278	484	9.3	
+Stratum Tectonicas	rs0_min_gravity_p20	0:Ammonia	{"min_gravity": 0.17304}	11993	8494	58.54	35.97	1704	740	12.4	
+Stratum Tectonicas	rs0_max_gravity_p75	0:Ammonia	{"max_gravity": 0.244286}	11568	8249	58.37	34.70	2129	985	15.5	
+Stratum Tectonicas	rs0_max_pressure_add_p75	0:Ammonia	{"max_pressure": 0.002732}	11568	8283	58.27	34.70	2129	951	15.5	
+Stratum Tectonicas	rs0_min_pressure_add_p25	0:Ammonia	{"min_pressure": 0.001492}	11568	8307	58.20	34.70	2129	927	15.5	
+Stratum Tectonicas	rs0_min_gravity_p25	0:Ammonia	{"min_gravity": 0.179647}	11568	8313	58.19	34.70	2129	921	15.5	
+Stratum Tectonicas	rs0_min_temperature_p20	0:Ammonia	{"min_temperature": 167.353977}	11993	8624	58.17	35.97	1704	610	12.4	
+Stratum Tectonicas	rs0_min_temperature_p25	0:Ammonia	{"min_temperature": 167.923187}	11568	8453	57.78	34.70	2129	781	15.5	
+Stratum Tectonicas	rs0_excl_star_K	0:Ammonia	{"exclude_star": "K"}	10488	7830	57.26	31.46	3209	1404	23.4	
+Stratum Tectonicas	rs0_excl_star_M	0:Ammonia	{"exclude_star": "M"}	9910	7592	56.62	29.72	3787	1642	27.6	
+Tussock Stigmasis	baseline	all	{}	3330	931	78.15	94.41	0	0	0.0	Y
+Tussock Stigmasis	rs0_excl_star_A	0:SulphurDioxide	{"exclude_star": "A"}	3278	634	83.79	92.94	52	297	1.6	Y
+Tussock Stigmasis	rs0_max_temperature_p85	0:SulphurDioxide	{"max_temperature": 134.314167}	2830	750	79.05	80.24	500	181	15.0	
+Tussock Stigmasis	rs0_max_temperature_p80	0:SulphurDioxide	{"max_temperature": 134.220434}	2664	706	79.05	75.53	666	225	20.0	
+Tussock Stigmasis	rs0_max_pressure_p80	0:SulphurDioxide	{"max_pressure": 0.00125}	2664	710	78.96	75.53	666	221	20.0	
+Tussock Stigmasis	rs0_max_pressure_p85	0:SulphurDioxide	{"max_pressure": 0.001287}	2830	757	78.90	80.24	500	174	15.0	
+Tussock Stigmasis	rs0_max_temperature_p75	0:SulphurDioxide	{"max_temperature": 134.133583}	2497	670	78.84	70.80	833	261	25.0	
+Tussock Stigmasis	rs0_combined_top2	0:SulphurDioxide	{"max_temperature": 151.351252, "max_pressure": 0.001987}	3116	837	78.83	88.35	214	94	6.4	
+Tussock Stigmasis	rs0_combined_top3	0:SulphurDioxide	{"max_temperature": 151.351252, "max_pressure": 0.001987}	3116	837	78.83	88.35	214	94	6.4	
+Tussock Stigmasis	rs0_max_temperature_p95	0:SulphurDioxide	{"max_temperature": 151.351252}	3163	850	78.82	89.68	167	81	5.0	
+Tussock Stigmasis	rs0_max_pressure_p75	0:SulphurDioxide	{"max_pressure": 0.001218}	2497	671	78.82	70.80	833	260	25.0	
+Tussock Stigmasis	rs0_max_temperature_p90	0:SulphurDioxide	{"max_temperature": 134.430907}	2997	806	78.81	84.97	333	125	10.0	
+Tussock Stigmasis	rs0_max_gravity_p75	0:SulphurDioxide	{"max_gravity": 0.261029}	2497	675	78.72	70.80	833	256	25.0	
+Tussock Stigmasis	rs0_max_pressure_p90	0:SulphurDioxide	{"max_pressure": 0.001344}	2997	811	78.70	84.97	333	120	10.0	
+Tussock Stigmasis	rs0_max_pressure_p95	0:SulphurDioxide	{"max_pressure": 0.001987}	3163	862	78.58	89.68	167	69	5.0	
+Tussock Stigmasis	rs0_max_gravity_p80	0:SulphurDioxide	{"max_gravity": 0.264961}	2664	733	78.42	75.53	666	198	20.0	
+Tussock Stigmasis	rs0_excl_star_T	0:SulphurDioxide	{"exclude_star": "T"}	3316	922	78.24	94.02	14	9	0.4	Y
+Tussock Stigmasis	rs0_min_temperature_p10	0:SulphurDioxide	{"min_temperature": 132.567059}	2997	836	78.19	84.97	333	95	10.0	
+Tussock Stigmasis	rs0_excl_star_Y	0:SulphurDioxide	{"exclude_star": "Y"}	3317	928	78.14	94.05	13	3	0.4	
+Tussock Stigmasis	rs0_excl_star_L	0:SulphurDioxide	{"exclude_star": "L"}	3316	928	78.13	94.02	14	3	0.4	
+Tussock Stigmasis	rs0_max_gravity_p85	0:SulphurDioxide	{"max_gravity": 0.268178}	2830	794	78.09	80.24	500	137	15.0	
+Tussock Stigmasis	rs0_min_temperature_p5	0:SulphurDioxide	{"min_temperature": 132.335513}	3163	888	78.08	89.68	167	43	5.0	
+Tussock Stigmasis	rs0_max_gravity_p95	0:SulphurDioxide	{"max_gravity": 0.271895}	3163	892	78.00	89.68	167	39	5.0	
+Tussock Stigmasis	rs0_min_pressure_add_p5	0:SulphurDioxide	{"min_pressure": 0.000995}	3163	893	77.98	89.68	167	38	5.0	
+Tussock Stigmasis	rs0_min_gravity_p5	0:SulphurDioxide	{"min_gravity": 0.054176}	3163	896	77.93	89.68	167	35	5.0	
+Tussock Stigmasis	rs0_min_temperature_p15	0:SulphurDioxide	{"min_temperature": 132.74757}	2830	802	77.92	80.24	500	129	15.0	
+Tussock Stigmasis	rs0_min_temperature_p25	0:SulphurDioxide	{"min_temperature": 133.048962}	2497	709	77.89	70.80	833	222	25.0	
+Tussock Stigmasis	rs0_min_temperature_p20	0:SulphurDioxide	{"min_temperature": 132.901883}	2664	758	77.85	75.53	666	173	20.0	
+Tussock Stigmasis	rs0_excl_star_M	0:SulphurDioxide	{"exclude_star": "M"}	3143	896	77.82	89.11	187	35	5.6	
+Tussock Stigmasis	rs0_min_pressure_add_p10	0:SulphurDioxide	{"min_pressure": 0.001002}	2997	859	77.72	84.97	333	72	10.0	
+Tussock Stigmasis	rs0_max_gravity_p90	0:SulphurDioxide	{"max_gravity": 0.270405}	2997	862	77.66	84.97	333	69	10.0	
+Tussock Stigmasis	rs0_min_gravity_p10	0:SulphurDioxide	{"min_gravity": 0.070372}	2997	864	77.62	84.97	333	67	10.0	
+Tussock Stigmasis	rs0_min_pressure_add_p25	0:SulphurDioxide	{"min_pressure": 0.00103}	2497	721	77.59	70.80	833	210	25.0	
+Tussock Stigmasis	rs0_min_gravity_p15	0:SulphurDioxide	{"min_gravity": 0.118321}	2830	818	77.58	80.24	500	113	15.0	
+Tussock Stigmasis	rs0_min_gravity_p20	0:SulphurDioxide	{"min_gravity": 0.232961}	2664	783	77.28	75.53	666	148	20.0	
+Tussock Stigmasis	rs0_min_gravity_p25	0:SulphurDioxide	{"min_gravity": 0.235236}	2497	741	77.12	70.80	833	190	25.0	
+Tussock Stigmasis	rs0_excl_star_F	0:SulphurDioxide	{"exclude_star": "F"}	2147	678	76.00	60.87	1183	253	35.5	
+Tussock Stigmasis	rs0_excl_star_G	0:SulphurDioxide	{"exclude_star": "G"}	2473	782	75.98	70.12	857	149	25.7	
+Tussock Stigmasis	rs0_excl_star_K	0:SulphurDioxide	{"exclude_star": "K"}	2439	786	75.63	69.15	891	145	26.8	
+Concha Biconcavis	baseline	all	{}	862	3	99.65	89.89	0	0	0.0	Y
+Concha Biconcavis	rs0_excl_star_K	0:Nitrogen	{"exclude_star": "K"}	758	1	99.87	79.04	104	2	12.1	Y
+Concha Biconcavis	rs0_excl_star_M	0:Nitrogen	{"exclude_star": "M"}	747	2	99.73	77.89	115	1	13.3	
+Concha Biconcavis	rs0_excl_star_L	0:Nitrogen	{"exclude_star": "L"}	849	3	99.65	88.53	13	0	1.5	
+Concha Biconcavis	rs0_excl_star_F	0:Nitrogen	{"exclude_star": "F"}	832	3	99.64	86.76	30	0	3.5	
+Concha Biconcavis	rs0_excl_star_G	0:Nitrogen	{"exclude_star": "G"}	842	3	99.64	87.80	20	0	2.3	
+Concha Biconcavis	rs0_excl_star_T	0:Nitrogen	{"exclude_star": "T"}	755	3	99.60	78.73	107	0	12.4	
+Concha Biconcavis	rs0_excl_star_Y	0:Nitrogen	{"exclude_star": "Y"}	728	3	99.59	75.91	134	0	15.5	
+Cactoida Vermis	baseline	all	{}	10183	4970	67.20	89.40	0	0	0.0	
+Cactoida Vermis	rs1_excl_star_B	1:Water	{"exclude_star": "B"}	10022	4025	71.35	87.99	161	945	1.6	Y
+Cactoida Vermis	rs1_excl_star_M	1:Water	{"exclude_star": "M"}	8544	3800	69.22	75.01	1639	1170	16.1	
+Cactoida Vermis	rs1_max_gravity_p80	1:Water	{"max_gravity": 0.0534}	8161	3825	68.09	71.65	2022	1145	19.9	
+Cactoida Vermis	rs1_max_gravity_p75	1:Water	{"max_gravity": 0.052931}	7655	3593	68.06	67.21	2528	1377	24.8	
+Cactoida Vermis	rs1_max_gravity_p85	1:Water	{"max_gravity": 0.054424}	8666	4068	68.05	76.08	1517	902	14.9	
+Cactoida Vermis	rs1_max_gravity_p90	1:Water	{"max_gravity": 0.056451}	9172	4352	67.82	80.53	1011	618	9.9	
+Cactoida Vermis	rs1_max_gravity_p95	1:Water	{"max_gravity": 0.058872}	9677	4670	67.45	84.96	506	300	5.0	
+Cactoida Vermis	rs1_min_pressure_add_p10	1:Water	{"min_pressure": 0.069715}	9172	4427	67.45	80.53	1011	543	9.9	
+Cactoida Vermis	rs1_min_pressure_add_p25	1:Water	{"min_pressure": 0.074909}	7655	3694	67.45	67.21	2528	1276	24.8	
+Cactoida Vermis	rs1_excl_star_Y	1:Water	{"exclude_star": "Y"}	10171	4934	67.34	89.30	12	36	0.1	Y
+Cactoida Vermis	rs1_max_temperature_add_p90	1:Water	{"max_temperature": 440.590369}	9172	4460	67.28	80.53	1011	510	9.9	
+Cactoida Vermis	rs1_max_temperature_add_p95	1:Water	{"max_temperature": 443.972252}	9677	4709	67.27	84.96	506	261	5.0	
+Cactoida Vermis	rs2_excl_star_A	2:Water	{"exclude_star": "A"}	10163	4945	67.27	89.23	20	25	0.2	
+Cactoida Vermis	rs1_min_gravity_p5	1:Water	{"min_gravity": 0.044834}	9677	4711	67.26	84.96	506	259	5.0	
+Cactoida Vermis	rs2_combined_top2	2:Water	{"max_pressure": 0.096375, "min_gravity": 0.045543}	10175	4953	67.26	89.33	8	17	0.1	Y
+Cactoida Vermis	rs2_combined_top3	2:Water	{"max_pressure": 0.096375, "min_gravity": 0.045543, "max_gravity": 0.052974}	10174	4953	67.26	89.32	9	17	0.1	
+Cactoida Vermis	rs1_min_gravity_p10	1:Water	{"min_gravity": 0.045755}	9172	4467	67.25	80.53	1011	503	9.9	
+Cactoida Vermis	rs2_min_temperature_add_p25	2:Water	{"min_temperature": 416.636627}	10172	4953	67.25	89.31	11	17	0.1	
+Cactoida Vermis	rs2_excl_star_B	2:Water	{"exclude_star": "B"}	10183	4960	67.25	89.40	0	10	0.0	Y
+Cactoida Vermis	rs1_excl_star_L	1:Water	{"exclude_star": "L"}	10135	4938	67.24	88.98	48	32	0.5	
+Cactoida Vermis	rs2_min_gravity_p15	2:Water	{"min_gravity": 0.045965}	10176	4958	67.24	89.34	7	12	0.1	
+Cactoida Vermis	rs2_min_gravity_p25	2:Water	{"min_gravity": 0.04688}	10172	4956	67.24	89.31	11	14	0.1	
+Cactoida Vermis	rs2_max_gravity_p75	2:Water	{"max_gravity": 0.051196}	10172	4957	67.24	89.31	11	13	0.1	
+Cactoida Vermis	rs2_max_temperature_add_p75	2:Water	{"max_temperature": 435.21048}	10172	4955	67.24	89.31	11	15	0.1	
+Cactoida Vermis	rs2_min_pressure_add_p25	2:Water	{"min_pressure": 0.075926}	10172	4957	67.24	89.31	11	13	0.1	
+Cactoida Vermis	rs0_max_gravity_p80	0:SulphurDioxide	{"max_gravity": 0.274422}	10177	4961	67.23	89.35	6	9	0.1	
+Cactoida Vermis	rs0_max_gravity_p75	0:SulphurDioxide	{"max_gravity": 0.274321}	10176	4961	67.23	89.34	7	9	0.1	
+Cactoida Vermis	rs2_min_gravity_p10	2:Water	{"min_gravity": 0.045543}	10178	4960	67.23	89.36	5	10	0.0	
+Cactoida Vermis	rs2_min_gravity_p20	2:Water	{"min_gravity": 0.046291}	10174	4958	67.23	89.32	9	12	0.1	
+Cactoida Vermis	rs2_max_gravity_p90	2:Water	{"max_gravity": 0.052849}	10178	4962	67.23	89.36	5	8	0.0	
+Cactoida Vermis	rs2_max_gravity_p85	2:Water	{"max_gravity": 0.052571}	10176	4961	67.23	89.34	7	9	0.1	
+Cactoida Vermis	rs2_max_gravity_p80	2:Water	{"max_gravity": 0.051721}	10174	4958	67.23	89.32	9	12	0.1	
+Cactoida Vermis	rs2_min_temperature_add_p10	2:Water	{"min_temperature": 411.148987}	10178	4962	67.23	89.36	5	8	0.0	
+Cactoida Vermis	rs2_min_pressure_add_p10	2:Water	{"min_pressure": 0.071179}	10178	4961	67.23	89.36	5	9	0.0	
+Cactoida Vermis	rs2_max_pressure_add_p95	2:Water	{"max_pressure": 0.096375}	10180	4963	67.23	89.38	3	7	0.0	
+Cactoida Vermis	rs2_max_pressure_add_p90	2:Water	{"max_pressure": 0.095998}	10178	4962	67.23	89.36	5	8	0.0	
+Cactoida Vermis	rs2_max_pressure_add_p75	2:Water	{"max_pressure": 0.091315}	10172	4958	67.23	89.31	11	12	0.1	
+Cactoida Vermis	rs0_max_gravity_p85	0:SulphurDioxide	{"max_gravity": 0.274717}	10178	4964	67.22	89.36	5	6	0.0	
+Cactoida Vermis	rs2_max_gravity_p95	2:Water	{"max_gravity": 0.052974}	10180	4964	67.22	89.38	3	6	0.0	
+Cactoida Vermis	rs2_min_temperature_add_p5	2:Water	{"min_temperature": 408.287451}	10180	4965	67.22	89.38	3	5	0.0	
+Cactoida Vermis	rs2_max_temperature_add_p90	2:Water	{"max_temperature": 440.963702}	10178	4964	67.22	89.36	5	6	0.0	
+Cactoida Vermis	rs0_min_gravity_p25	0:SulphurDioxide	{"min_gravity": 0.272774}	10176	4965	67.21	89.34	7	5	0.1	
+Cactoida Vermis	rs0_max_gravity_p95	0:SulphurDioxide	{"max_gravity": 0.274895}	10181	4968	67.21	89.39	2	2	0.0	
+Cactoida Vermis	rs0_max_gravity_p90	0:SulphurDioxide	{"max_gravity": 0.274824}	10180	4967	67.21	89.38	3	3	0.0	
+Cactoida Vermis	rs0_max_temperature_p80	0:SulphurDioxide	{"max_temperature": 166.440775}	10177	4966	67.21	89.35	6	4	0.1	
+Cactoida Vermis	rs0_max_temperature_p75	0:SulphurDioxide	{"max_temperature": 166.034638}	10176	4965	67.21	89.34	7	5	0.1	
+Cactoida Vermis	rs0_min_pressure_add_p5	0:SulphurDioxide	{"min_pressure": 0.00112}	10181	4968	67.21	89.39	2	2	0.0	
+Cactoida Vermis	rs0_max_pressure_p75	0:SulphurDioxide	{"max_pressure": 0.002203}	10176	4965	67.21	89.34	7	5	0.1	
+Cactoida Vermis	rs1_min_pressure_add_p5	1:Water	{"min_pressure": 0.066042}	9677	4722	67.21	84.96	506	248	5.0	
+Cactoida Vermis	rs2_min_gravity_p5	2:Water	{"min_gravity": 0.044097}	10180	4966	67.21	89.38	3	4	0.0	
+Cactoida Vermis	rs2_min_pressure_add_p5	2:Water	{"min_pressure": 0.066709}	10180	4967	67.21	89.38	3	3	0.0	
+Cactoida Vermis	rs2_excl_star_F	2:Water	{"exclude_star": "F"}	10164	4959	67.21	89.24	19	11	0.2	
+Cactoida Vermis	rs0_min_gravity_p5	0:SulphurDioxide	{"min_gravity": 0.270004}	10181	4969	67.20	89.39	2	1	0.0	
+Cactoida Vermis	rs0_min_gravity_p10	0:SulphurDioxide	{"min_gravity": 0.271658}	10180	4969	67.20	89.38	3	1	0.0	
+Cactoida Vermis	rs0_min_gravity_p15	0:SulphurDioxide	{"min_gravity": 0.272289}	10178	4968	67.20	89.36	5	2	0.0	
+Cactoida Vermis	rs0_min_gravity_p20	0:SulphurDioxide	{"min_gravity": 0.272538}	10177	4968	67.20	89.35	6	2	0.1	
+Cactoida Vermis	rs0_min_temperature_p5	0:SulphurDioxide	{"min_temperature": 160.144158}	10181	4970	67.20	89.39	2	0	0.0	
+Cactoida Vermis	rs0_min_temperature_p10	0:SulphurDioxide	{"min_temperature": 160.478562}	10180	4969	67.20	89.38	3	1	0.0	
+Cactoida Vermis	rs0_min_temperature_p20	0:SulphurDioxide	{"min_temperature": 161.118289}	10177	4968	67.20	89.35	6	2	0.1	
+Cactoida Vermis	rs0_max_temperature_p95	0:SulphurDioxide	{"max_temperature": 205.9486}	10181	4970	67.20	89.39	2	0	0.0	
+Cactoida Vermis	rs0_max_temperature_p85	0:SulphurDioxide	{"max_temperature": 166.771002}	10178	4967	67.20	89.36	5	3	0.0	
+Cactoida Vermis	rs0_min_pressure_add_p10	0:SulphurDioxide	{"min_pressure": 0.001147}	10180	4968	67.20	89.38	3	2	0.0	
+Cactoida Vermis	rs0_min_pressure_add_p25	0:SulphurDioxide	{"min_pressure": 0.001252}	10176	4967	67.20	89.34	7	3	0.1	
+Cactoida Vermis	rs0_max_pressure_p95	0:SulphurDioxide	{"max_pressure": 0.003626}	10181	4969	67.20	89.39	2	1	0.0	
+Cactoida Vermis	rs0_max_pressure_p90	0:SulphurDioxide	{"max_pressure": 0.003355}	10180	4968	67.20	89.38	3	2	0.0	
+Cactoida Vermis	rs0_max_pressure_p85	0:SulphurDioxide	{"max_pressure": 0.003287}	10178	4968	67.20	89.36	5	2	0.0	
+Cactoida Vermis	rs0_max_pressure_p80	0:SulphurDioxide	{"max_pressure": 0.002925}	10177	4967	67.20	89.35	6	3	0.1	
+Cactoida Vermis	rs2_max_temperature_add_p95	2:Water	{"max_temperature": 443.871698}	10180	4968	67.20	89.38	3	2	0.0	
+Cactoida Vermis	rs0_min_temperature_p15	0:SulphurDioxide	{"min_temperature": 160.840403}	10178	4969	67.19	89.36	5	1	0.0	
+Cactoida Vermis	rs0_min_temperature_p25	0:SulphurDioxide	{"min_temperature": 161.179485}	10176	4968	67.19	89.34	7	2	0.1	
+Cactoida Vermis	rs0_max_temperature_p90	0:SulphurDioxide	{"max_temperature": 178.431123}	10180	4970	67.19	89.38	3	0	0.0	
+Cactoida Vermis	rs0_excl_star_F	0:SulphurDioxide	{"exclude_star": "F"}	10167	4966	67.18	89.26	16	4	0.2	
+Cactoida Vermis	rs1_min_gravity_p25	1:Water	{"min_gravity": 0.047836}	7655	3743	67.16	67.21	2528	1227	24.8	
+Cactoida Vermis	rs1_min_temperature_add_p5	1:Water	{"min_temperature": 406.214005}	9677	4732	67.16	84.96	506	238	5.0	
+Cactoida Vermis	rs1_min_gravity_p15	1:Water	{"min_gravity": 0.04652}	8666	4239	67.15	76.08	1517	731	14.9	
+Cactoida Vermis	rs1_max_temperature_add_p75	1:Water	{"max_temperature": 433.885811}	7655	3745	67.15	67.21	2528	1225	24.8	
+Cactoida Vermis	rs1_excl_star_T	1:Water	{"exclude_star": "T"}	10156	4970	67.14	89.17	27	0	0.3	
+Cactoida Vermis	rs1_min_gravity_p20	1:Water	{"min_gravity": 0.047187}	8161	3997	67.12	71.65	2022	973	19.9	
+Cactoida Vermis	rs1_max_pressure_add_p95	1:Water	{"max_pressure": 0.096725}	9677	4749	67.08	84.96	506	221	5.0	
+Cactoida Vermis	rs1_min_temperature_add_p25	1:Water	{"min_temperature": 415.434448}	7655	3764	67.04	67.21	2528	1206	24.8	
+Cactoida Vermis	rs1_min_temperature_add_p10	1:Water	{"min_temperature": 409.278345}	9172	4511	67.03	80.53	1011	459	9.9	
+Cactoida Vermis	rs1_max_pressure_add_p90	1:Water	{"max_pressure": 0.094769}	9172	4537	66.90	80.53	1011	433	9.9	
+Cactoida Vermis	rs1_max_pressure_add_p75	1:Water	{"max_pressure": 0.090149}	7655	3823	66.69	67.21	2528	1147	24.8	
+Cactoida Vermis	rs1_excl_star_G	1:Water	{"exclude_star": "G"}	8790	4456	66.36	77.17	1393	514	13.7	
+Cactoida Vermis	rs1_excl_star_A	1:Water	{"exclude_star": "A"}	7550	4334	63.53	66.29	2633	636	25.9	
+Cactoida Vermis	rs1_excl_star_F	1:Water	{"exclude_star": "F"}	7091	4143	63.12	62.26	3092	827	30.4	
+Fumerola Extremus	baseline	all	{}	1760	97	94.78	70.63	0	0	0.0	Y
+Fumerola Extremus	rs3_max_gravity_p85	3:SulphurDioxide	{"max_gravity": 0.273707}	1743	86	95.30	69.94	17	11	1.0	Y
+Fumerola Extremus	rs3_max_gravity_p80	3:SulphurDioxide	{"max_gravity": 0.273355}	1737	86	95.28	69.70	23	11	1.3	
+Fumerola Extremus	rs3_max_gravity_p75	3:SulphurDioxide	{"max_gravity": 0.273188}	1731	86	95.27	69.46	29	11	1.6	
+Fumerola Extremus	rs3_max_gravity_p95	3:SulphurDioxide	{"max_gravity": 0.274117}	1754	89	95.17	70.39	6	8	0.3	Y
+Fumerola Extremus	rs3_max_gravity_p90	3:SulphurDioxide	{"max_gravity": 0.273908}	1748	89	95.16	70.14	12	8	0.7	
+Fumerola Extremus	rs3_max_temperature_p85	3:SulphurDioxide	{"max_temperature": 160.086535}	1743	91	95.04	69.94	17	6	1.0	
+Fumerola Extremus	rs0_combined_top3	0:Ammonia	{"min_gravity": 0.042956, "min_temperature": 172.368205}	1679	88	95.02	67.38	81	9	4.6	
+Fumerola Extremus	rs3_max_temperature_p80	3:SulphurDioxide	{"max_temperature": 159.517434}	1737	91	95.02	69.70	23	6	1.3	
+Fumerola Extremus	rs3_max_temperature_p75	3:SulphurDioxide	{"max_temperature": 158.837803}	1731	91	95.01	69.46	29	6	1.6	
+Fumerola Extremus	rs3_max_temperature_p90	3:SulphurDioxide	{"max_temperature": 161.083895}	1748	92	95.00	70.14	12	5	0.7	
+Fumerola Extremus	rs0_min_gravity_p20	0:Ammonia	{"min_gravity": 0.042956}	1711	91	94.95	68.66	49	6	2.8	
+Fumerola Extremus	rs3_min_temperature_p25	3:SulphurDioxide	{"min_temperature": 150.978691}	1731	92	94.95	69.46	29	5	1.6	
+Fumerola Extremus	rs3_max_pressure_add_p75	3:SulphurDioxide	{"max_pressure": 0.003711}	1731	92	94.95	69.46	29	5	1.6	
+Fumerola Extremus	rs0_min_gravity_p25	0:Ammonia	{"min_gravity": 0.043409}	1699	91	94.92	68.18	61	6	3.5	
+Fumerola Extremus	rs0_excl_star_K	0:Ammonia	{"exclude_star": "K"}	1682	90	94.92	67.50	78	7	4.4	
+Fumerola Extremus	rs3_min_temperature_p20	3:SulphurDioxide	{"min_temperature": 150.365808}	1737	93	94.92	69.70	23	4	1.3	
+Fumerola Extremus	rs3_min_pressure_add_p25	3:SulphurDioxide	{"min_pressure": 0.001854}	1731	93	94.90	69.46	29	4	1.6	
+Fumerola Extremus	rs3_excl_star_G	3:SulphurDioxide	{"exclude_star": "G"}	1745	94	94.89	70.02	15	3	0.9	
+Fumerola Extremus	rs0_excl_star_A	0:Ammonia	{"exclude_star": "A"}	1723	93	94.88	69.14	37	4	2.1	
+Fumerola Extremus	rs0_min_temperature_p25	0:Ammonia	{"min_temperature": 174.606613}	1699	92	94.86	68.18	61	5	3.5	
+Fumerola Extremus	rs0_max_temperature_p75	0:Ammonia	{"max_temperature": 176.319977}	1699	92	94.86	68.18	61	5	3.5	
+Fumerola Extremus	rs3_max_pressure_add_p95	3:SulphurDioxide	{"max_pressure": 0.005236}	1754	95	94.86	70.39	6	2	0.3	
+Fumerola Extremus	rs3_excl_star_F	3:SulphurDioxide	{"exclude_star": "F"}	1718	93	94.86	68.94	42	4	2.4	
+Fumerola Extremus	rs3_min_pressure_add_p10	3:SulphurDioxide	{"min_pressure": 0.001458}	1748	95	94.85	70.14	12	2	0.7	
+Fumerola Extremus	rs3_max_pressure_add_p90	3:SulphurDioxide	{"max_pressure": 0.004407}	1748	95	94.85	70.14	12	2	0.7	
+Fumerola Extremus	rs2_min_temperature_p25	2:Methane	{"min_temperature": 88.860703}	1415	77	94.84	56.78	345	20	19.6	
+Fumerola Extremus	rs2_min_pressure_p5	2:Methane	{"min_pressure": 0.014194}	1691	92	94.84	67.86	69	5	3.9	
+Fumerola Extremus	rs0_min_gravity_p15	0:Ammonia	{"min_gravity": 0.042548}	1723	94	94.83	69.14	37	3	2.1	
+Fumerola Extremus	rs0_min_temperature_p15	0:Ammonia	{"min_temperature": 172.368205}	1723	94	94.83	69.14	37	3	2.1	
+Fumerola Extremus	rs2_combined_top2	2:Methane	{"min_pressure": 0.014194, "min_temperature": 88.860703}	1393	76	94.83	55.90	367	21	20.9	
+Fumerola Extremus	rs2_combined_top3	2:Methane	{"min_pressure": 0.014194, "min_temperature": 88.860703}	1393	76	94.83	55.90	367	21	20.9	
+Fumerola Extremus	rs3_min_gravity_p15	3:SulphurDioxide	{"min_gravity": 0.266984}	1743	95	94.83	69.94	17	2	1.0	
+Fumerola Extremus	rs0_excl_star_F	0:Ammonia	{"exclude_star": "F"}	1703	93	94.82	68.34	57	4	3.2	
+Fumerola Extremus	rs2_excl_star_M	2:Methane	{"exclude_star": "M"}	1646	90	94.82	66.05	114	7	6.5	
+Fumerola Extremus	rs0_min_gravity_p10	0:Ammonia	{"min_gravity": 0.042215}	1735	95	94.81	69.62	25	2	1.4	
+Fumerola Extremus	rs0_max_gravity_p75	0:Ammonia	{"max_gravity": 0.046287}	1699	93	94.81	68.18	61	4	3.5	
+Fumerola Extremus	rs0_min_temperature_p10	0:Ammonia	{"min_temperature": 169.093521}	1735	95	94.81	69.62	25	2	1.4	
+Fumerola Extremus	rs2_excl_star_A	2:Methane	{"exclude_star": "A"}	1735	95	94.81	69.62	25	2	1.4	
+Fumerola Extremus	rs3_min_gravity_p20	3:SulphurDioxide	{"min_gravity": 0.267399}	1737	95	94.81	69.70	23	2	1.3	
+Fumerola Extremus	rs3_max_temperature_p95	3:SulphurDioxide	{"max_temperature": 166.77504}	1754	96	94.81	70.39	6	1	0.3	
+Fumerola Extremus	rs3_min_pressure_add_p5	3:SulphurDioxide	{"min_pressure": 0.00136}	1754	96	94.81	70.39	6	1	0.3	
+Fumerola Extremus	rs3_min_gravity_p25	3:SulphurDioxide	{"min_gravity": 0.267773}	1731	95	94.80	69.46	29	2	1.6	
+Fumerola Extremus	rs3_excl_star_A	3:SulphurDioxide	{"exclude_star": "A"}	1751	96	94.80	70.26	9	1	0.5	
+Fumerola Extremus	rs0_min_gravity_p5	0:Ammonia	{"min_gravity": 0.041064}	1747	96	94.79	70.10	13	1	0.7	
+Fumerola Extremus	rs0_max_gravity_p95	0:Ammonia	{"max_gravity": 0.065435}	1747	96	94.79	70.10	13	1	0.7	
+Fumerola Extremus	rs0_min_temperature_p5	0:Ammonia	{"min_temperature": 165.674324}	1747	96	94.79	70.10	13	1	0.7	
+Fumerola Extremus	rs0_min_temperature_p20	0:Ammonia	{"min_temperature": 174.061789}	1711	94	94.79	68.66	49	3	2.8	
+Fumerola Extremus	rs0_max_temperature_p80	0:Ammonia	{"max_temperature": 176.37803}	1711	94	94.79	68.66	49	3	2.8	
+Fumerola Extremus	rs0_max_pressure_p95	0:Ammonia	{"max_pressure": 0.013114}	1747	96	94.79	70.10	13	1	0.7	
+Fumerola Extremus	rs3_min_gravity_p10	3:SulphurDioxide	{"min_gravity": 0.266641}	1748	96	94.79	70.14	12	1	0.7	
+Fumerola Extremus	rs3_excl_star_K	3:SulphurDioxide	{"exclude_star": "K"}	1729	95	94.79	69.38	31	2	1.8	
+Fumerola Extremus	rs3_min_temperature_p15	3:SulphurDioxide	{"min_temperature": 149.543885}	1743	96	94.78	69.94	17	1	1.0	
+Fumerola Extremus	rs0_max_gravity_p85	0:Ammonia	{"max_gravity": 0.050904}	1723	95	94.77	69.14	37	2	2.1	
+Fumerola Extremus	rs0_max_temperature_p85	0:Ammonia	{"max_temperature": 176.45542}	1723	95	94.77	69.14	37	2	2.1	
+Fumerola Extremus	rs0_excl_star_G	0:Ammonia	{"exclude_star": "G"}	1721	95	94.77	69.06	39	2	2.2	
+Fumerola Extremus	rs0_max_gravity_p90	0:Ammonia	{"max_gravity": 0.056534}	1735	96	94.76	69.62	25	1	1.4	
+Fumerola Extremus	rs0_min_pressure_add_p25	0:Ammonia	{"min_pressure": 0.010038}	1699	94	94.76	68.18	61	3	3.5	
+Fumerola Extremus	rs0_max_pressure_p90	0:Ammonia	{"max_pressure": 0.012989}	1735	96	94.76	69.62	25	1	1.4	
+Fumerola Extremus	rs2_min_temperature_p20	2:Methane	{"min_temperature": 87.845016}	1484	82	94.76	59.55	276	15	15.7	
+Fumerola Extremus	rs3_min_gravity_p5	3:SulphurDioxide	{"min_gravity": 0.265898}	1754	97	94.76	70.39	6	0	0.3	
+Fumerola Extremus	rs3_min_temperature_p5	3:SulphurDioxide	{"min_temperature": 148.15782}	1754	97	94.76	70.39	6	0	0.3	
+Fumerola Extremus	rs0_excl_star_M	0:Ammonia	{"exclude_star": "M"}	1733	96	94.75	69.54	27	1	1.5	
+Fumerola Extremus	rs2_excl_star_B	2:Methane	{"exclude_star": "B"}	1750	97	94.75	70.22	10	0	0.6	
+Fumerola Extremus	rs0_max_gravity_p80	0:Ammonia	{"max_gravity": 0.048157}	1711	95	94.74	68.66	49	2	2.8	
+Fumerola Extremus	rs0_max_temperature_p95	0:Ammonia	{"max_temperature": 176.612135}	1747	97	94.74	70.10	13	0	0.7	
+Fumerola Extremus	rs0_min_pressure_add_p5	0:Ammonia	{"min_pressure": 0.002911}	1747	97	94.74	70.10	13	0	0.7	
+Fumerola Extremus	rs0_max_pressure_p80	0:Ammonia	{"max_pressure": 0.012822}	1711	95	94.74	68.66	49	2	2.8	
+Fumerola Extremus	rs3_min_temperature_p10	3:SulphurDioxide	{"min_temperature": 148.809535}	1748	97	94.74	70.14	12	0	0.7	
+Fumerola Extremus	rs2_min_gravity_p5	2:Methane	{"min_gravity": 0.047078}	1691	94	94.73	67.86	69	3	3.9	
+Fumerola Extremus	rs2_max_gravity_p95	2:Methane	{"max_gravity": 0.12024}	1691	94	94.73	67.86	69	3	3.9	
+Fumerola Extremus	rs2_max_pressure_add_p95	2:Methane	{"max_pressure": 0.088899}	1691	94	94.73	67.86	69	3	3.9	
+Fumerola Extremus	rs0_max_pressure_p85	0:Ammonia	{"max_pressure": 0.012924}	1723	96	94.72	69.14	37	1	2.1	
+Fumerola Extremus	rs0_max_temperature_p90	0:Ammonia	{"max_temperature": 176.515296}	1735	97	94.71	69.62	25	0	1.4	
+Fumerola Extremus	rs0_min_pressure_add_p10	0:Ammonia	{"min_pressure": 0.003841}	1735	97	94.71	69.62	25	0	1.4	
+Fumerola Extremus	rs2_excl_star_F	2:Methane	{"exclude_star": "F"}	1683	94	94.71	67.54	77	3	4.4	
+Fumerola Extremus	rs2_excl_star_G	2:Methane	{"exclude_star": "G"}	1611	90	94.71	64.65	149	7	8.5	
+Fumerola Extremus	rs0_max_pressure_p75	0:Ammonia	{"max_pressure": 0.012743}	1699	95	94.70	68.18	61	2	3.5	
+Fumerola Extremus	rs2_min_temperature_p15	2:Methane	{"min_temperature": 86.428741}	1553	87	94.70	62.32	207	10	11.8	
+Fumerola Extremus	rs2_min_gravity_p10	2:Methane	{"min_gravity": 0.049494}	1622	92	94.63	65.09	138	5	7.8	
+Fumerola Extremus	rs2_max_gravity_p90	2:Methane	{"max_gravity": 0.113304}	1622	92	94.63	65.09	138	5	7.8	
+Fumerola Extremus	rs2_min_temperature_p5	2:Methane	{"min_temperature": 82.56192}	1691	96	94.63	67.86	69	1	3.9	
+Fumerola Extremus	rs2_max_temperature_p95	2:Methane	{"max_temperature": 104.452225}	1691	96	94.63	67.86	69	1	3.9	
+Fumerola Extremus	rs2_max_temperature_p90	2:Methane	{"max_temperature": 102.480362}	1622	92	94.63	65.09	138	5	7.8	
+Fumerola Extremus	rs2_min_pressure_p10	2:Methane	{"min_pressure": 0.015349}	1622	92	94.63	65.09	138	5	7.8	
+Fumerola Extremus	rs2_max_pressure_add_p90	2:Methane	{"max_pressure": 0.079351}	1622	92	94.63	65.09	138	5	7.8	
+Fumerola Extremus	rs2_max_gravity_p85	2:Methane	{"max_gravity": 0.106841}	1553	89	94.58	62.32	207	8	11.8	
+Fumerola Extremus	rs2_min_temperature_p10	2:Methane	{"min_temperature": 85.022141}	1622	93	94.58	65.09	138	4	7.8	
+Fumerola Extremus	rs2_min_gravity_p15	2:Methane	{"min_gravity": 0.052215}	1553	90	94.52	62.32	207	7	11.8	
+Fumerola Extremus	rs2_min_gravity_p25	2:Methane	{"min_gravity": 0.058108}	1415	82	94.52	56.78	345	15	19.6	
+Fumerola Extremus	rs2_min_pressure_p15	2:Methane	{"min_pressure": 0.01733}	1553	90	94.52	62.32	207	7	11.8	
+Fumerola Extremus	rs2_min_pressure_p20	2:Methane	{"min_pressure": 0.019684}	1484	86	94.52	59.55	276	11	15.7	
+Fumerola Extremus	rs2_min_pressure_p25	2:Methane	{"min_pressure": 0.021436}	1415	82	94.52	56.78	345	15	19.6	
+Fumerola Extremus	rs2_min_gravity_p20	2:Methane	{"min_gravity": 0.055378}	1484	87	94.46	59.55	276	10	15.7	
+Fumerola Extremus	rs2_max_temperature_p85	2:Methane	{"max_temperature": 101.072502}	1553	91	94.46	62.32	207	6	11.8	
+Fumerola Extremus	rs2_max_temperature_p80	2:Methane	{"max_temperature": 99.410629}	1484	87	94.46	59.55	276	10	15.7	
+Fumerola Extremus	rs2_max_gravity_p80	2:Methane	{"max_gravity": 0.102234}	1484	88	94.40	59.55	276	9	15.7	
+Fumerola Extremus	rs2_max_gravity_p75	2:Methane	{"max_gravity": 0.097658}	1415	84	94.40	56.78	345	13	19.6	
+Fumerola Extremus	rs2_max_temperature_p75	2:Methane	{"max_temperature": 98.250099}	1415	84	94.40	56.78	345	13	19.6	
+Fumerola Extremus	rs2_max_pressure_add_p75	2:Methane	{"max_pressure": 0.059729}	1415	84	94.40	56.78	345	13	19.6	
+Fumerola Extremus	rs2_excl_star_K	2:Methane	{"exclude_star": "K"}	765	55	93.29	30.70	995	42	56.5	
+Recepta Deltahedronix	baseline	all	{}	2014	11157	15.29	74.65	0	0	0.0	Y
+Recepta Deltahedronix	rs0_max_temperature_p75	0:SulphurDioxide	{"max_temperature": 134.440365}	1510	2479	37.85	55.97	504	8678	25.0	Y
+Recepta Deltahedronix	rs0_max_pressure_add_p75	0:SulphurDioxide	{"max_pressure": 0.001347}	1510	2727	35.64	55.97	504	8430	25.0	
+Recepta Deltahedronix	rs0_max_temperature_p80	0:SulphurDioxide	{"max_temperature": 152.454806}	1611	3386	32.24	59.71	403	7771	20.0	Y
+Recepta Deltahedronix	rs0_combined_top2	0:SulphurDioxide	{"max_pressure": 0.019658, "max_temperature": 158.605189}	1711	4081	29.54	63.42	303	7076	15.0	Y
+Recepta Deltahedronix	rs0_combined_top3	0:SulphurDioxide	{"max_pressure": 0.019658, "max_temperature": 158.605189}	1711	4081	29.54	63.42	303	7076	15.0	Y
+Recepta Deltahedronix	rs0_max_temperature_p85	0:SulphurDioxide	{"max_temperature": 158.605189}	1712	4141	29.25	63.45	302	7016	15.0	Y
+Recepta Deltahedronix	rs0_max_pressure_add_p90	0:SulphurDioxide	{"max_pressure": 0.00751}	1812	6624	21.48	67.16	202	4533	10.0	Y
+Recepta Deltahedronix	rs0_max_temperature_p90	0:SulphurDioxide	{"max_temperature": 178.221052}	1812	6928	20.73	67.16	202	4229	10.0	
+Recepta Deltahedronix	rs0_max_pressure_add_p95	0:SulphurDioxide	{"max_pressure": 0.019658}	1913	8505	18.36	70.90	101	2652	5.0	Y
+Recepta Deltahedronix	rs0_min_gravity_p25	0:SulphurDioxide	{"min_gravity": 0.232879}	1510	6943	17.86	55.97	504	4214	25.0	
+Recepta Deltahedronix	rs0_excl_star_M	0:SulphurDioxide	{"exclude_star": "M"}	1753	8193	17.63	64.97	261	2964	13.0	
+Recepta Deltahedronix	rs0_max_temperature_p95	0:SulphurDioxide	{"max_temperature": 206.634075}	1913	9436	16.86	70.90	101	1721	5.0	
+Recepta Deltahedronix	rs0_min_gravity_p20	0:SulphurDioxide	{"min_gravity": 0.224188}	1611	8226	16.38	59.71	403	2931	20.0	
+Recepta Deltahedronix	rs0_excl_star_A	0:SulphurDioxide	{"exclude_star": "A"}	1864	9650	16.19	69.09	150	1507	7.4	
+Recepta Deltahedronix	rs0_excl_star_B	0:SulphurDioxide	{"exclude_star": "B"}	2009	11054	15.38	74.46	5	103	0.2	Y
+Recepta Deltahedronix	rs0_excl_star_L	0:SulphurDioxide	{"exclude_star": "L"}	2002	11063	15.32	74.20	12	94	0.6	
+Recepta Deltahedronix	rs0_excl_star_T	0:SulphurDioxide	{"exclude_star": "T"}	1998	11056	15.31	74.05	16	101	0.8	
+Recepta Deltahedronix	rs0_excl_star_Y	0:SulphurDioxide	{"exclude_star": "Y"}	2011	11134	15.30	74.54	3	23	0.1	Y
+Recepta Deltahedronix	rs0_max_gravity_p95	0:SulphurDioxide	{"max_gravity": 0.272951}	1913	10727	15.13	70.90	101	430	5.0	
+Recepta Deltahedronix	rs0_excl_star_K	0:SulphurDioxide	{"exclude_star": "K"}	1522	8604	15.03	56.41	492	2553	24.4	
+Recepta Deltahedronix	rs0_min_gravity_p5	0:SulphurDioxide	{"min_gravity": 0.05701}	1913	11008	14.81	70.90	101	149	5.0	
+Recepta Deltahedronix	rs0_min_pressure_add_p5	0:SulphurDioxide	{"min_pressure": 0.000997}	1913	11000	14.81	70.90	101	157	5.0	
+Recepta Deltahedronix	rs0_max_gravity_p90	0:SulphurDioxide	{"max_gravity": 0.27123}	1812	10429	14.80	67.16	202	728	10.0	
+Recepta Deltahedronix	rs0_min_temperature_p5	0:SulphurDioxide	{"min_temperature": 132.366801}	1913	11009	14.80	70.90	101	148	5.0	
+Recepta Deltahedronix	rs0_max_gravity_p85	0:SulphurDioxide	{"max_gravity": 0.269085}	1712	10105	14.49	63.45	302	1052	15.0	
+Recepta Deltahedronix	rs0_max_gravity_p80	0:SulphurDioxide	{"max_gravity": 0.265837}	1611	9627	14.34	59.71	403	1530	20.0	
+Recepta Deltahedronix	rs0_min_gravity_p10	0:SulphurDioxide	{"min_gravity": 0.090071}	1812	10834	14.33	67.16	202	323	10.0	
+Recepta Deltahedronix	rs0_min_temperature_p10	0:SulphurDioxide	{"min_temperature": 132.621003}	1812	10836	14.33	67.16	202	321	10.0	
+Recepta Deltahedronix	rs0_min_gravity_p15	0:SulphurDioxide	{"min_gravity": 0.203929}	1712	10241	14.32	63.45	302	916	15.0	
+Recepta Deltahedronix	rs0_min_pressure_add_p10	0:SulphurDioxide	{"min_pressure": 0.001005}	1812	10852	14.31	67.16	202	305	10.0	
+Recepta Deltahedronix	rs0_max_gravity_p75	0:SulphurDioxide	{"max_gravity": 0.26202}	1510	9161	14.15	55.97	504	1996	25.0	
+Recepta Deltahedronix	rs0_excl_star_F	0:SulphurDioxide	{"exclude_star": "F"}	1404	8752	13.82	52.04	610	2405	30.3	
+Recepta Deltahedronix	rs0_excl_star_G	0:SulphurDioxide	{"exclude_star": "G"}	1605	10008	13.82	59.49	409	1149	20.3	
+Recepta Deltahedronix	rs0_min_temperature_p15	0:SulphurDioxide	{"min_temperature": 132.832867}	1712	10686	13.81	63.45	302	471	15.0	
+Recepta Deltahedronix	rs0_min_temperature_p20	0:SulphurDioxide	{"min_temperature": 133.000616}	1611	10526	13.27	59.71	403	631	20.0	
+Recepta Deltahedronix	rs0_min_pressure_add_p25	0:SulphurDioxide	{"min_pressure": 0.001039}	1510	10315	12.77	55.97	504	842	25.0	
+Recepta Deltahedronix	rs0_min_temperature_p25	0:SulphurDioxide	{"min_temperature": 133.168258}	1510	10378	12.70	55.97	504	779	25.0	
+Stratum Cucumisis	baseline	all	{}	10066	8407	54.49	99.85	0	0	0.0	Y
+Stratum Cucumisis	rs3_excl_star_A	3:SulphurDioxide	{"exclude_star": "A"}	9796	5846	62.63	97.17	270	2561	2.7	Y
+Stratum Cucumisis	rs0_min_gravity_p25	0:CarbonDioxide	{"min_gravity": 0.207057}	9246	6154	60.04	91.72	820	2253	8.1	
+Stratum Cucumisis	rs0_min_temperature_p25	0:CarbonDioxide	{"min_temperature": 192.629211}	9246	6259	59.63	91.72	820	2148	8.1	
+Stratum Cucumisis	rs0_max_pressure_add_p75	0:CarbonDioxide	{"max_pressure": 0.081353}	9246	6381	59.17	91.72	820	2026	8.1	
+Stratum Cucumisis	rs0_min_gravity_p20	0:CarbonDioxide	{"min_gravity": 0.203423}	9410	6516	59.09	93.34	656	1891	6.5	
+Stratum Cucumisis	rs0_excl_star_G	0:CarbonDioxide	{"exclude_star": "G"}	10013	7073	58.60	99.33	53	1334	0.5	Y
+Stratum Cucumisis	rs0_min_temperature_p20	0:CarbonDioxide	{"min_temperature": 192.232529}	9410	6768	58.17	93.34	656	1639	6.5	
+Stratum Cucumisis	rs0_min_gravity_p15	0:CarbonDioxide	{"min_gravity": 0.199052}	9574	6956	57.92	94.97	492	1451	4.9	
+Stratum Cucumisis	rs0_min_temperature_p15	0:CarbonDioxide	{"min_temperature": 191.906769}	9574	7181	57.14	94.97	492	1226	4.9	
+Stratum Cucumisis	rs0_min_gravity_p10	0:CarbonDioxide	{"min_gravity": 0.193263}	9738	7443	56.68	96.60	328	964	3.3	
+Stratum Cucumisis	rs0_max_pressure_add_p90	0:CarbonDioxide	{"max_pressure": 0.090934}	9738	7548	56.33	96.60	328	859	3.3	
+Stratum Cucumisis	rs0_min_temperature_p10	0:CarbonDioxide	{"min_temperature": 191.589935}	9738	7600	56.17	96.60	328	807	3.3	
+Stratum Cucumisis	rs0_excl_star_A	0:CarbonDioxide	{"exclude_star": "A"}	9975	7904	55.79	98.95	91	503	0.9	
+Stratum Cucumisis	rs0_min_gravity_p5	0:CarbonDioxide	{"min_gravity": 0.185969}	9902	7872	55.71	98.22	164	535	1.6	
+Stratum Cucumisis	rs3_excl_star_B	3:SulphurDioxide	{"exclude_star": "B"}	10036	8025	55.57	99.55	30	382	0.3	Y
+Stratum Cucumisis	rs0_max_pressure_add_p95	0:CarbonDioxide	{"max_pressure": 0.094893}	9902	8014	55.27	98.22	164	393	1.6	
+Stratum Cucumisis	rs0_excl_star_K	0:CarbonDioxide	{"exclude_star": "K"}	9037	7324	55.24	89.64	1029	1083	10.2	
+Stratum Cucumisis	rs0_min_temperature_p5	0:CarbonDioxide	{"min_temperature": 191.263412}	9902	8038	55.20	98.22	164	369	1.6	
+Stratum Cucumisis	rs3_combined_top2	3:SulphurDioxide	{"max_temperature": 337.096069, "max_gravity": 0.437345}	9284	7674	54.75	92.09	782	733	7.8	
+Stratum Cucumisis	rs3_combined_top3	3:SulphurDioxide	{"max_temperature": 337.096069, "max_gravity": 0.437345}	9284	7674	54.75	92.09	782	733	7.8	
+Stratum Cucumisis	rs3_max_gravity_p90	3:SulphurDioxide	{"max_gravity": 0.437345}	9399	7782	54.71	93.23	667	625	6.6	
+Stratum Cucumisis	rs3_max_temperature_p95	3:SulphurDioxide	{"max_temperature": 337.096069}	9732	8070	54.67	96.54	334	337	3.3	
+Stratum Cucumisis	rs3_max_temperature_p90	3:SulphurDioxide	{"max_temperature": 314.322982}	9399	7796	54.66	93.23	667	611	6.6	
+Stratum Cucumisis	rs3_max_gravity_p95	3:SulphurDioxide	{"max_gravity": 0.457316}	9732	8095	54.59	96.54	334	312	3.3	
+Stratum Cucumisis	rs3_max_temperature_p85	3:SulphurDioxide	{"max_temperature": 296.261948}	9066	7545	54.58	89.93	1000	862	9.9	
+Stratum Cucumisis	rs0_excl_star_M	0:CarbonDioxide	{"exclude_star": "M"}	9945	8284	54.56	98.65	121	123	1.2	
+Stratum Cucumisis	rs0_excl_star_B	0:CarbonDioxide	{"exclude_star": "B"}	10061	8393	54.52	99.80	5	14	0.0	Y
+Stratum Cucumisis	rs3_excl_star_Y	3:SulphurDioxide	{"exclude_star": "Y"}	10059	8392	54.52	99.78	7	15	0.1	
+Stratum Cucumisis	rs0_excl_star_Y	0:CarbonDioxide	{"exclude_star": "Y"}	10064	8398	54.51	99.83	2	9	0.0	Y
+Stratum Cucumisis	rs3_max_gravity_p85	3:SulphurDioxide	{"max_gravity": 0.42449}	9066	7567	54.51	89.93	1000	840	9.9	
+Stratum Cucumisis	rs0_excl_star_L	0:CarbonDioxide	{"exclude_star": "L"}	10061	8401	54.50	99.80	5	6	0.0	
+Stratum Cucumisis	rs0_excl_star_T	0:CarbonDioxide	{"exclude_star": "T"}	10050	8389	54.50	99.69	16	18	0.2	
+Stratum Cucumisis	rs0_excl_star_F	0:CarbonDioxide	{"exclude_star": "F"}	8190	6839	54.49	81.24	1876	1568	18.6	
+Stratum Cucumisis	rs2_min_gravity_p5	2:Oxygen	{"min_gravity": 0.405772}	10064	8407	54.49	99.83	2	0	0.0	
+Stratum Cucumisis	rs2_max_gravity_p95	2:Oxygen	{"max_gravity": 0.456181}	10064	8406	54.49	99.83	2	1	0.0	
+Stratum Cucumisis	rs2_max_gravity_p90	2:Oxygen	{"max_gravity": 0.452118}	10062	8404	54.49	99.81	4	3	0.0	
+Stratum Cucumisis	rs2_max_gravity_p85	2:Oxygen	{"max_gravity": 0.450973}	10061	8404	54.49	99.80	5	3	0.0	
+Stratum Cucumisis	rs2_min_temperature_p5	2:Oxygen	{"min_temperature": 201.162756}	10064	8407	54.49	99.83	2	0	0.0	
+Stratum Cucumisis	rs2_max_temperature_p95	2:Oxygen	{"max_temperature": 242.341089}	10064	8407	54.49	99.83	2	0	0.0	
+Stratum Cucumisis	rs2_max_temperature_p90	2:Oxygen	{"max_temperature": 240.057993}	10062	8405	54.49	99.81	4	2	0.0	
+Stratum Cucumisis	rs2_min_pressure_p5	2:Oxygen	{"min_pressure": 0.030094}	10064	8406	54.49	99.83	2	1	0.0	
+Stratum Cucumisis	rs2_max_pressure_add_p95	2:Oxygen	{"max_pressure": 0.094851}	10064	8407	54.49	99.83	2	0	0.0	
+Stratum Cucumisis	rs1_min_gravity_p5	1:CarbonDioxideRich	{"min_gravity": 0.451199}	10061	8405	54.48	99.80	5	2	0.0	
+Stratum Cucumisis	rs1_max_gravity_p95	1:CarbonDioxideRich	{"max_gravity": 0.537662}	10061	8407	54.48	99.80	5	0	0.0	
+Stratum Cucumisis	rs1_min_temperature_p5	1:CarbonDioxideRich	{"min_temperature": 219.342011}	10061	8407	54.48	99.80	5	0	0.0	
+Stratum Cucumisis	rs1_max_temperature_p95	1:CarbonDioxideRich	{"max_temperature": 243.561467}	10061	8405	54.48	99.80	5	2	0.0	
+Stratum Cucumisis	rs1_max_temperature_p90	1:CarbonDioxideRich	{"max_temperature": 242.181802}	10057	8404	54.48	99.76	9	3	0.1	
+Stratum Cucumisis	rs1_max_temperature_p85	1:CarbonDioxideRich	{"max_temperature": 240.785016}	10053	8401	54.48	99.72	13	6	0.1	
+Stratum Cucumisis	rs1_min_pressure_p5	1:CarbonDioxideRich	{"min_pressure": 0.032724}	10061	8405	54.48	99.80	5	2	0.0	
+Stratum Cucumisis	rs1_max_pressure_add_p95	1:CarbonDioxideRich	{"max_pressure": 0.091692}	10061	8407	54.48	99.80	5	0	0.0	
+Stratum Cucumisis	rs1_excl_star_K	1:CarbonDioxideRich	{"exclude_star": "K"}	10055	8403	54.48	99.74	11	4	0.1	
+Stratum Cucumisis	rs2_min_gravity_p10	2:Oxygen	{"min_gravity": 0.406931}	10062	8407	54.48	99.81	4	0	0.0	
+Stratum Cucumisis	rs2_min_gravity_p15	2:Oxygen	{"min_gravity": 0.409873}	10061	8407	54.48	99.80	5	0	0.0	
+Stratum Cucumisis	rs2_max_gravity_p80	2:Oxygen	{"max_gravity": 0.447416}	10059	8404	54.48	99.78	7	3	0.1	
+Stratum Cucumisis	rs2_max_gravity_p75	2:Oxygen	{"max_gravity": 0.446178}	10058	8404	54.48	99.77	8	3	0.1	
+Stratum Cucumisis	rs2_min_temperature_p10	2:Oxygen	{"min_temperature": 206.836527}	10062	8407	54.48	99.81	4	0	0.0	
+Stratum Cucumisis	rs2_min_temperature_p15	2:Oxygen	{"min_temperature": 209.085939}	10061	8407	54.48	99.80	5	0	0.0	
+Stratum Cucumisis	rs2_max_temperature_p85	2:Oxygen	{"max_temperature": 239.804805}	10061	8405	54.48	99.80	5	2	0.0	
+Stratum Cucumisis	rs2_max_temperature_p80	2:Oxygen	{"max_temperature": 237.901044}	10059	8404	54.48	99.78	7	3	0.1	
+Stratum Cucumisis	rs2_max_temperature_p75	2:Oxygen	{"max_temperature": 235.532376}	10058	8404	54.48	99.77	8	3	0.1	
+Stratum Cucumisis	rs2_min_pressure_p10	2:Oxygen	{"min_pressure": 0.034248}	10062	8406	54.48	99.81	4	1	0.0	
+Stratum Cucumisis	rs2_min_pressure_p15	2:Oxygen	{"min_pressure": 0.03997}	10061	8405	54.48	99.80	5	2	0.0	
+Stratum Cucumisis	rs2_min_pressure_p20	2:Oxygen	{"min_pressure": 0.040666}	10059	8405	54.48	99.78	7	2	0.1	
+Stratum Cucumisis	rs2_min_pressure_p25	2:Oxygen	{"min_pressure": 0.045105}	10058	8405	54.48	99.77	8	2	0.1	
+Stratum Cucumisis	rs2_max_pressure_add_p90	2:Oxygen	{"max_pressure": 0.094236}	10062	8407	54.48	99.81	4	0	0.0	
+Stratum Cucumisis	rs3_max_temperature_p80	3:SulphurDioxide	{"max_temperature": 281.128632}	8733	7297	54.48	86.63	1333	1110	13.2	
+Stratum Cucumisis	rs1_min_gravity_p10	1:CarbonDioxideRich	{"min_gravity": 0.454302}	10057	8405	54.47	99.76	9	2	0.1	
+Stratum Cucumisis	rs1_max_gravity_p90	1:CarbonDioxideRich	{"max_gravity": 0.529618}	10057	8407	54.47	99.76	9	0	0.1	
+Stratum Cucumisis	rs1_min_temperature_p10	1:CarbonDioxideRich	{"min_temperature": 220.34433}	10057	8407	54.47	99.76	9	0	0.1	
+Stratum Cucumisis	rs1_min_pressure_p10	1:CarbonDioxideRich	{"min_pressure": 0.035262}	10057	8405	54.47	99.76	9	2	0.1	
+Stratum Cucumisis	rs1_max_pressure_add_p90	1:CarbonDioxideRich	{"max_pressure": 0.086414}	10057	8407	54.47	99.76	9	0	0.1	
+Stratum Cucumisis	rs1_combined_top2	1:CarbonDioxideRich	{"max_temperature": 240.785016, "min_gravity": 0.451199}	10048	8399	54.47	99.67	18	8	0.2	
+Stratum Cucumisis	rs1_combined_top3	1:CarbonDioxideRich	{"max_temperature": 240.785016, "min_gravity": 0.451199}	10048	8399	54.47	99.67	18	8	0.2	
+Stratum Cucumisis	rs2_min_gravity_p20	2:Oxygen	{"min_gravity": 0.410779}	10059	8407	54.47	99.78	7	0	0.1	
+Stratum Cucumisis	rs2_min_gravity_p25	2:Oxygen	{"min_gravity": 0.412315}	10058	8407	54.47	99.77	8	0	0.1	
+Stratum Cucumisis	rs2_min_temperature_p20	2:Oxygen	{"min_temperature": 211.211829}	10059	8407	54.47	99.78	7	0	0.1	
+Stratum Cucumisis	rs2_min_temperature_p25	2:Oxygen	{"min_temperature": 213.071434}	10058	8407	54.47	99.77	8	0	0.1	
+Stratum Cucumisis	rs2_max_pressure_add_p75	2:Oxygen	{"max_pressure": 0.084921}	10058	8406	54.47	99.77	8	1	0.1	
+Stratum Cucumisis	rs1_min_gravity_p15	1:CarbonDioxideRich	{"min_gravity": 0.456316}	10053	8405	54.46	99.72	13	2	0.1	
+Stratum Cucumisis	rs1_max_gravity_p85	1:CarbonDioxideRich	{"max_gravity": 0.525826}	10053	8407	54.46	99.72	13	0	0.1	
+Stratum Cucumisis	rs1_min_temperature_p15	1:CarbonDioxideRich	{"min_temperature": 222.178422}	10053	8407	54.46	99.72	13	0	0.1	
+Stratum Cucumisis	rs1_max_temperature_p80	1:CarbonDioxideRich	{"max_temperature": 240.121765}	10048	8401	54.46	99.67	18	6	0.2	
+Stratum Cucumisis	rs1_max_temperature_p75	1:CarbonDioxideRich	{"max_temperature": 238.18901}	10044	8398	54.46	99.63	22	9	0.2	
+Stratum Cucumisis	rs1_min_pressure_p15	1:CarbonDioxideRich	{"min_pressure": 0.036886}	10053	8405	54.46	99.72	13	2	0.1	
+Stratum Cucumisis	rs3_excl_star_L	3:SulphurDioxide	{"exclude_star": "L"}	10042	8396	54.46	99.61	24	11	0.2	
+Stratum Cucumisis	rs1_min_gravity_p20	1:CarbonDioxideRich	{"min_gravity": 0.458487}	10048	8405	54.45	99.67	18	2	0.2	
+Stratum Cucumisis	rs1_max_gravity_p80	1:CarbonDioxideRich	{"max_gravity": 0.521038}	10048	8406	54.45	99.67	18	1	0.2	
+Stratum Cucumisis	rs1_min_temperature_p20	1:CarbonDioxideRich	{"min_temperature": 223.310056}	10048	8405	54.45	99.67	18	2	0.2	
+Stratum Cucumisis	rs1_min_pressure_p20	1:CarbonDioxideRich	{"min_pressure": 0.040221}	10048	8404	54.45	99.67	18	3	0.2	
+Stratum Cucumisis	rs1_min_pressure_p25	1:CarbonDioxideRich	{"min_pressure": 0.045277}	10044	8403	54.45	99.63	22	4	0.2	
+Stratum Cucumisis	rs1_max_pressure_add_p75	1:CarbonDioxideRich	{"max_pressure": 0.074171}	10044	8402	54.45	99.63	22	5	0.2	
+Stratum Cucumisis	rs2_excl_star_F	2:Oxygen	{"exclude_star": "F"}	10045	8404	54.45	99.64	21	3	0.2	
+Stratum Cucumisis	rs1_min_gravity_p25	1:CarbonDioxideRich	{"min_gravity": 0.460946}	10044	8405	54.44	99.63	22	2	0.2	
+Stratum Cucumisis	rs1_max_gravity_p75	1:CarbonDioxideRich	{"max_gravity": 0.512921}	10044	8405	54.44	99.63	22	2	0.2	
+Stratum Cucumisis	rs1_min_temperature_p25	1:CarbonDioxideRich	{"min_temperature": 224.631263}	10044	8404	54.44	99.63	22	3	0.2	
+Stratum Cucumisis	rs1_excl_star_F	1:CarbonDioxideRich	{"exclude_star": "F"}	10005	8396	54.37	99.25	61	11	0.6	
+Stratum Cucumisis	rs3_max_temperature_p75	3:SulphurDioxide	{"max_temperature": 262.777763}	8399	7050	54.37	83.32	1667	1357	16.6	
+Stratum Cucumisis	rs3_excl_star_T	3:SulphurDioxide	{"exclude_star": "T"}	10011	8402	54.37	99.31	55	5	0.5	
+Stratum Cucumisis	rs0_max_temperature_p95	0:CarbonDioxide	{"max_temperature": 305.069977}	9902	8358	54.23	98.22	164	49	1.6	
+Stratum Cucumisis	rs3_max_gravity_p80	3:SulphurDioxide	{"max_gravity": 0.415063}	8733	7373	54.22	86.63	1333	1034	13.2	
+Stratum Cucumisis	rs0_min_pressure_add_p5	0:CarbonDioxide	{"min_pressure": 0.006879}	9902	8363	54.21	98.22	164	44	1.6	
+Stratum Cucumisis	rs3_excl_star_M	3:SulphurDioxide	{"exclude_star": "M"}	9884	8354	54.19	98.05	182	53	1.8	
+Stratum Cucumisis	rs0_max_gravity_p95	0:CarbonDioxide	{"max_gravity": 0.50654}	9902	8379	54.17	98.22	164	28	1.6	
+Stratum Cucumisis	rs3_excl_star_G	3:SulphurDioxide	{"exclude_star": "G"}	9926	8404	54.15	98.46	140	3	1.4	
+Stratum Cucumisis	rs3_min_pressure_add_p5	3:SulphurDioxide	{"min_pressure": 0.001273}	9732	8251	54.12	96.54	334	156	3.3	
+Stratum Cucumisis	rs3_max_pressure_add_p95	3:SulphurDioxide	{"max_pressure": 0.027191}	9732	8268	54.07	96.54	334	139	3.3	
+Stratum Cucumisis	rs3_min_gravity_p5	3:SulphurDioxide	{"min_gravity": 0.323489}	9732	8298	53.98	96.54	334	109	3.3	
+Stratum Cucumisis	rs3_min_temperature_p5	3:SulphurDioxide	{"min_temperature": 193.767513}	9732	8304	53.96	96.54	334	103	3.3	
+Stratum Cucumisis	rs3_max_gravity_p75	3:SulphurDioxide	{"max_gravity": 0.407572}	8399	7171	53.94	83.32	1667	1236	16.6	
+Stratum Cucumisis	rs0_max_temperature_p90	0:CarbonDioxide	{"max_temperature": 256.137726}	9738	8318	53.93	96.60	328	89	3.3	
+Stratum Cucumisis	rs0_min_pressure_add_p10	0:CarbonDioxide	{"min_pressure": 0.007879}	9738	8326	53.91	96.60	328	81	3.3	
+Stratum Cucumisis	rs0_max_gravity_p90	0:CarbonDioxide	{"max_gravity": 0.480555}	9738	8338	53.87	96.60	328	69	3.3	
+Stratum Cucumisis	rs3_max_pressure_add_p90	3:SulphurDioxide	{"max_pressure": 0.007013}	9399	8118	53.66	93.23	667	289	6.6	
+Stratum Cucumisis	rs3_min_pressure_add_p10	3:SulphurDioxide	{"min_pressure": 0.001541}	9399	8128	53.63	93.23	667	279	6.6	
+Stratum Cucumisis	rs0_max_gravity_p85	0:CarbonDioxide	{"max_gravity": 0.460206}	9574	8281	53.62	94.97	492	126	4.9	
+Stratum Cucumisis	rs0_max_temperature_p85	0:CarbonDioxide	{"max_temperature": 244.426666}	9574	8291	53.59	94.97	492	116	4.9	
+Stratum Cucumisis	rs3_min_gravity_p10	3:SulphurDioxide	{"min_gravity": 0.331866}	9399	8172	53.49	93.23	667	235	6.6	
+Stratum Cucumisis	rs3_min_temperature_p10	3:SulphurDioxide	{"min_temperature": 196.907578}	9399	8201	53.40	93.23	667	206	6.6	
+Stratum Cucumisis	rs3_max_pressure_add_p75	3:SulphurDioxide	{"max_pressure": 0.003227}	8399	7356	53.31	83.32	1667	1051	16.6	
+Stratum Cucumisis	rs0_max_gravity_p80	0:CarbonDioxide	{"max_gravity": 0.43607}	9410	8253	53.28	93.34	656	154	6.5	
+Stratum Cucumisis	rs0_max_temperature_p80	0:CarbonDioxide	{"max_temperature": 236.262268}	9410	8250	53.28	93.34	656	157	6.5	
+Stratum Cucumisis	rs3_min_gravity_p15	3:SulphurDioxide	{"min_gravity": 0.338032}	9066	8034	53.02	89.93	1000	373	9.9	
+Stratum Cucumisis	rs0_min_pressure_add_p25	0:CarbonDioxide	{"min_pressure": 0.01627}	9246	8210	52.97	91.72	820	197	8.1	
+Stratum Cucumisis	rs0_max_temperature_p75	0:CarbonDioxide	{"max_temperature": 229.432709}	9246	8220	52.94	91.72	820	187	8.1	
+Stratum Cucumisis	rs0_max_gravity_p75	0:CarbonDioxide	{"max_gravity": 0.425473}	9246	8230	52.91	91.72	820	177	8.1	
+Stratum Cucumisis	rs3_min_temperature_p15	3:SulphurDioxide	{"min_temperature": 199.803097}	9066	8088	52.85	89.93	1000	319	9.9	
+Stratum Cucumisis	rs3_min_gravity_p20	3:SulphurDioxide	{"min_gravity": 0.344174}	8733	7888	52.54	86.63	1333	519	13.2	
+Stratum Cucumisis	rs3_min_temperature_p20	3:SulphurDioxide	{"min_temperature": 203.084503}	8733	7942	52.37	86.63	1333	465	13.2	
+Stratum Cucumisis	rs3_min_pressure_add_p25	3:SulphurDioxide	{"min_pressure": 0.002107}	8399	7647	52.34	83.32	1667	760	16.6	
+Stratum Cucumisis	rs3_min_gravity_p25	3:SulphurDioxide	{"min_gravity": 0.349256}	8399	7759	51.98	83.32	1667	648	16.6	
+Stratum Cucumisis	rs3_min_temperature_p25	3:SulphurDioxide	{"min_temperature": 206.348057}	8399	7811	51.81	83.32	1667	596	16.6	
+Stratum Cucumisis	rs3_excl_star_K	3:SulphurDioxide	{"exclude_star": "K"}	8683	8390	50.86	86.13	1383	17	13.7	
+Stratum Cucumisis	rs3_excl_star_F	3:SulphurDioxide	{"exclude_star": "F"}	5705	8387	40.48	56.59	4361	20	43.3	
+Clypeus Speculumi	baseline	all	{}	5903	18712	23.98	89.56	0	0	0.0	
+Clypeus Speculumi	rs1_excl_star_F	1:Water	{"exclude_star": "F"}	5885	15646	27.33	89.29	18	3066	0.3	Y
+Clypeus Speculumi	rs1_excl_star_A	1:Water	{"exclude_star": "A"}	5831	15911	26.82	88.47	72	2801	1.2	
+Clypeus Speculumi	rs0_excl_star_K	0:CarbonDioxide	{"exclude_star": "K"}	5641	15573	26.59	85.59	262	3139	4.4	
+Clypeus Speculumi	rs1_max_gravity_p75	1:Water	{"max_gravity": 0.051299}	5518	15944	25.71	83.72	385	2768	6.5	
+Clypeus Speculumi	rs1_max_pressure_add_p75	1:Water	{"max_pressure": 0.090438}	5518	16159	25.46	83.72	385	2553	6.5	
+Clypeus Speculumi	rs1_min_temperature_add_p25	1:Water	{"min_temperature": 416.328422}	5518	16204	25.40	83.72	385	2508	6.5	
+Clypeus Speculumi	rs1_max_gravity_p80	1:Water	{"max_gravity": 0.051763}	5595	16442	25.39	84.89	308	2270	5.2	
+Clypeus Speculumi	rs1_max_temperature_add_p75	1:Water	{"max_temperature": 434.58165}	5518	16403	25.17	83.72	385	2309	6.5	
+Clypeus Speculumi	rs1_max_gravity_p85	1:Water	{"max_gravity": 0.052158}	5672	16884	25.15	86.06	231	1828	3.9	
+Clypeus Speculumi	rs1_excl_star_G	1:Water	{"exclude_star": "G"}	5885	17573	25.09	89.29	18	1139	0.3	
+Clypeus Speculumi	rs1_min_pressure_add_p25	1:Water	{"min_pressure": 0.075081}	5518	16565	24.99	83.72	385	2147	6.5	
+Clypeus Speculumi	rs1_max_gravity_p90	1:Water	{"max_gravity": 0.052645}	5749	17425	24.81	87.23	154	1287	2.6	
+Clypeus Speculumi	rs1_min_gravity_p25	1:Water	{"min_gravity": 0.046719}	5518	16766	24.76	83.72	385	1946	6.5	
+Clypeus Speculumi	rs1_excl_star_K	1:Water	{"exclude_star": "K"}	5880	17988	24.64	89.21	23	724	0.4	
+Clypeus Speculumi	rs1_min_gravity_p20	1:Water	{"min_gravity": 0.046276}	5595	17136	24.61	84.89	308	1576	5.2	
+Clypeus Speculumi	rs1_min_temperature_add_p10	1:Water	{"min_temperature": 410.208511}	5749	17679	24.54	87.23	154	1033	2.6	
+Clypeus Speculumi	rs1_max_pressure_add_p90	1:Water	{"max_pressure": 0.095254}	5749	17676	24.54	87.23	154	1036	2.6	
+Clypeus Speculumi	rs1_max_gravity_p95	1:Water	{"max_gravity": 0.05314}	5826	17926	24.53	88.39	77	786	1.3	
+Clypeus Speculumi	rs1_max_temperature_add_p90	1:Water	{"max_temperature": 440.839496}	5749	17685	24.53	87.23	154	1027	2.6	
+Clypeus Speculumi	rs1_min_gravity_p15	1:Water	{"min_gravity": 0.045654}	5672	17616	24.36	86.06	231	1096	3.9	
+Clypeus Speculumi	rs0_excl_star_M	0:CarbonDioxide	{"exclude_star": "M"}	5894	18321	24.34	89.42	9	391	0.2	Y
+Clypeus Speculumi	rs1_max_temperature_add_p95	1:Water	{"max_temperature": 443.829686}	5826	18142	24.31	88.39	77	570	1.3	
+Clypeus Speculumi	rs1_min_pressure_add_p10	1:Water	{"min_pressure": 0.070005}	5749	17918	24.29	87.23	154	794	2.6	
+Clypeus Speculumi	rs1_max_pressure_add_p95	1:Water	{"max_pressure": 0.097007}	5826	18198	24.25	88.39	77	514	1.3	
+Clypeus Speculumi	rs1_min_gravity_p10	1:Water	{"min_gravity": 0.045098}	5749	17990	24.22	87.23	154	722	2.6	
+Clypeus Speculumi	rs1_min_temperature_add_p5	1:Water	{"min_temperature": 406.91498}	5826	18246	24.20	88.39	77	466	1.3	
+Clypeus Speculumi	rs1_min_gravity_p5	1:Water	{"min_gravity": 0.043994}	5826	18351	24.10	88.39	77	361	1.3	
+Clypeus Speculumi	rs1_min_pressure_add_p5	1:Water	{"min_pressure": 0.066478}	5826	18355	24.09	88.39	77	357	1.3	
+Clypeus Speculumi	rs2_excl_star_A	2:Water	{"exclude_star": "A"}	5901	18671	24.02	89.53	2	41	0.0	Y
+Clypeus Speculumi	rs2_max_gravity_p80	2:Water	{"max_gravity": 0.050671}	5901	18680	24.01	89.53	2	32	0.0	
+Clypeus Speculumi	rs2_max_gravity_p75	2:Water	{"max_gravity": 0.050394}	5901	18676	24.01	89.53	2	36	0.0	
+Clypeus Speculumi	rs2_excl_star_F	2:Water	{"exclude_star": "F"}	5903	18685	24.01	89.56	0	27	0.0	Y
+Clypeus Speculumi	rs2_combined_top3	2:Water	{"max_gravity": 0.051117, "min_gravity": 0.045864}	5901	18672	24.01	89.53	2	40	0.0	
+Clypeus Speculumi	rs0_excl_star_T	0:CarbonDioxide	{"exclude_star": "T"}	5903	18692	24.00	89.56	0	20	0.0	
+Clypeus Speculumi	rs2_min_gravity_p25	2:Water	{"min_gravity": 0.046846}	5901	18691	24.00	89.53	2	21	0.0	
+Clypeus Speculumi	rs2_max_gravity_p90	2:Water	{"max_gravity": 0.051901}	5902	18692	24.00	89.55	1	20	0.0	
+Clypeus Speculumi	rs2_max_gravity_p85	2:Water	{"max_gravity": 0.051117}	5902	18688	24.00	89.55	1	24	0.0	
+Clypeus Speculumi	rs0_excl_star_L	0:CarbonDioxide	{"exclude_star": "L"}	5902	18700	23.99	89.55	1	12	0.0	
+Clypeus Speculumi	rs2_min_gravity_p5	2:Water	{"min_gravity": 0.044798}	5902	18704	23.99	89.55	1	8	0.0	
+Clypeus Speculumi	rs2_min_gravity_p10	2:Water	{"min_gravity": 0.045331}	5902	18702	23.99	89.55	1	10	0.0	
+Clypeus Speculumi	rs2_min_gravity_p15	2:Water	{"min_gravity": 0.045864}	5902	18696	23.99	89.55	1	16	0.0	
+Clypeus Speculumi	rs2_min_gravity_p20	2:Water	{"min_gravity": 0.046364}	5901	18693	23.99	89.53	2	19	0.0	
+Clypeus Speculumi	rs2_max_gravity_p95	2:Water	{"max_gravity": 0.052685}	5902	18699	23.99	89.55	1	13	0.0	
+Clypeus Speculumi	rs0_excl_star_Y	0:CarbonDioxide	{"exclude_star": "Y"}	5896	18687	23.98	89.46	7	25	0.1	
+Clypeus Speculumi	rs1_excl_star_L	1:Water	{"exclude_star": "L"}	5899	18697	23.98	89.50	4	15	0.1	
+Clypeus Speculumi	rs2_excl_star_B	2:Water	{"exclude_star": "B"}	5900	18705	23.98	89.52	3	7	0.1	
+Clypeus Speculumi	rs0_excl_star_B	0:CarbonDioxide	{"exclude_star": "B"}	5894	18705	23.96	89.42	9	7	0.2	
+Clypeus Speculumi	rs1_excl_star_Y	1:Water	{"exclude_star": "Y"}	5883	18685	23.95	89.26	20	27	0.3	
+Clypeus Speculumi	rs0_max_gravity_p95	0:CarbonDioxide	{"max_gravity": 0.228436}	5685	18143	23.86	86.25	218	569	3.7	
+Clypeus Speculumi	rs0_max_temperature_p95	0:CarbonDioxide	{"max_temperature": 194.8838}	5685	18165	23.84	86.25	218	547	3.7	
+Clypeus Speculumi	rs1_excl_star_M	1:Water	{"exclude_star": "M"}	5781	18489	23.82	87.71	122	223	2.1	
+Clypeus Speculumi	rs0_excl_star_G	0:CarbonDioxide	{"exclude_star": "G"}	5186	16614	23.79	78.68	717	2098	12.1	
+Clypeus Speculumi	rs0_min_gravity_p5	0:CarbonDioxide	{"min_gravity": 0.086285}	5685	18234	23.77	86.25	218	478	3.7	
+Clypeus Speculumi	rs0_max_pressure_add_p95	0:CarbonDioxide	{"max_pressure": 0.096223}	5685	18239	23.76	86.25	218	473	3.7	
+Clypeus Speculumi	rs0_min_pressure_p5	0:CarbonDioxide	{"min_pressure": 0.060472}	5685	18343	23.66	86.25	218	369	3.7	
+Clypeus Speculumi	rs0_min_temperature_p5	0:CarbonDioxide	{"min_temperature": 190.183292}	5685	18351	23.65	86.25	218	361	3.7	
+Clypeus Speculumi	rs0_max_temperature_p90	0:CarbonDioxide	{"max_temperature": 194.484017}	5467	17715	23.58	82.95	436	997	7.4	
+Clypeus Speculumi	rs0_max_gravity_p90	0:CarbonDioxide	{"max_gravity": 0.225422}	5467	17726	23.57	82.95	436	986	7.4	
+Clypeus Speculumi	rs0_max_temperature_p85	0:CarbonDioxide	{"max_temperature": 194.013709}	5249	17093	23.49	79.64	654	1619	11.1	
+Clypeus Speculumi	rs0_max_pressure_add_p90	0:CarbonDioxide	{"max_pressure": 0.09411}	5467	17838	23.46	82.95	436	874	7.4	
+Clypeus Speculumi	rs0_min_gravity_p10	0:CarbonDioxide	{"min_gravity": 0.179595}	5467	17854	23.44	82.95	436	858	7.4	
+Clypeus Speculumi	rs0_min_pressure_p10	0:CarbonDioxide	{"min_pressure": 0.063293}	5467	17919	23.38	82.95	436	793	7.4	
+Clypeus Speculumi	rs0_max_temperature_p80	0:CarbonDioxide	{"max_temperature": 193.645831}	5031	16496	23.37	76.33	872	2216	14.8	
+Clypeus Speculumi	rs0_min_temperature_p10	0:CarbonDioxide	{"min_temperature": 190.378998}	5467	17971	23.33	82.95	436	741	7.4	
+Clypeus Speculumi	rs0_max_gravity_p85	0:CarbonDioxide	{"max_gravity": 0.222516}	5249	17276	23.30	79.64	654	1436	11.1	
+Clypeus Speculumi	rs0_combined_top2	0:CarbonDioxide	{"max_gravity": 0.228436, "max_temperature": 193.645831}	4876	16120	23.22	73.98	1027	2592	17.4	
+Clypeus Speculumi	rs0_combined_top3	0:CarbonDioxide	{"max_gravity": 0.228436, "max_temperature": 193.645831}	4876	16120	23.22	73.98	1027	2592	17.4	
+Clypeus Speculumi	rs0_max_temperature_p75	0:CarbonDioxide	{"max_temperature": 193.317886}	4813	16023	23.10	73.02	1090	2689	18.5	
+Clypeus Speculumi	rs0_max_gravity_p80	0:CarbonDioxide	{"max_gravity": 0.219426}	5031	16766	23.08	76.33	872	1946	14.8	
+Clypeus Speculumi	rs0_min_gravity_p15	0:CarbonDioxide	{"min_gravity": 0.184481}	5249	17519	23.05	79.64	654	1193	11.1	
+Clypeus Speculumi	rs0_min_pressure_p15	0:CarbonDioxide	{"min_pressure": 0.065378}	5249	17535	23.04	79.64	654	1177	11.1	
+Clypeus Speculumi	rs0_min_temperature_p15	0:CarbonDioxide	{"min_temperature": 190.584523}	5249	17614	22.96	79.64	654	1098	11.1	
+Clypeus Speculumi	rs0_max_gravity_p75	0:CarbonDioxide	{"max_gravity": 0.216506}	4813	16276	22.82	73.02	1090	2436	18.5	
+Clypeus Speculumi	rs0_max_pressure_add_p75	0:CarbonDioxide	{"max_pressure": 0.08703}	4813	16358	22.73	73.02	1090	2354	18.5	
+Clypeus Speculumi	rs0_min_gravity_p20	0:CarbonDioxide	{"min_gravity": 0.187996}	5031	17115	22.72	76.33	872	1597	14.8	
+Clypeus Speculumi	rs0_min_pressure_p20	0:CarbonDioxide	{"min_pressure": 0.067218}	5031	17172	22.66	76.33	872	1540	14.8	
+Clypeus Speculumi	rs0_min_temperature_p20	0:CarbonDioxide	{"min_temperature": 190.783548}	5031	17230	22.60	76.33	872	1482	14.8	
+Clypeus Speculumi	rs0_min_gravity_p25	0:CarbonDioxide	{"min_gravity": 0.190927}	4813	16761	22.31	73.02	1090	1951	18.5	
+Clypeus Speculumi	rs0_min_pressure_p25	0:CarbonDioxide	{"min_pressure": 0.069005}	4813	16768	22.30	73.02	1090	1944	18.5	
+Clypeus Speculumi	rs0_min_temperature_p25	0:CarbonDioxide	{"min_temperature": 190.978699}	4813	16878	22.19	73.02	1090	1834	18.5	
+Clypeus Speculumi	rs0_excl_star_A	0:CarbonDioxide	{"exclude_star": "A"}	5082	18244	21.79	77.11	821	468	13.9	
+Clypeus Speculumi	rs1_excl_star_B	1:Water	{"exclude_star": "B"}	5130	18446	21.76	77.83	773	266	13.1	
+Clypeus Speculumi	rs0_excl_star_F	0:CarbonDioxide	{"exclude_star": "F"}	3488	16079	17.83	52.92	2415	2633	40.9	
+Recepta Conditivus	baseline	all	{}	4391	13472	24.58	99.41	0	0	0.0	Y
+Recepta Conditivus	rs0_max_pressure_add_p75	0:CarbonDioxide/CarbonDioxideRich	{"max_pressure": 0.04752}	4354	10757	28.81	98.57	37	2715	0.8	Y
+Recepta Conditivus	rs0_max_temperature_p75	0:CarbonDioxide/CarbonDioxideRich	{"max_temperature": 177.423996}	4354	10879	28.58	98.57	37	2593	0.8	
+Recepta Conditivus	rs0_max_temperature_p80	0:CarbonDioxide/CarbonDioxideRich	{"max_temperature": 179.164114}	4361	11158	28.10	98.73	30	2314	0.7	Y
+Recepta Conditivus	rs1_min_temperature_p15	1:SulphurDioxide	{"min_temperature": 148.319571}	3754	9770	27.76	84.99	637	3702	14.5	
+Recepta Conditivus	rs1_min_temperature_p20	1:SulphurDioxide	{"min_temperature": 152.141459}	3542	9388	27.39	80.19	849	4084	19.3	
+Recepta Conditivus	rs0_max_temperature_p85	0:CarbonDioxide/CarbonDioxideRich	{"max_temperature": 181.849609}	4368	11659	27.25	98.89	23	1813	0.5	Y
+Recepta Conditivus	rs1_min_temperature_p10	1:SulphurDioxide	{"min_temperature": 134.133096}	3966	10592	27.24	89.79	425	2880	9.7	
+Recepta Conditivus	rs0_max_pressure_add_p90	0:CarbonDioxide/CarbonDioxideRich	{"max_pressure": 0.069895}	4376	11801	27.05	99.07	15	1671	0.3	Y
+Recepta Conditivus	rs1_min_pressure_add_p25	1:SulphurDioxide	{"min_pressure": 0.002466}	3330	9023	26.96	75.39	1061	4449	24.2	
+Recepta Conditivus	rs1_min_temperature_p25	1:SulphurDioxide	{"min_temperature": 155.592178}	3330	9037	26.93	75.39	1061	4435	24.2	
+Recepta Conditivus	rs1_min_pressure_add_p10	1:SulphurDioxide	{"min_pressure": 0.001173}	3966	10812	26.84	89.79	425	2660	9.7	
+Recepta Conditivus	rs0_min_gravity_p25	0:CarbonDioxide/CarbonDioxideRich	{"min_gravity": 0.058828}	4354	11931	26.74	98.57	37	1541	0.8	
+Recepta Conditivus	rs0_excl_star_F	0:CarbonDioxide/CarbonDioxideRich	{"exclude_star": "F"}	4332	11965	26.58	98.08	59	1507	1.3	
+Recepta Conditivus	rs0_min_gravity_p20	0:CarbonDioxide/CarbonDioxideRich	{"min_gravity": 0.05731}	4361	12077	26.53	98.73	30	1395	0.7	
+Recepta Conditivus	rs1_combined_top3	1:SulphurDioxide	{"min_temperature": 133.386168, "min_pressure": 0.001059}	4080	11350	26.44	92.37	311	2122	7.1	
+Recepta Conditivus	rs0_max_temperature_p90	0:CarbonDioxide/CarbonDioxideRich	{"max_temperature": 184.595191}	4376	12194	26.41	99.07	15	1278	0.3	
+Recepta Conditivus	rs0_combined_top3	0:CarbonDioxide/CarbonDioxideRich	{"max_pressure": 0.082557, "max_temperature": 188.229825}	4377	12219	26.37	99.09	14	1253	0.3	Y
+Recepta Conditivus	rs0_excl_star_K	0:CarbonDioxide/CarbonDioxideRich	{"exclude_star": "K"}	4360	12238	26.27	98.71	31	1234	0.7	
+Recepta Conditivus	rs0_min_gravity_p15	0:CarbonDioxide/CarbonDioxideRich	{"min_gravity": 0.055266}	4368	12278	26.24	98.89	23	1194	0.5	
+Recepta Conditivus	rs0_excl_star_G	0:CarbonDioxide/CarbonDioxideRich	{"exclude_star": "G"}	4360	12368	26.06	98.71	31	1104	0.7	
+Recepta Conditivus	rs0_max_pressure_add_p95	0:CarbonDioxide/CarbonDioxideRich	{"max_pressure": 0.082557}	4383	12447	26.04	99.23	8	1025	0.2	Y
+Recepta Conditivus	rs1_min_temperature_p5	1:SulphurDioxide	{"min_temperature": 133.386168}	4178	11988	25.84	94.59	213	1484	4.9	
+Recepta Conditivus	rs0_min_gravity_p10	0:CarbonDioxide/CarbonDioxideRich	{"min_gravity": 0.052542}	4376	12574	25.82	99.07	15	898	0.3	
+Recepta Conditivus	rs1_min_pressure_add_p5	1:SulphurDioxide	{"min_pressure": 0.001059}	4178	12031	25.78	94.59	213	1441	4.9	
+Recepta Conditivus	rs0_max_temperature_p95	0:CarbonDioxide/CarbonDioxideRich	{"max_temperature": 188.229825}	4383	12724	25.62	99.23	8	748	0.2	
+Recepta Conditivus	rs0_max_gravity_p75	0:CarbonDioxide/CarbonDioxideRich	{"max_gravity": 0.11056}	4354	12825	25.34	98.57	37	647	0.8	
+Recepta Conditivus	rs0_min_gravity_p5	0:CarbonDioxide/CarbonDioxideRich	{"min_gravity": 0.048783}	4383	12973	25.25	99.23	8	499	0.2	
+Recepta Conditivus	rs0_excl_star_A	0:CarbonDioxide/CarbonDioxideRich	{"exclude_star": "A"}	4381	13141	25.00	99.18	10	331	0.2	
+Recepta Conditivus	rs1_max_gravity_p90	1:SulphurDioxide	{"max_gravity": 0.265563}	3966	11916	24.97	89.79	425	1556	9.7	
+Recepta Conditivus	rs0_min_pressure_add_p25	0:CarbonDioxide/CarbonDioxideRich	{"min_pressure": 0.012875}	4354	13104	24.94	98.57	37	368	0.8	
+Recepta Conditivus	rs0_max_gravity_p80	0:CarbonDioxide/CarbonDioxideRich	{"max_gravity": 0.137111}	4361	13172	24.87	98.73	30	300	0.7	
+Recepta Conditivus	rs0_min_temperature_p25	0:CarbonDioxide/CarbonDioxideRich	{"min_temperature": 160.5345}	4354	13155	24.87	98.57	37	317	0.8	
+Recepta Conditivus	rs1_max_gravity_p95	1:SulphurDioxide	{"max_gravity": 0.270681}	4178	12651	24.83	94.59	213	821	4.9	
+Recepta Conditivus	rs1_excl_star_G	1:SulphurDioxide	{"exclude_star": "G"}	4048	12257	24.83	91.65	343	1215	7.8	
+Recepta Conditivus	rs0_excl_star_M	0:CarbonDioxide/CarbonDioxideRich	{"exclude_star": "M"}	4380	13266	24.82	99.16	11	206	0.3	
+Recepta Conditivus	rs1_max_gravity_p85	1:SulphurDioxide	{"max_gravity": 0.260508}	3754	11371	24.82	84.99	637	2101	14.5	
+Recepta Conditivus	rs0_min_temperature_p20	0:CarbonDioxide/CarbonDioxideRich	{"min_temperature": 159.087622}	4361	13230	24.79	98.73	30	242	0.7	
+Recepta Conditivus	rs1_min_gravity_p5	1:SulphurDioxide	{"min_gravity": 0.199712}	4178	12687	24.77	94.59	213	785	4.9	
+Recepta Conditivus	rs0_min_temperature_p15	0:CarbonDioxide/CarbonDioxideRich	{"min_temperature": 158.082443}	4368	13282	24.75	98.89	23	190	0.5	
+Recepta Conditivus	rs0_max_gravity_p85	0:CarbonDioxide/CarbonDioxideRich	{"max_gravity": 0.160182}	4368	13319	24.70	98.89	23	153	0.5	
+Recepta Conditivus	rs0_min_temperature_p10	0:CarbonDioxide/CarbonDioxideRich	{"min_temperature": 155.658694}	4376	13357	24.68	99.07	15	115	0.3	
+Recepta Conditivus	rs0_min_pressure_add_p10	0:CarbonDioxide/CarbonDioxideRich	{"min_pressure": 0.007731}	4376	13352	24.68	99.07	15	120	0.3	
+Recepta Conditivus	rs0_min_temperature_p5	0:CarbonDioxide/CarbonDioxideRich	{"min_temperature": 154.659262}	4383	13386	24.67	99.23	8	86	0.2	
+Recepta Conditivus	rs1_max_gravity_p80	1:SulphurDioxide	{"max_gravity": 0.255639}	3542	10825	24.65	80.19	849	2647	19.3	
+Recepta Conditivus	rs0_excl_star_T	0:CarbonDioxide/CarbonDioxideRich	{"exclude_star": "T"}	4390	13458	24.60	99.39	1	14	0.0	Y
+Recepta Conditivus	rs0_min_pressure_add_p5	0:CarbonDioxide/CarbonDioxideRich	{"min_pressure": 0.006177}	4383	13441	24.59	99.23	8	31	0.2	
+Recepta Conditivus	rs1_excl_star_Y	1:SulphurDioxide	{"exclude_star": "Y"}	4383	13454	24.57	99.23	8	18	0.2	
+Recepta Conditivus	rs0_max_gravity_p95	0:CarbonDioxide/CarbonDioxideRich	{"max_gravity": 0.263849}	4383	13468	24.55	99.23	8	4	0.2	
+Recepta Conditivus	rs1_excl_star_T	1:SulphurDioxide	{"exclude_star": "T"}	4355	13391	24.54	98.60	36	81	0.8	
+Recepta Conditivus	rs0_max_gravity_p90	0:CarbonDioxide/CarbonDioxideRich	{"max_gravity": 0.25934}	4376	13465	24.53	99.07	15	7	0.3	
+Recepta Conditivus	rs1_excl_star_B	1:SulphurDioxide	{"exclude_star": "B"}	4352	13401	24.51	98.53	39	71	0.9	
+Recepta Conditivus	rs1_excl_star_L	1:SulphurDioxide	{"exclude_star": "L"}	4352	13405	24.51	98.53	39	67	0.9	
+Recepta Conditivus	rs1_max_gravity_p75	1:SulphurDioxide	{"max_gravity": 0.25191}	3330	10365	24.32	75.39	1061	3107	24.2	
+Recepta Conditivus	rs1_min_gravity_p10	1:SulphurDioxide	{"min_gravity": 0.207965}	3966	12404	24.23	89.79	425	1068	9.7	
+Recepta Conditivus	rs1_max_temperature_p95	1:SulphurDioxide	{"max_temperature": 240.552876}	4178	13148	24.11	94.59	213	324	4.9	
+Recepta Conditivus	rs1_max_pressure_add_p95	1:SulphurDioxide	{"max_pressure": 0.071855}	4178	13164	24.09	94.59	213	308	4.9	
+Recepta Conditivus	rs1_min_gravity_p15	1:SulphurDioxide	{"min_gravity": 0.212887}	3754	12135	23.63	84.99	637	1337	14.5	
+Recepta Conditivus	rs1_excl_star_F	1:SulphurDioxide	{"exclude_star": "F"}	3506	11340	23.62	79.38	885	2132	20.2	
+Recepta Conditivus	rs1_max_pressure_add_p90	1:SulphurDioxide	{"max_pressure": 0.059176}	3966	12874	23.55	89.79	425	598	9.7	
+Recepta Conditivus	rs1_max_temperature_p90	1:SulphurDioxide	{"max_temperature": 225.134498}	3966	12887	23.53	89.79	425	585	9.7	
+Recepta Conditivus	rs1_excl_star_K	1:SulphurDioxide	{"exclude_star": "K"}	3431	11387	23.15	77.68	960	2085	21.9	
+Recepta Conditivus	rs1_excl_star_A	1:SulphurDioxide	{"exclude_star": "A"}	3736	12466	23.06	84.58	655	1006	14.9	
+Recepta Conditivus	rs1_max_temperature_p85	1:SulphurDioxide	{"max_temperature": 213.148502}	3754	12593	22.96	84.99	637	879	14.5	
+Recepta Conditivus	rs1_min_gravity_p20	1:SulphurDioxide	{"min_gravity": 0.216955}	3542	11889	22.95	80.19	849	1583	19.3	
+Recepta Conditivus	rs1_max_temperature_p80	1:SulphurDioxide	{"max_temperature": 204.713464}	3542	12341	22.30	80.19	849	1131	19.3	
+Recepta Conditivus	rs1_min_gravity_p25	1:SulphurDioxide	{"min_gravity": 0.220669}	3330	11668	22.20	75.39	1061	1804	24.2	
+Recepta Conditivus	rs1_excl_star_M	1:SulphurDioxide	{"exclude_star": "M"}	3192	11446	21.81	72.27	1199	2026	27.3	
+Recepta Conditivus	rs1_max_pressure_add_p75	1:SulphurDioxide	{"max_pressure": 0.023267}	3330	11992	21.73	75.39	1061	1480	24.2	
+Recepta Conditivus	rs1_max_temperature_p75	1:SulphurDioxide	{"max_temperature": 198.083187}	3330	12057	21.64	75.39	1061	1415	24.2	
+Tussock Virgam	baseline	all	{}	9788	2535	79.43	87.91	0	0	0.0	Y
+Tussock Virgam	rs0_min_gravity_p25	0:Water	{"min_gravity": 0.049702}	7346	1742	80.83	65.98	2442	793	24.9	Y
+Tussock Virgam	rs0_combined_top2	0:Water	{"min_gravity": 0.047855, "max_temperature": 444.334801}	8323	1998	80.64	74.75	1465	537	15.0	Y
+Tussock Virgam	rs0_combined_top3	0:Water	{"min_gravity": 0.047855, "max_temperature": 444.334801}	8323	1998	80.64	74.75	1465	537	15.0	Y
+Tussock Virgam	rs0_min_gravity_p20	0:Water	{"min_gravity": 0.049099}	7834	1883	80.62	70.36	1954	652	20.0	
+Tussock Virgam	rs0_min_gravity_p15	0:Water	{"min_gravity": 0.048481}	8322	2026	80.42	74.74	1466	509	15.0	
+Tussock Virgam	rs0_min_gravity_p10	0:Water	{"min_gravity": 0.047855}	8811	2176	80.19	79.14	977	359	10.0	Y
+Tussock Virgam	rs0_max_temperature_add_p90	0:Water	{"max_temperature": 441.013575}	8811	2217	79.90	79.14	977	318	10.0	
+Tussock Virgam	rs0_max_temperature_add_p75	0:Water	{"max_temperature": 434.447456}	7346	1861	79.79	65.98	2442	674	24.9	
+Tussock Virgam	rs0_max_temperature_add_p95	0:Water	{"max_temperature": 444.334801}	9299	2357	79.78	83.52	489	178	5.0	Y
+Tussock Virgam	rs0_min_gravity_p5	0:Water	{"min_gravity": 0.047088}	9300	2369	79.70	83.53	488	166	5.0	Y
+Tussock Virgam	rs0_max_pressure_add_p90	0:Water	{"max_pressure": 0.095548}	8811	2259	79.59	79.14	977	276	10.0	
+Tussock Virgam	rs0_excl_star_Y	0:Water	{"exclude_star": "Y"}	9774	2509	79.57	87.79	14	26	0.1	Y
+Tussock Virgam	rs0_max_pressure_add_p75	0:Water	{"max_pressure": 0.091114}	7346	1887	79.56	65.98	2442	648	24.9	
+Tussock Virgam	rs1_excl_star_F	1:Water	{"exclude_star": "F"}	9775	2518	79.52	87.79	13	17	0.1	
+Tussock Virgam	rs0_max_pressure_add_p95	0:Water	{"max_pressure": 0.097142}	9299	2396	79.51	83.52	489	139	5.0	
+Tussock Virgam	rs1_min_temperature_add_p10	1:Water	{"min_temperature": 413.833744}	9786	2527	79.48	87.89	2	8	0.0	Y
+Tussock Virgam	rs1_min_temperature_add_p25	1:Water	{"min_temperature": 415.142647}	9783	2526	79.48	87.87	5	9	0.1	
+Tussock Virgam	rs1_min_gravity_p20	1:Water	{"min_gravity": 0.046128}	9784	2528	79.47	87.87	4	7	0.0	
+Tussock Virgam	rs1_min_gravity_p25	1:Water	{"min_gravity": 0.046709}	9783	2527	79.47	87.87	5	8	0.1	
+Tussock Virgam	rs1_max_gravity_p75	1:Water	{"max_gravity": 0.051913}	9783	2527	79.47	87.87	5	8	0.1	
+Tussock Virgam	rs1_max_temperature_add_p75	1:Water	{"max_temperature": 436.509445}	9783	2528	79.47	87.87	5	7	0.1	
+Tussock Virgam	rs1_min_pressure_add_p25	1:Water	{"min_pressure": 0.075029}	9783	2527	79.47	87.87	5	8	0.1	
+Tussock Virgam	rs1_max_pressure_add_p75	1:Water	{"max_pressure": 0.092543}	9783	2528	79.47	87.87	5	7	0.1	
+Tussock Virgam	rs1_combined_top2	1:Water	{"min_gravity": 0.045202, "min_temperature": 411.110428}	9786	2528	79.47	87.89	2	7	0.0	
+Tussock Virgam	rs1_combined_top3	1:Water	{"min_gravity": 0.045202, "min_temperature": 411.110428}	9786	2528	79.47	87.89	2	7	0.0	
+Tussock Virgam	rs0_excl_star_L	0:Water	{"exclude_star": "L"}	9720	2512	79.46	87.30	68	23	0.7	
+Tussock Virgam	rs1_min_gravity_p15	1:Water	{"min_gravity": 0.045783}	9785	2529	79.46	87.88	3	6	0.0	
+Tussock Virgam	rs1_max_temperature_add_p90	1:Water	{"max_temperature": 439.487912}	9786	2529	79.46	87.89	2	6	0.0	
+Tussock Virgam	rs0_min_temperature_add_p10	0:Water	{"min_temperature": 410.54451}	8811	2279	79.45	79.14	977	256	10.0	
+Tussock Virgam	rs1_min_gravity_p5	1:Water	{"min_gravity": 0.045202}	9787	2531	79.45	87.90	1	4	0.0	Y
+Tussock Virgam	rs1_min_gravity_p10	1:Water	{"min_gravity": 0.045389}	9786	2531	79.45	87.89	2	4	0.0	
+Tussock Virgam	rs1_max_gravity_p90	1:Water	{"max_gravity": 0.053015}	9786	2531	79.45	87.89	2	4	0.0	
+Tussock Virgam	rs1_max_gravity_p85	1:Water	{"max_gravity": 0.052951}	9785	2531	79.45	87.88	3	4	0.0	
+Tussock Virgam	rs1_max_gravity_p80	1:Water	{"max_gravity": 0.052932}	9784	2530	79.45	87.87	4	5	0.0	
+Tussock Virgam	rs1_min_temperature_add_p5	1:Water	{"min_temperature": 411.110428}	9787	2531	79.45	87.90	1	4	0.0	Y
+Tussock Virgam	rs1_max_temperature_add_p95	1:Water	{"max_temperature": 440.88725}	9787	2531	79.45	87.90	1	4	0.0	Y
+Tussock Virgam	rs1_min_pressure_add_p5	1:Water	{"min_pressure": 0.070197}	9787	2531	79.45	87.90	1	4	0.0	Y
+Tussock Virgam	rs1_min_pressure_add_p10	1:Water	{"min_pressure": 0.070638}	9786	2531	79.45	87.89	2	4	0.0	
+Tussock Virgam	rs1_max_pressure_add_p90	1:Water	{"max_pressure": 0.096516}	9786	2531	79.45	87.89	2	4	0.0	
+Tussock Virgam	rs1_max_gravity_p95	1:Water	{"max_gravity": 0.053398}	9787	2534	79.43	87.90	1	1	0.0	
+Tussock Virgam	rs1_max_pressure_add_p95	1:Water	{"max_pressure": 0.097623}	9787	2535	79.43	87.90	1	0	0.0	
+Tussock Virgam	rs0_excl_star_G	0:Water	{"exclude_star": "G"}	8391	2206	79.18	75.36	1397	329	14.3	
+Tussock Virgam	rs0_min_temperature_add_p5	0:Water	{"min_temperature": 407.337607}	9299	2446	79.17	83.52	489	89	5.0	
+Tussock Virgam	rs0_min_pressure_add_p5	0:Water	{"min_pressure": 0.067464}	9299	2447	79.17	83.52	489	88	5.0	
+Tussock Virgam	rs0_max_gravity_p95	0:Water	{"max_gravity": 0.061139}	9299	2450	79.15	83.52	489	85	5.0	
+Tussock Virgam	rs0_excl_star_F	0:Water	{"exclude_star": "F"}	7035	1858	79.11	63.18	2753	677	28.1	
+Tussock Virgam	rs0_min_temperature_add_p25	0:Water	{"min_temperature": 416.386543}	7346	1945	79.07	65.98	2442	590	24.9	
+Tussock Virgam	rs0_min_pressure_add_p10	0:Water	{"min_pressure": 0.071364}	8811	2353	78.92	79.14	977	182	10.0	
+Tussock Virgam	rs0_max_gravity_p90	0:Water	{"max_gravity": 0.059925}	8811	2364	78.85	79.14	977	171	10.0	
+Tussock Virgam	rs0_min_pressure_add_p25	0:Water	{"min_pressure": 0.076881}	7346	1997	78.63	65.98	2442	538	24.9	
+Tussock Virgam	rs0_max_gravity_p85	0:Water	{"max_gravity": 0.058619}	8322	2272	78.55	74.74	1466	263	15.0	
+Tussock Virgam	rs0_excl_star_M	0:Water	{"exclude_star": "M"}	7301	2017	78.35	65.57	2487	518	25.4	
+Tussock Virgam	rs0_excl_star_K	0:Water	{"exclude_star": "K"}	7696	2134	78.29	69.12	2092	401	21.4	
+Tussock Virgam	rs0_max_gravity_p80	0:Water	{"max_gravity": 0.057387}	7834	2180	78.23	70.36	1954	355	20.0	
+Tussock Virgam	rs0_max_gravity_p75	0:Water	{"max_gravity": 0.056152}	7346	2105	77.73	65.98	2442	430	24.9	
+Recepta Umbrux	baseline	all	{}	7522	10352	42.08	99.38	0	0	0.0	Y
+Recepta Umbrux	rs0_max_pressure_add_p75	0:CarbonDioxide	{"max_pressure": 0.054948}	7284	8175	47.12	96.23	238	2177	3.2	Y
+Recepta Umbrux	rs0_max_temperature_p75	0:CarbonDioxide	{"max_temperature": 179.529911}	7284	8291	46.77	96.23	238	2061	3.2	
+Recepta Umbrux	rs0_max_temperature_p80	0:CarbonDioxide	{"max_temperature": 181.160993}	7332	8548	46.17	96.87	190	1804	2.5	Y
+Recepta Umbrux	rs0_max_temperature_p85	0:CarbonDioxide	{"max_temperature": 183.095087}	7379	8902	45.32	97.49	143	1450	1.9	Y
+Recepta Umbrux	rs0_min_gravity_p25	0:CarbonDioxide	{"min_gravity": 0.06114}	7284	8802	45.28	96.23	238	1550	3.2	
+Recepta Umbrux	rs0_min_gravity_p20	0:CarbonDioxide	{"min_gravity": 0.058154}	7332	9028	44.82	96.87	190	1324	2.5	
+Recepta Umbrux	rs0_max_pressure_add_p90	0:CarbonDioxide	{"max_pressure": 0.078568}	7427	9171	44.75	98.12	95	1181	1.3	Y
+Recepta Umbrux	rs0_max_temperature_p90	0:CarbonDioxide	{"max_temperature": 184.949411}	7427	9197	44.68	98.12	95	1155	1.3	
+Recepta Umbrux	rs0_combined_top2	0:CarbonDioxide	{"max_temperature": 187.672052, "max_pressure": 0.08731}	7440	9265	44.54	98.30	82	1087	1.1	Y
+Recepta Umbrux	rs0_combined_top3	0:CarbonDioxide	{"max_temperature": 187.672052, "max_pressure": 0.08731}	7440	9265	44.54	98.30	82	1087	1.1	Y
+Recepta Umbrux	rs0_excl_star_F	0:CarbonDioxide	{"exclude_star": "F"}	7248	9056	44.46	95.76	274	1296	3.6	
+Recepta Umbrux	rs0_min_gravity_p15	0:CarbonDioxide	{"min_gravity": 0.055552}	7379	9253	44.37	97.49	143	1099	1.9	
+Recepta Umbrux	rs0_max_temperature_p95	0:CarbonDioxide	{"max_temperature": 187.672052}	7474	9550	43.90	98.74	48	802	0.6	Y
+Recepta Umbrux	rs0_min_gravity_p10	0:CarbonDioxide	{"min_gravity": 0.052333}	7427	9553	43.74	98.12	95	799	1.3	
+Recepta Umbrux	rs0_excl_star_K	0:CarbonDioxide	{"exclude_star": "K"}	7248	9358	43.65	95.76	274	994	3.6	
+Recepta Umbrux	rs0_max_pressure_add_p95	0:CarbonDioxide	{"max_pressure": 0.08731}	7474	9666	43.61	98.74	48	686	0.6	
+Recepta Umbrux	rs0_excl_star_G	0:CarbonDioxide	{"exclude_star": "G"}	7270	9466	43.44	96.05	252	886	3.4	
+Recepta Umbrux	rs0_min_gravity_p5	0:CarbonDioxide	{"min_gravity": 0.048824}	7474	9886	43.05	98.74	48	466	0.6	
+Recepta Umbrux	rs0_max_gravity_p75	0:CarbonDioxide	{"max_gravity": 0.105005}	7284	9758	42.74	96.23	238	594	3.2	
+Recepta Umbrux	rs0_max_gravity_p80	0:CarbonDioxide	{"max_gravity": 0.113419}	7332	9907	42.53	96.87	190	445	2.5	
+Recepta Umbrux	rs0_excl_star_A	0:CarbonDioxide	{"exclude_star": "A"}	7444	10089	42.46	98.35	78	263	1.0	
+Recepta Umbrux	rs0_max_gravity_p85	0:CarbonDioxide	{"max_gravity": 0.123899}	7379	10032	42.38	97.49	143	320	1.9	
+Recepta Umbrux	rs0_excl_star_M	0:CarbonDioxide	{"exclude_star": "M"}	7483	10174	42.38	98.86	39	178	0.5	Y
+Recepta Umbrux	rs0_max_gravity_p90	0:CarbonDioxide	{"max_gravity": 0.139833}	7427	10133	42.29	98.12	95	219	1.3	
+Recepta Umbrux	rs0_max_gravity_p95	0:CarbonDioxide	{"max_gravity": 0.160346}	7474	10219	42.24	98.74	48	133	0.6	
+Recepta Umbrux	rs0_min_temperature_p5	0:CarbonDioxide	{"min_temperature": 156.054709}	7474	10264	42.14	98.74	48	88	0.6	
+Recepta Umbrux	rs0_min_temperature_p10	0:CarbonDioxide	{"min_temperature": 158.804712}	7427	10204	42.12	98.12	95	148	1.3	
+Recepta Umbrux	rs0_min_temperature_p15	0:CarbonDioxide	{"min_temperature": 160.683306}	7379	10139	42.12	97.49	143	213	1.9	
+Recepta Umbrux	rs0_excl_star_T	0:CarbonDioxide	{"exclude_star": "T"}	7520	10338	42.11	99.35	2	14	0.0	Y
+Recepta Umbrux	rs0_min_temperature_p20	0:CarbonDioxide	{"min_temperature": 162.594171}	7332	10083	42.10	96.87	190	269	2.5	
+Recepta Umbrux	rs0_min_pressure_add_p10	0:CarbonDioxide	{"min_pressure": 0.009406}	7427	10220	42.09	98.12	95	132	1.3	
+Recepta Umbrux	rs0_min_pressure_add_p5	0:CarbonDioxide	{"min_pressure": 0.007525}	7474	10288	42.08	98.74	48	64	0.6	
+Recepta Umbrux	rs1_excl_star_Y	1:SulphurDioxide	{"exclude_star": "Y"}	7510	10338	42.08	99.22	12	14	0.2	
+Recepta Umbrux	rs0_min_temperature_p25	0:CarbonDioxide	{"min_temperature": 163.907066}	7284	10038	42.05	96.23	238	314	3.2	
+Recepta Umbrux	rs1_min_temperature_p10	1:SulphurDioxide	{"min_temperature": 133.313522}	6864	9459	42.05	90.69	658	893	8.7	
+Recepta Umbrux	rs1_excl_star_L	1:SulphurDioxide	{"exclude_star": "L"}	7472	10296	42.05	98.72	50	56	0.7	
+Recepta Umbrux	rs1_min_pressure_add_p5	1:SulphurDioxide	{"min_pressure": 0.001014}	7193	9917	42.04	95.03	329	435	4.4	
+Recepta Umbrux	rs1_min_temperature_p5	1:SulphurDioxide	{"min_temperature": 132.818697}	7193	9921	42.03	95.03	329	431	4.4	
+Recepta Umbrux	rs1_min_temperature_p15	1:SulphurDioxide	{"min_temperature": 133.691112}	6536	9023	42.01	86.35	986	1329	13.1	
+Recepta Umbrux	rs1_excl_star_T	1:SulphurDioxide	{"exclude_star": "T"}	7458	10299	42.00	98.53	64	53	0.9	
+Recepta Umbrux	rs0_min_pressure_add_p25	0:CarbonDioxide	{"min_pressure": 0.015448}	7284	10061	41.99	96.23	238	291	3.2	
+Recepta Umbrux	rs1_excl_star_B	1:SulphurDioxide	{"exclude_star": "B"}	7457	10307	41.98	98.52	65	45	0.9	
+Recepta Umbrux	rs1_combined_top3	1:SulphurDioxide	{"min_temperature": 133.313522, "min_pressure": 0.001014}	6696	9264	41.95	88.47	826	1088	11.0	
+Recepta Umbrux	rs1_min_gravity_p5	1:SulphurDioxide	{"min_gravity": 0.191886}	7193	9959	41.94	95.03	329	393	4.4	
+Recepta Umbrux	rs1_min_pressure_add_p10	1:SulphurDioxide	{"min_pressure": 0.001049}	6864	9501	41.94	90.69	658	851	8.7	
+Recepta Umbrux	rs1_min_temperature_p20	1:SulphurDioxide	{"min_temperature": 134.009522}	6207	8615	41.88	82.01	1315	1737	17.5	
+Recepta Umbrux	rs1_min_gravity_p10	1:SulphurDioxide	{"min_gravity": 0.206935}	6864	9591	41.71	90.69	658	761	8.7	
+Recepta Umbrux	rs1_max_temperature_p95	1:SulphurDioxide	{"max_temperature": 237.3359}	7193	10064	41.68	95.03	329	288	4.4	
+Recepta Umbrux	rs1_max_pressure_add_p95	1:SulphurDioxide	{"max_pressure": 0.069563}	7193	10064	41.68	95.03	329	288	4.4	
+Recepta Umbrux	rs1_max_gravity_p95	1:SulphurDioxide	{"max_gravity": 0.27257}	7193	10077	41.65	95.03	329	275	4.4	
+Recepta Umbrux	rs1_min_temperature_p25	1:SulphurDioxide	{"min_temperature": 134.319855}	5879	8239	41.64	77.67	1643	2113	21.8	
+Recepta Umbrux	rs1_excl_star_G	1:SulphurDioxide	{"exclude_star": "G"}	6785	9531	41.58	89.64	737	821	9.8	
+Recepta Umbrux	rs1_min_pressure_add_p25	1:SulphurDioxide	{"min_pressure": 0.001248}	5879	8309	41.44	77.67	1643	2043	21.8	
+Recepta Umbrux	rs1_min_gravity_p15	1:SulphurDioxide	{"min_gravity": 0.21417}	6536	9244	41.42	86.35	986	1108	13.1	
+Recepta Umbrux	rs1_max_temperature_p90	1:SulphurDioxide	{"max_temperature": 217.825865}	6864	9709	41.42	90.69	658	643	8.7	
+Recepta Umbrux	rs1_max_gravity_p90	1:SulphurDioxide	{"max_gravity": 0.269625}	6864	9765	41.28	90.69	658	587	8.7	
+Recepta Umbrux	rs1_max_pressure_add_p90	1:SulphurDioxide	{"max_pressure": 0.054116}	6864	9772	41.26	90.69	658	580	8.7	
+Recepta Umbrux	rs1_excl_star_A	1:SulphurDioxide	{"exclude_star": "A"}	6681	9532	41.21	88.27	841	820	11.2	
+Recepta Umbrux	rs1_min_gravity_p20	1:SulphurDioxide	{"min_gravity": 0.220112}	6207	8878	41.15	82.01	1315	1474	17.5	
+Recepta Umbrux	rs1_excl_star_F	1:SulphurDioxide	{"exclude_star": "F"}	6109	8748	41.12	80.71	1413	1604	18.8	
+Recepta Umbrux	rs1_max_temperature_p85	1:SulphurDioxide	{"max_temperature": 205.216448}	6536	9398	41.02	86.35	986	954	13.1	
+Recepta Umbrux	rs1_min_gravity_p25	1:SulphurDioxide	{"min_gravity": 0.225148}	5879	8518	40.83	77.67	1643	1834	21.8	
+Recepta Umbrux	rs1_max_gravity_p85	1:SulphurDioxide	{"max_gravity": 0.266401}	6536	9503	40.75	86.35	986	849	13.1	
+Recepta Umbrux	rs1_max_temperature_p80	1:SulphurDioxide	{"max_temperature": 196.655628}	6207	9085	40.59	82.01	1315	1267	17.5	
+Recepta Umbrux	rs1_excl_star_K	1:SulphurDioxide	{"exclude_star": "K"}	5999	8830	40.45	79.26	1523	1522	20.2	
+Recepta Umbrux	rs1_max_gravity_p80	1:SulphurDioxide	{"max_gravity": 0.262355}	6207	9210	40.26	82.01	1315	1142	17.5	
+Recepta Umbrux	rs1_max_temperature_p75	1:SulphurDioxide	{"max_temperature": 189.540745}	5879	8791	40.07	77.67	1643	1561	21.8	
+Recepta Umbrux	rs1_excl_star_M	1:SulphurDioxide	{"exclude_star": "M"}	5821	8828	39.74	76.91	1701	1524	22.6	
+Recepta Umbrux	rs1_max_pressure_add_p75	1:SulphurDioxide	{"max_pressure": 0.015499}	5879	8923	39.72	77.67	1643	1429	21.8	
+Recepta Umbrux	rs1_max_gravity_p75	1:SulphurDioxide	{"max_gravity": 0.258458}	5879	8950	39.65	77.67	1643	1402	21.8	
+Aleoida Gravis	baseline	all	{}	10110	14053	41.84	99.99	0	0	0.0	Y
+Aleoida Gravis	rs0_excl_star_G	0:CarbonDioxide	{"exclude_star": "G"}	9799	10106	49.23	96.91	311	3947	3.1	Y
+Aleoida Gravis	rs0_max_gravity_p80	0:CarbonDioxide	{"max_gravity": 0.239307}	8088	10966	42.45	79.99	2022	3087	20.0	
+Aleoida Gravis	rs0_max_gravity_p85	0:CarbonDioxide	{"max_gravity": 0.246696}	8593	11736	42.27	84.99	1517	2317	15.0	
+Aleoida Gravis	rs0_max_gravity_p75	0:CarbonDioxide	{"max_gravity": 0.234132}	7582	10387	42.19	74.99	2528	3666	25.0	
+Aleoida Gravis	rs0_max_gravity_p90	0:CarbonDioxide	{"max_gravity": 0.253772}	9099	12550	42.03	89.99	1011	1503	10.0	
+Aleoida Gravis	rs0_max_gravity_p95	0:CarbonDioxide	{"max_gravity": 0.260662}	9604	13262	42.00	94.99	506	791	5.0	
+Aleoida Gravis	rs0_max_temperature_p85	0:CarbonDioxide	{"max_temperature": 194.220984}	8593	11884	41.96	84.99	1517	2169	15.0	
+Aleoida Gravis	rs0_min_pressure_p15	0:CarbonDioxide	{"min_pressure": 0.066791}	8593	11884	41.96	84.99	1517	2169	15.0	
+Aleoida Gravis	rs0_max_pressure_add_p95	0:CarbonDioxide	{"max_pressure": 0.096405}	9604	13288	41.95	94.99	506	765	5.0	
+Aleoida Gravis	rs0_max_temperature_p80	0:CarbonDioxide	{"max_temperature": 193.909817}	8088	11197	41.94	79.99	2022	2856	20.0	
+Aleoida Gravis	rs0_min_pressure_p20	0:CarbonDioxide	{"min_pressure": 0.068905}	8088	11195	41.94	79.99	2022	2858	20.0	
+Aleoida Gravis	rs0_max_temperature_p95	0:CarbonDioxide	{"max_temperature": 194.968436}	9604	13302	41.93	94.99	506	751	5.0	
+Aleoida Gravis	rs0_max_pressure_add_p90	0:CarbonDioxide	{"max_pressure": 0.094331}	9099	12600	41.93	89.99	1011	1453	10.0	
+Aleoida Gravis	rs0_max_temperature_p90	0:CarbonDioxide	{"max_temperature": 194.595547}	9099	12616	41.90	89.99	1011	1437	10.0	
+Aleoida Gravis	rs0_min_pressure_p5	0:CarbonDioxide	{"min_pressure": 0.061235}	9604	13330	41.88	94.99	506	723	5.0	
+Aleoida Gravis	rs0_min_pressure_p25	0:CarbonDioxide	{"min_pressure": 0.0708}	7582	10528	41.87	74.99	2528	3525	25.0	
+Aleoida Gravis	rs0_max_pressure_add_p75	0:CarbonDioxide	{"max_pressure": 0.08813}	7582	10530	41.86	74.99	2528	3523	25.0	
+Aleoida Gravis	rs0_max_temperature_p75	0:CarbonDioxide	{"max_temperature": 193.603546}	7582	10535	41.85	74.99	2528	3518	25.0	
+Aleoida Gravis	rs0_min_pressure_p10	0:CarbonDioxide	{"min_pressure": 0.064177}	9099	12645	41.85	89.99	1011	1408	10.0	
+Aleoida Gravis	rs0_excl_star_B	0:CarbonDioxide	{"exclude_star": "B"}	10099	14041	41.84	99.88	11	12	0.1	
+Aleoida Gravis	rs0_excl_star_T	0:CarbonDioxide	{"exclude_star": "T"}	10082	14032	41.81	99.71	28	21	0.3	
+Aleoida Gravis	rs0_excl_star_L	0:CarbonDioxide	{"exclude_star": "L"}	10075	14025	41.80	99.64	35	28	0.3	
+Aleoida Gravis	rs0_excl_star_Y	0:CarbonDioxide	{"exclude_star": "Y"}	10087	14042	41.80	99.76	23	11	0.2	
+Aleoida Gravis	rs0_min_temperature_p5	0:CarbonDioxide	{"min_temperature": 190.19678}	9604	13444	41.67	94.99	506	609	5.0	
+Aleoida Gravis	rs0_min_gravity_p25	0:CarbonDioxide	{"min_gravity": 0.199681}	7582	10640	41.61	74.99	2528	3413	25.0	
+Aleoida Gravis	rs0_min_gravity_p20	0:CarbonDioxide	{"min_gravity": 0.195493}	8088	11374	41.56	79.99	2022	2679	20.0	
+Aleoida Gravis	rs0_min_gravity_p15	0:CarbonDioxide	{"min_gravity": 0.19075}	8593	12123	41.48	84.99	1517	1930	15.0	
+Aleoida Gravis	rs0_excl_star_A	0:CarbonDioxide	{"exclude_star": "A"}	9231	13046	41.44	91.30	879	1007	8.7	
+Aleoida Gravis	rs0_min_temperature_p10	0:CarbonDioxide	{"min_temperature": 190.391286}	9099	12893	41.37	89.99	1011	1160	10.0	
+Aleoida Gravis	rs0_min_gravity_p5	0:CarbonDioxide	{"min_gravity": 0.097544}	9604	13669	41.27	94.99	506	384	5.0	
+Aleoida Gravis	rs0_min_gravity_p10	0:CarbonDioxide	{"min_gravity": 0.184371}	9099	12949	41.27	89.99	1011	1104	10.0	
+Aleoida Gravis	rs0_min_temperature_p15	0:CarbonDioxide	{"min_temperature": 190.604157}	8593	12356	41.02	84.99	1517	1697	15.0	
+Aleoida Gravis	rs0_excl_star_F	0:CarbonDioxide	{"exclude_star": "F"}	6949	10041	40.90	68.73	3161	4012	31.3	
+Aleoida Gravis	rs0_min_temperature_p20	0:CarbonDioxide	{"min_temperature": 190.802976}	8088	11793	40.68	79.99	2022	2260	20.0	
+Aleoida Gravis	rs0_excl_star_M	0:CarbonDioxide	{"exclude_star": "M"}	8655	12680	40.57	85.60	1455	1373	14.4	
+Aleoida Gravis	rs0_min_temperature_p25	0:CarbonDioxide	{"min_temperature": 191.032631}	7582	11110	40.56	74.99	2528	2943	25.0	
+Aleoida Gravis	rs0_excl_star_K	0:CarbonDioxide	{"exclude_star": "K"}	6272	10695	36.97	62.03	3838	3358	38.0	
+Clypeus Margaritus	baseline	all	{}	9497	3389	73.70	90.28	0	0	0.0	Y
+Clypeus Margaritus	rs0_excl_star_M	0:CarbonDioxide	{"exclude_star": "M"}	8162	2750	74.80	77.59	1335	639	14.1	Y
+Clypeus Margaritus	rs0_excl_star_K	0:CarbonDioxide	{"exclude_star": "K"}	7584	2623	74.30	72.09	1913	766	20.1	
+Clypeus Margaritus	rs1_excl_star_M	1:Water	{"exclude_star": "M"}	7554	2631	74.17	71.81	1943	758	20.5	
+Clypeus Margaritus	rs0_max_temperature_p75	0:CarbonDioxide	{"max_temperature": 193.642555}	8153	2848	74.11	77.50	1344	541	14.2	
+Clypeus Margaritus	rs0_min_pressure_p20	0:CarbonDioxide	{"min_pressure": 0.073353}	8422	2969	73.94	80.06	1075	420	11.3	Y
+Clypeus Margaritus	rs0_max_temperature_p80	0:CarbonDioxide	{"max_temperature": 193.936459}	8422	2970	73.93	80.06	1075	419	11.3	
+Clypeus Margaritus	rs0_min_gravity_p25	0:CarbonDioxide	{"min_gravity": 0.234252}	8153	2878	73.91	77.50	1344	511	14.2	
+Clypeus Margaritus	rs0_combined_top2	0:CarbonDioxide	{"min_gravity": 0.223773, "max_temperature": 194.720862}	8959	3163	73.91	85.16	538	226	5.7	Y
+Clypeus Margaritus	rs0_combined_top3	0:CarbonDioxide	{"min_gravity": 0.223773, "max_temperature": 194.720862}	8959	3163	73.91	85.16	538	226	5.7	Y
+Clypeus Margaritus	rs0_min_gravity_p20	0:CarbonDioxide	{"min_gravity": 0.232015}	8422	2974	73.90	80.06	1075	415	11.3	
+Clypeus Margaritus	rs0_min_gravity_p15	0:CarbonDioxide	{"min_gravity": 0.229563}	8691	3072	73.88	82.61	806	317	8.5	
+Clypeus Margaritus	rs0_min_pressure_p25	0:CarbonDioxide	{"min_pressure": 0.07475}	8153	2884	73.87	77.50	1344	505	14.2	
+Clypeus Margaritus	rs0_min_gravity_p10	0:CarbonDioxide	{"min_gravity": 0.226752}	8959	3173	73.85	85.16	538	216	5.7	
+Clypeus Margaritus	rs0_max_temperature_p85	0:CarbonDioxide	{"max_temperature": 194.174886}	8691	3077	73.85	82.61	806	312	8.5	
+Clypeus Margaritus	rs0_min_pressure_p15	0:CarbonDioxide	{"min_pressure": 0.071733}	8691	3079	73.84	82.61	806	310	8.5	
+Clypeus Margaritus	rs0_min_gravity_p5	0:CarbonDioxide	{"min_gravity": 0.223773}	9228	3275	73.81	87.72	269	114	2.8	Y
+Clypeus Margaritus	rs0_max_temperature_p90	0:CarbonDioxide	{"max_temperature": 194.439312}	8959	3181	73.80	85.16	538	208	5.7	
+Clypeus Margaritus	rs0_min_pressure_p10	0:CarbonDioxide	{"min_pressure": 0.069974}	8959	3181	73.80	85.16	538	208	5.7	
+Clypeus Margaritus	rs0_max_temperature_p95	0:CarbonDioxide	{"max_temperature": 194.720862}	9228	3277	73.79	87.72	269	112	2.8	
+Clypeus Margaritus	rs0_min_pressure_p5	0:CarbonDioxide	{"min_pressure": 0.068117}	9228	3281	73.77	87.72	269	108	2.8	
+Clypeus Margaritus	rs0_max_pressure_add_p95	0:CarbonDioxide	{"max_pressure": 0.09699}	9228	3288	73.73	87.72	269	101	2.8	
+Clypeus Margaritus	rs0_max_pressure_add_p75	0:CarbonDioxide	{"max_pressure": 0.090351}	8153	2908	73.71	77.50	1344	481	14.2	
+Clypeus Margaritus	rs0_excl_star_L	0:CarbonDioxide	{"exclude_star": "L"}	9470	3377	73.71	90.02	27	12	0.3	Y
+Clypeus Margaritus	rs1_excl_star_L	1:Water	{"exclude_star": "L"}	9441	3371	73.69	89.74	56	18	0.6	
+Clypeus Margaritus	rs0_max_gravity_p95	0:CarbonDioxide	{"max_gravity": 0.266034}	9228	3296	73.68	87.72	269	93	2.8	
+Clypeus Margaritus	rs0_max_gravity_p75	0:CarbonDioxide	{"max_gravity": 0.256867}	8153	2912	73.68	77.50	1344	477	14.2	
+Clypeus Margaritus	rs0_max_pressure_add_p90	0:CarbonDioxide	{"max_pressure": 0.095233}	8959	3200	73.68	85.16	538	189	5.7	
+Clypeus Margaritus	rs0_excl_star_A	0:CarbonDioxide	{"exclude_star": "A"}	9183	3281	73.68	87.29	314	108	3.3	
+Clypeus Margaritus	rs1_min_gravity_p5	1:Water	{"min_gravity": 0.050042}	9290	3319	73.68	88.31	207	70	2.2	
+Clypeus Margaritus	rs1_excl_star_B	1:Water	{"exclude_star": "B"}	9487	3389	73.68	90.18	10	0	0.1	
+Clypeus Margaritus	rs1_min_pressure_add_p5	1:Water	{"min_pressure": 0.063264}	9290	3320	73.67	88.31	207	69	2.2	
+Clypeus Margaritus	rs1_max_pressure_add_p95	1:Water	{"max_pressure": 0.096925}	9290	3321	73.67	88.31	207	68	2.2	
+Clypeus Margaritus	rs0_max_gravity_p90	0:CarbonDioxide	{"max_gravity": 0.263549}	8959	3203	73.66	85.16	538	186	5.7	
+Clypeus Margaritus	rs1_max_gravity_p95	1:Water	{"max_gravity": 0.061915}	9290	3323	73.65	88.31	207	66	2.2	
+Clypeus Margaritus	rs0_max_gravity_p85	0:CarbonDioxide	{"max_gravity": 0.261337}	8691	3111	73.64	82.61	806	278	8.5	
+Clypeus Margaritus	rs1_min_gravity_p10	1:Water	{"min_gravity": 0.051392}	9084	3255	73.62	86.35	413	134	4.3	
+Clypeus Margaritus	rs1_max_pressure_add_p90	1:Water	{"max_pressure": 0.094885}	9084	3255	73.62	86.35	413	134	4.3	
+Clypeus Margaritus	rs1_excl_star_A	1:Water	{"exclude_star": "A"}	9378	3361	73.62	89.14	119	28	1.3	
+Clypeus Margaritus	rs1_max_gravity_p90	1:Water	{"max_gravity": 0.061259}	9084	3256	73.61	86.35	413	133	4.3	
+Clypeus Margaritus	rs1_min_temperature_add_p5	1:Water	{"min_temperature": 404.944156}	9290	3331	73.61	88.31	207	58	2.2	
+Clypeus Margaritus	rs1_max_gravity_p80	1:Water	{"max_gravity": 0.060088}	8672	3112	73.59	82.43	825	277	8.7	
+Clypeus Margaritus	rs1_min_temperature_add_p25	1:Water	{"min_temperature": 415.361526}	8466	3039	73.59	80.48	1031	350	10.9	
+Clypeus Margaritus	rs1_min_pressure_add_p10	1:Water	{"min_pressure": 0.066825}	9084	3260	73.59	86.35	413	129	4.3	
+Clypeus Margaritus	rs1_excl_star_K	1:Water	{"exclude_star": "K"}	8361	3000	73.59	79.48	1136	389	12.0	
+Clypeus Margaritus	rs1_max_pressure_add_p75	1:Water	{"max_pressure": 0.089655}	8466	3040	73.58	80.48	1031	349	10.9	
+Clypeus Margaritus	rs1_min_gravity_p15	1:Water	{"min_gravity": 0.052238}	8878	3190	73.57	84.39	619	199	6.5	
+Clypeus Margaritus	rs1_max_gravity_p85	1:Water	{"max_gravity": 0.060639}	8878	3189	73.57	84.39	619	200	6.5	
+Clypeus Margaritus	rs1_max_gravity_p75	1:Water	{"max_gravity": 0.059534}	8466	3041	73.57	80.48	1031	348	10.9	
+Clypeus Margaritus	rs0_max_gravity_p80	0:CarbonDioxide	{"max_gravity": 0.259028}	8422	3029	73.55	80.06	1075	360	11.3	
+Clypeus Margaritus	rs1_max_temperature_add_p95	1:Water	{"max_temperature": 444.111316}	9290	3341	73.55	88.31	207	48	2.2	
+Clypeus Margaritus	rs0_min_temperature_p5	0:CarbonDioxide	{"min_temperature": 190.239658}	9228	3320	73.54	87.72	269	69	2.8	
+Clypeus Margaritus	rs1_min_temperature_add_p10	1:Water	{"min_temperature": 408.375775}	9084	3270	73.53	86.35	413	119	4.3	
+Clypeus Margaritus	rs1_max_temperature_add_p90	1:Water	{"max_temperature": 440.460651}	9084	3281	73.47	86.35	413	108	4.3	
+Clypeus Margaritus	rs1_min_gravity_p20	1:Water	{"min_gravity": 0.052971}	8672	3133	73.46	82.43	825	256	8.7	
+Clypeus Margaritus	rs0_min_temperature_p10	0:CarbonDioxide	{"min_temperature": 190.499472}	8959	3241	73.43	85.16	538	148	5.7	
+Clypeus Margaritus	rs1_excl_star_F	1:Water	{"exclude_star": "F"}	9114	3301	73.41	86.63	383	88	4.0	
+Clypeus Margaritus	rs0_excl_star_F	0:CarbonDioxide	{"exclude_star": "F"}	8519	3089	73.39	80.98	978	300	10.3	
+Clypeus Margaritus	rs1_excl_star_G	1:Water	{"exclude_star": "G"}	9107	3304	73.38	86.57	390	85	4.1	
+Clypeus Margaritus	rs1_combined_top2	1:Water	{"min_temperature": 415.361526, "max_pressure": 0.089655}	7483	2716	73.37	71.13	2014	673	21.2	
+Clypeus Margaritus	rs1_combined_top3	1:Water	{"min_temperature": 415.361526, "max_pressure": 0.089655, "min_gravity": 0.050042}	7412	2693	73.35	70.46	2085	696	22.0	
+Clypeus Margaritus	rs1_min_pressure_add_p25	1:Water	{"min_pressure": 0.072644}	8466	3078	73.34	80.48	1031	311	10.9	
+Clypeus Margaritus	rs1_max_temperature_add_p75	1:Water	{"max_temperature": 433.49968}	8466	3079	73.33	80.48	1031	310	10.9	
+Clypeus Margaritus	rs1_min_gravity_p25	1:Water	{"min_gravity": 0.053574}	8466	3083	73.31	80.48	1031	306	10.9	
+Clypeus Margaritus	rs0_min_temperature_p15	0:CarbonDioxide	{"min_temperature": 190.756646}	8691	3173	73.26	82.61	806	216	8.5	
+Clypeus Margaritus	rs0_min_temperature_p25	0:CarbonDioxide	{"min_temperature": 191.261325}	8153	2976	73.26	77.50	1344	413	14.2	
+Clypeus Margaritus	rs0_excl_star_G	0:CarbonDioxide	{"exclude_star": "G"}	8840	3235	73.21	84.03	657	154	6.9	
+Clypeus Margaritus	rs0_min_temperature_p20	0:CarbonDioxide	{"min_temperature": 191.007996}	8422	3107	73.05	80.06	1075	282	11.3	
+Osseus Discus	baseline	all	{}	9450	8602	52.35	89.23	0	0	0.0	Y
+Osseus Discus	rs0_max_gravity_p75	0:Water	{"max_gravity": 0.052479}	7087	4430	61.54	66.92	2363	4172	25.0	Y
+Osseus Discus	rs0_max_gravity_p80	0:Water	{"max_gravity": 0.052955}	7560	4820	61.07	71.38	1890	3782	20.0	Y
+Osseus Discus	rs0_max_gravity_p85	0:Water	{"max_gravity": 0.053456}	8032	5242	60.51	75.84	1418	3360	15.0	Y
+Osseus Discus	rs0_max_gravity_p90	0:Water	{"max_gravity": 0.055336}	8505	6161	57.99	80.30	945	2441	10.0	Y
+Osseus Discus	rs0_excl_star_M	0:Water	{"exclude_star": "M"}	8252	6761	54.97	77.92	1198	1841	12.7	
+Osseus Discus	rs0_max_gravity_p95	0:Water	{"max_gravity": 0.058822}	8977	7366	54.93	84.76	473	1236	5.0	Y
+Osseus Discus	rs0_excl_star_F	0:Water	{"exclude_star": "F"}	7570	6505	53.78	71.48	1880	2097	19.9	
+Osseus Discus	rs0_excl_star_K	0:Water	{"exclude_star": "K"}	8206	7209	53.23	77.48	1244	1393	13.2	
+Osseus Discus	rs0_min_pressure_add_p10	0:Water	{"min_pressure": 0.069998}	8505	7644	52.67	80.30	945	958	10.0	
+Osseus Discus	rs0_min_pressure_add_p25	0:Water	{"min_pressure": 0.075163}	7087	6390	52.59	66.92	2363	2212	25.0	
+Osseus Discus	rs0_excl_star_G	0:Water	{"exclude_star": "G"}	8458	7631	52.57	79.86	992	971	10.5	
+Osseus Discus	rs0_max_temperature_p75	0:Water	{"max_temperature": 433.966614}	7087	6398	52.55	66.92	2363	2204	25.0	
+Osseus Discus	rs0_max_temperature_p80	0:Water	{"max_temperature": 435.977869}	7560	6834	52.52	71.38	1890	1768	20.0	
+Osseus Discus	rs0_min_temperature_p10	0:Water	{"min_temperature": 409.970791}	8505	7691	52.51	80.30	945	911	10.0	
+Osseus Discus	rs0_min_pressure_add_p5	0:Water	{"min_pressure": 0.066723}	8977	8139	52.45	84.76	473	463	5.0	
+Osseus Discus	rs0_min_temperature_p15	0:Water	{"min_temperature": 412.204241}	8032	7284	52.44	75.84	1418	1318	15.0	
+Osseus Discus	rs0_max_pressure_add_p75	0:Water	{"max_pressure": 0.0906}	7087	6428	52.44	66.92	2363	2174	25.0	
+Osseus Discus	rs0_max_temperature_p95	0:Water	{"max_temperature": 444.214835}	8977	8146	52.43	84.76	473	456	5.0	
+Osseus Discus	rs0_min_temperature_p5	0:Water	{"min_temperature": 406.996884}	8977	8147	52.42	84.76	473	455	5.0	
+Osseus Discus	rs0_max_pressure_add_p90	0:Water	{"max_pressure": 0.09537}	8505	7719	52.42	80.30	945	883	10.0	
+Osseus Discus	rs0_excl_star_T	0:Water	{"exclude_star": "T"}	9446	8573	52.42	89.19	4	29	0.0	Y
+Osseus Discus	rs0_max_temperature_p90	0:Water	{"max_temperature": 440.892246}	8505	7728	52.39	80.30	945	874	10.0	
+Osseus Discus	rs0_excl_star_L	0:Water	{"exclude_star": "L"}	9409	8552	52.39	88.84	41	50	0.4	
+Osseus Discus	rs0_max_temperature_p85	0:Water	{"max_temperature": 438.299087}	8032	7301	52.38	75.84	1418	1301	15.0	
+Osseus Discus	rs0_max_pressure_add_p95	0:Water	{"max_pressure": 0.097065}	8977	8168	52.36	84.76	473	434	5.0	
+Osseus Discus	rs0_excl_star_Y	0:Water	{"exclude_star": "Y"}	9422	8582	52.33	88.96	28	20	0.3	
+Osseus Discus	rs0_min_temperature_p20	0:Water	{"min_temperature": 413.995947}	7560	6934	52.16	71.38	1890	1668	20.0	
+Osseus Discus	rs0_min_temperature_p25	0:Water	{"min_temperature": 415.797257}	7087	6509	52.13	66.92	2363	2093	25.0	
+Osseus Discus	rs0_min_gravity_p5	0:Water	{"min_gravity": 0.044713}	8977	8351	51.81	84.76	473	251	5.0	
+Osseus Discus	rs0_excl_star_B	0:Water	{"exclude_star": "B"}	8673	8267	51.20	81.89	777	335	8.2	
+Osseus Discus	rs0_min_gravity_p10	0:Water	{"min_gravity": 0.045563}	8505	8153	51.06	80.30	945	449	10.0	
+Osseus Discus	rs0_excl_star_A	0:Water	{"exclude_star": "A"}	7472	7267	50.70	70.55	1978	1335	20.9	
+Osseus Discus	rs0_min_gravity_p15	0:Water	{"min_gravity": 0.046272}	8032	7915	50.37	75.84	1418	687	15.0	
+Osseus Discus	rs0_min_gravity_p20	0:Water	{"min_gravity": 0.046893}	7560	7639	49.74	71.38	1890	963	20.0	
+Osseus Discus	rs0_min_gravity_p25	0:Water	{"min_gravity": 0.047482}	7088	7370	49.02	66.92	2362	1232	25.0	
+Tubus Cavas	baseline	all	{}	10313	3660	73.81	99.99	0	0	0.0	Y
+Tubus Cavas	rs0_max_pressure_add_p75	0:CarbonDioxide	{"max_pressure": 0.026083}	7735	1564	83.18	75.00	2578	2096	25.0	Y
+Tubus Cavas	rs0_max_temperature_p75	0:CarbonDioxide	{"max_temperature": 173.222046}	7735	1771	81.37	75.00	2578	1889	25.0	
+Tubus Cavas	rs0_max_gravity_p75	0:CarbonDioxide	{"max_gravity": 0.114502}	7735	1795	81.16	75.00	2578	1865	25.0	
+Tubus Cavas	rs0_max_temperature_p80	0:CarbonDioxide	{"max_temperature": 174.646735}	8250	1939	80.97	79.99	2063	1721	20.0	Y
+Tubus Cavas	rs0_max_gravity_p80	0:CarbonDioxide	{"max_gravity": 0.118908}	8250	1970	80.72	79.99	2063	1690	20.0	
+Tubus Cavas	rs0_max_gravity_p85	0:CarbonDioxide	{"max_gravity": 0.123409}	8766	2145	80.34	84.99	1547	1515	15.0	Y
+Tubus Cavas	rs0_combined_top3	0:CarbonDioxide	{"max_gravity": 0.135416, "max_pressure": 0.038786, "max_temperature": 181.135944}	9290	2281	80.29	90.07	1023	1379	9.9	Y
+Tubus Cavas	rs0_max_temperature_p85	0:CarbonDioxide	{"max_temperature": 176.194098}	8766	2170	80.16	84.99	1547	1490	15.0	
+Tubus Cavas	rs0_max_pressure_add_p90	0:CarbonDioxide	{"max_pressure": 0.033482}	9281	2298	80.15	89.98	1032	1362	10.0	
+Tubus Cavas	rs0_combined_top2	0:CarbonDioxide	{"max_gravity": 0.135416, "max_pressure": 0.038786}	9384	2379	79.78	90.98	929	1281	9.0	Y
+Tubus Cavas	rs0_max_gravity_p90	0:CarbonDioxide	{"max_gravity": 0.128807}	9281	2403	79.43	89.98	1032	1257	10.0	
+Tubus Cavas	rs0_max_temperature_p90	0:CarbonDioxide	{"max_temperature": 178.173318}	9281	2469	78.99	89.98	1032	1191	10.0	
+Tubus Cavas	rs0_max_gravity_p95	0:CarbonDioxide	{"max_gravity": 0.135416}	9797	2744	78.12	94.99	516	916	5.0	Y
+Tubus Cavas	rs0_max_pressure_add_p95	0:CarbonDioxide	{"max_pressure": 0.038786}	9797	2854	77.44	94.99	516	806	5.0	
+Tubus Cavas	rs0_max_temperature_p95	0:CarbonDioxide	{"max_temperature": 181.135944}	9797	2928	76.99	94.99	516	732	5.0	
+Tubus Cavas	rs0_excl_star_F	0:CarbonDioxide	{"exclude_star": "F"}	6781	2247	75.11	65.75	3532	1413	34.2	
+Tubus Cavas	rs0_excl_star_K	0:CarbonDioxide	{"exclude_star": "K"}	7950	2682	74.77	77.08	2363	978	22.9	
+Tubus Cavas	rs0_excl_star_G	0:CarbonDioxide	{"exclude_star": "G"}	7846	2784	73.81	76.07	2467	876	23.9	
+Tubus Cavas	rs0_excl_star_B	0:CarbonDioxide	{"exclude_star": "B"}	10302	3658	73.80	99.88	11	2	0.1	
+Tubus Cavas	rs0_excl_star_M	0:CarbonDioxide	{"exclude_star": "M"}	10029	3561	73.80	97.24	284	99	2.8	
+Tubus Cavas	rs0_excl_star_Y	0:CarbonDioxide	{"exclude_star": "Y"}	10300	3656	73.80	99.86	13	4	0.1	
+Tubus Cavas	rs0_min_gravity_p5	0:CarbonDioxide	{"min_gravity": 0.053501}	9797	3498	73.69	94.99	516	162	5.0	
+Tubus Cavas	rs0_min_gravity_p10	0:CarbonDioxide	{"min_gravity": 0.060008}	9281	3359	73.43	89.98	1032	301	10.0	
+Tubus Cavas	rs0_min_pressure_p5	0:CarbonDioxide	{"min_pressure": 0.005819}	9797	3564	73.33	94.99	516	96	5.0	
+Tubus Cavas	rs0_min_temperature_p5	0:CarbonDioxide	{"min_temperature": 160.82951}	9797	3568	73.30	94.99	516	92	5.0	
+Tubus Cavas	rs0_min_gravity_p15	0:CarbonDioxide	{"min_gravity": 0.066178}	8766	3238	73.03	84.99	1547	422	15.0	
+Tubus Cavas	rs0_min_temperature_p10	0:CarbonDioxide	{"min_temperature": 161.650241}	9281	3475	72.76	89.98	1032	185	10.0	
+Tubus Cavas	rs0_min_gravity_p20	0:CarbonDioxide	{"min_gravity": 0.071651}	8250	3094	72.73	79.99	2063	566	20.0	
+Tubus Cavas	rs0_min_pressure_p10	0:CarbonDioxide	{"min_pressure": 0.00747}	9281	3481	72.72	89.98	1032	179	10.0	
+Tubus Cavas	rs0_min_temperature_p15	0:CarbonDioxide	{"min_temperature": 162.445709}	8766	3366	72.26	84.99	1547	294	15.0	
+Tubus Cavas	rs0_min_gravity_p25	0:CarbonDioxide	{"min_gravity": 0.076786}	7735	2971	72.25	75.00	2578	689	25.0	
+Tubus Cavas	rs0_excl_star_A	0:CarbonDioxide	{"exclude_star": "A"}	9144	3512	72.25	88.66	1169	148	11.3	
+Tubus Cavas	rs0_min_pressure_p15	0:CarbonDioxide	{"min_pressure": 0.009115}	8766	3373	72.21	84.99	1547	287	15.0	
+Tubus Cavas	rs0_min_temperature_p20	0:CarbonDioxide	{"min_temperature": 163.2121}	8250	3263	71.66	79.99	2063	397	20.0	
+Tubus Cavas	rs0_min_pressure_p20	0:CarbonDioxide	{"min_pressure": 0.010594}	8250	3282	71.54	79.99	2063	378	20.0	
+Tubus Cavas	rs0_min_temperature_p25	0:CarbonDioxide	{"min_temperature": 163.980667}	7735	3172	70.92	75.00	2578	488	25.0	
+Tubus Cavas	rs0_min_pressure_p25	0:CarbonDioxide	{"min_pressure": 0.012034}	7735	3190	70.80	75.00	2578	470	25.0	
+Frutexa Flammasis	baseline	all	{}	11392	9270	55.14	99.98	0	0	0.0	Y
+Frutexa Flammasis	rs0_excl_star_K	0:Ammonia	{"exclude_star": "K"}	11085	6668	62.44	97.29	307	2602	2.7	Y
+Frutexa Flammasis	rs0_excl_star_A	0:Ammonia	{"exclude_star": "A"}	11227	7683	59.37	98.53	165	1587	1.4	Y
+Frutexa Flammasis	rs0_max_temperature_p75	0:Ammonia	{"max_temperature": 170.582196}	8544	5857	59.33	74.99	2848	3413	25.0	
+Frutexa Flammasis	rs0_max_temperature_p80	0:Ammonia	{"max_temperature": 171.399325}	9113	6491	58.40	79.98	2279	2779	20.0	
+Frutexa Flammasis	rs0_max_temperature_p85	0:Ammonia	{"max_temperature": 172.275577}	9683	7249	57.19	84.98	1709	2021	15.0	
+Frutexa Flammasis	rs0_max_temperature_p90	0:Ammonia	{"max_temperature": 173.058953}	10252	7874	56.56	89.98	1140	1396	10.0	
+Frutexa Flammasis	rs0_max_pressure_p75	0:Ammonia	{"max_pressure": 0.002426}	8544	6645	56.25	74.99	2848	2625	25.0	
+Frutexa Flammasis	rs0_max_pressure_p80	0:Ammonia	{"max_pressure": 0.002691}	9113	7156	56.01	79.98	2279	2114	20.0	
+Frutexa Flammasis	rs0_max_pressure_p85	0:Ammonia	{"max_pressure": 0.003007}	9683	7638	55.90	84.98	1709	1632	15.0	
+Frutexa Flammasis	rs0_max_temperature_p95	0:Ammonia	{"max_temperature": 173.902626}	10822	8544	55.88	94.98	570	726	5.0	
+Frutexa Flammasis	rs0_min_gravity_p15	0:Ammonia	{"min_gravity": 0.13112}	9683	7674	55.79	84.98	1709	1596	15.0	
+Frutexa Flammasis	rs0_min_gravity_p10	0:Ammonia	{"min_gravity": 0.128297}	10252	8135	55.76	89.98	1140	1135	10.0	
+Frutexa Flammasis	rs0_min_gravity_p20	0:Ammonia	{"min_gravity": 0.133992}	9113	7240	55.73	79.98	2279	2030	20.0	
+Frutexa Flammasis	rs0_max_pressure_p90	0:Ammonia	{"max_pressure": 0.003494}	10252	8145	55.73	89.98	1140	1125	10.0	
+Frutexa Flammasis	rs0_min_gravity_p25	0:Ammonia	{"min_gravity": 0.137052}	8544	6821	55.61	74.99	2848	2449	25.0	
+Frutexa Flammasis	rs0_max_pressure_p95	0:Ammonia	{"max_pressure": 0.004212}	10822	8669	55.52	94.98	570	601	5.0	
+Frutexa Flammasis	rs0_max_gravity_p80	0:Ammonia	{"max_gravity": 0.199388}	9113	7324	55.44	79.98	2279	1946	20.0	
+Frutexa Flammasis	rs0_min_gravity_p5	0:Ammonia	{"min_gravity": 0.072324}	10822	8711	55.40	94.98	570	559	5.0	
+Frutexa Flammasis	rs0_max_gravity_p85	0:Ammonia	{"max_gravity": 0.210384}	9683	7819	55.33	84.98	1709	1451	15.0	
+Frutexa Flammasis	rs0_max_gravity_p90	0:Ammonia	{"max_gravity": 0.224398}	10252	8301	55.26	89.98	1140	969	10.0	
+Frutexa Flammasis	rs0_max_gravity_p75	0:Ammonia	{"max_gravity": 0.189861}	8544	6920	55.25	74.99	2848	2350	25.0	
+Frutexa Flammasis	rs0_min_pressure_add_p5	0:Ammonia	{"min_pressure": 0.001029}	10822	8783	55.20	94.98	570	487	5.0	
+Frutexa Flammasis	rs0_max_gravity_p95	0:Ammonia	{"max_gravity": 0.24474}	10822	8794	55.17	94.98	570	476	5.0	
+Frutexa Flammasis	rs0_min_pressure_add_p10	0:Ammonia	{"min_pressure": 0.001074}	10252	8342	55.14	89.98	1140	928	10.0	
+Frutexa Flammasis	rs0_excl_star_L	0:Ammonia	{"exclude_star": "L"}	11376	9264	55.12	99.84	16	6	0.1	
+Frutexa Flammasis	rs0_excl_star_T	0:Ammonia	{"exclude_star": "T"}	11376	9262	55.12	99.84	16	8	0.1	
+Frutexa Flammasis	rs0_excl_star_B	0:Ammonia	{"exclude_star": "B"}	11367	9264	55.10	99.76	25	6	0.2	
+Frutexa Flammasis	rs0_excl_star_Y	0:Ammonia	{"exclude_star": "Y"}	11360	9257	55.10	99.70	32	13	0.3	
+Frutexa Flammasis	rs0_min_pressure_add_p25	0:Ammonia	{"min_pressure": 0.001225}	8544	7018	54.90	74.99	2848	2252	25.0	
+Frutexa Flammasis	rs0_min_temperature_p5	0:Ammonia	{"min_temperature": 155.710306}	10822	9003	54.59	94.98	570	267	5.0	
+Frutexa Flammasis	rs0_excl_star_M	0:Ammonia	{"exclude_star": "M"}	10818	9134	54.22	94.94	574	136	5.0	
+Frutexa Flammasis	rs0_min_temperature_p10	0:Ammonia	{"min_temperature": 157.898986}	10252	8725	54.02	89.98	1140	545	10.0	
+Frutexa Flammasis	rs0_min_temperature_p15	0:Ammonia	{"min_temperature": 159.691609}	9683	8480	53.31	84.98	1709	790	15.0	
+Frutexa Flammasis	rs0_min_temperature_p20	0:Ammonia	{"min_temperature": 160.938974}	9113	8114	52.90	79.98	2279	1156	20.0	
+Frutexa Flammasis	rs0_min_temperature_p25	0:Ammonia	{"min_temperature": 162.000927}	8544	7742	52.46	74.99	2848	1528	25.0	
+Frutexa Flammasis	rs0_excl_star_G	0:Ammonia	{"exclude_star": "G"}	7490	7688	49.35	65.74	3902	1582	34.3	
+Frutexa Flammasis	rs0_excl_star_F	0:Ammonia	{"exclude_star": "F"}	5743	6215	48.03	50.40	5649	3055	49.6	

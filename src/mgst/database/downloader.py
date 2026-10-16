@@ -2,6 +2,8 @@
 
 import gzip
 import json
+import shutil
+import subprocess
 import requests
 from pathlib import Path
 from typing import Optional, Iterator, Dict, Any
@@ -86,12 +88,20 @@ class SpanshDownloader:
         logger.info(f"Successfully downloaded: {file_path}")
         return file_path
     
+    @staticmethod
+    def _has_pigz() -> bool:
+        """Check if pigz is available on the system."""
+        return shutil.which('pigz') is not None
+
     def stream_systems(self, file_path: Path) -> Iterator[Dict[str, Any]]:
         """Stream systems from compressed JSON file.
-        
+
+        Uses pigz for parallel decompression when available, falling back
+        to Python's gzip module otherwise.
+
         Args:
             file_path: Path to compressed JSON file
-            
+
         Yields:
             System dictionaries
         """
@@ -99,18 +109,33 @@ class SpanshDownloader:
             import ijson
         except ImportError:
             raise ImportError("ijson is required for streaming JSON parsing")
-            
+
         logger.info(f"Streaming systems from: {file_path}")
-        
-        # Use larger buffer for better performance with big compressed files
-        with gzip.open(file_path, 'rb', compresslevel=1) as gz_file:
+
+        use_pigz = self._has_pigz()
+        proc = None
+        stream = None
+
+        try:
+            if use_pigz:
+                logger.info("Using pigz for parallel decompression")
+                proc = subprocess.Popen(
+                    ['pigz', '-dc', str(file_path)],
+                    stdout=subprocess.PIPE,
+                    bufsize=64 * 1024 * 1024,
+                )
+                stream = proc.stdout
+            else:
+                logger.info("Using Python gzip for decompression (install pigz for faster parallel decompression)")
+                stream = gzip.open(file_path, 'rb')
+
             # Use yajl2_c backend if available for better performance
             try:
-                parser = ijson.items(gz_file, 'item', use_float=True)
+                parser = ijson.items(stream, 'item', use_float=True)
             except Exception:
                 # Fallback to default backend
-                parser = ijson.items(gz_file, 'item')
-            
+                parser = ijson.items(stream, 'item')
+
             count = 0
             for system in parser:
                 # Convert Decimal coordinates to floats for consistency
@@ -122,16 +147,156 @@ class SpanshDownloader:
                         'y': float(coords['y']),
                         'z': float(coords['z'])
                     }
-                
+
                 yield system
                 count += 1
-                
+
                 # Log less frequently for large files
                 if count % 50000 == 0:
                     logger.info(f"Processed {count:,} systems")
-                    
+        finally:
+            if proc is not None:
+                proc.stdout.close()
+                proc.wait()
+            elif stream is not None:
+                stream.close()
+
         logger.info(f"Finished streaming {count:,} systems")
-    
+
+    def stream_raw_systems(self, file_path: Path,
+                           chunk_size: int = 4 * 1024 * 1024) -> Iterator[bytes]:
+        """Stream raw JSON byte strings for each system object.
+
+        Reads decompressed bytes from pigz (or gzip fallback) and uses a
+        byte-level state machine to find top-level ``{...}`` object
+        boundaries without parsing JSON.  Each yielded value is a raw
+        ``bytes`` object containing exactly one complete JSON system
+        object, suitable for later parsing with ``orjson.loads()``.
+
+        Args:
+            file_path: Path to compressed JSON file (.json.gz).
+            chunk_size: Read chunk size in bytes (default 4 MB).
+
+        Yields:
+            Raw JSON bytes for each system object.
+        """
+        logger.info(f"Streaming raw system objects from: {file_path}")
+
+        use_pigz = self._has_pigz()
+        proc = None
+        stream = None
+
+        try:
+            if use_pigz:
+                logger.info("Using pigz for parallel decompression (raw mode)")
+                proc = subprocess.Popen(
+                    ['pigz', '-dc', str(file_path)],
+                    stdout=subprocess.PIPE,
+                    bufsize=64 * 1024 * 1024,
+                )
+                stream = proc.stdout
+            else:
+                logger.info("Using Python gzip for decompression (raw mode)")
+                stream = gzip.open(file_path, 'rb')
+
+            # State machine
+            brace_depth = 0
+            in_string = False
+            escape_next = False
+
+            # Accumulator for objects spanning chunk boundaries
+            accumulator = bytearray()
+            obj_start = -1  # position within current chunk; -1 = not inside object
+
+            count = 0
+
+            while True:
+                chunk = stream.read(chunk_size)
+                if not chunk:
+                    break
+
+                i = 0
+                chunk_len = len(chunk)
+
+                while i < chunk_len:
+                    # --- fast-path: skip to next '{' when outside objects ---
+                    if brace_depth == 0 and not in_string:
+                        next_brace = chunk.find(b'{', i)
+                        if next_brace == -1:
+                            break  # no object starts in remainder of chunk
+                        i = next_brace
+                        # fall through to handle the '{'
+
+                    b = chunk[i]
+
+                    if escape_next:
+                        escape_next = False
+                        i += 1
+                        continue
+
+                    if b == 0x5C and in_string:  # backslash inside string
+                        escape_next = True
+                        i += 1
+                        continue
+
+                    if b == 0x22:  # double quote
+                        in_string = not in_string
+                        i += 1
+                        continue
+
+                    if in_string:
+                        i += 1
+                        continue
+
+                    # Outside a string
+                    if b == 0x7B:  # '{'
+                        if brace_depth == 0:
+                            obj_start = i
+                        brace_depth += 1
+                    elif b == 0x7D:  # '}'
+                        brace_depth -= 1
+                        if brace_depth == 0:
+                            # Complete object found
+                            if accumulator:
+                                accumulator.extend(
+                                    chunk[obj_start if obj_start >= 0 else 0 : i + 1]
+                                )
+                                yield bytes(accumulator)
+                                accumulator.clear()
+                            else:
+                                yield chunk[obj_start : i + 1]
+
+                            obj_start = -1
+                            count += 1
+
+                            if count % 50000 == 0:
+                                logger.info(
+                                    f"Extracted {count:,} raw system objects"
+                                )
+
+                    i += 1
+
+                # End of chunk: if inside an object, carry over to next chunk
+                if brace_depth > 0:
+                    if obj_start >= 0:
+                        accumulator.extend(chunk[obj_start:])
+                        obj_start = 0
+                    else:
+                        # Continuation from previous chunk, whole chunk is part
+                        # of the current object
+                        accumulator.extend(chunk)
+                else:
+                    obj_start = -1
+
+        finally:
+            if proc is not None:
+                proc.stdout.close()
+                proc.wait()
+            elif stream is not None:
+                stream.close()
+
+        logger.info(f"Finished extracting {count:,} raw system objects")
+
     def get_file_info(self, file_path: Path) -> Dict[str, Any]:
         """Get information about a downloaded file.
         

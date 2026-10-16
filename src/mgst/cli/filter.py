@@ -7,7 +7,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional, List
 
-from ..core.filtering import filter_galaxy_data, validate_config
+from ..core.filtering import filter_galaxy_data, validate_config, detect_database_format
 from ..core.spatial import SpatialPrefilter
 from ..core.search_modes import (
     SearchMode, SearchParameters, SectorResolver,
@@ -137,13 +137,9 @@ def filter_cmd(
         return
 
     # Validate required parameters
-    # For pattern and corridor modes, allow using pattern-file instead of config
+    # Allow using pattern-file instead of config for any mode
     if not config:
-        if mode == 'pattern' and pattern_file:
-            # Use pattern file as config
-            pass  # Will load pattern file below
-        elif mode == 'corridor' and pattern_file:
-            # Use pattern file as config for corridor search
+        if pattern_file:
             pass  # Will load pattern file below
         else:
             raise click.ClickException("Configuration is required (use --config or --pattern-file)")
@@ -353,17 +349,32 @@ def filter_cmd(
                     sys.stdout = TeeWriter(original_stdout, stdout_file)
                     sys.stderr = TeeWriter(original_stderr, stderr_file)
 
-                    # Execute the actual filtering using existing infrastructure
-                    filter_galaxy_data(
-                        config=config_obj,
-                        input_dir=temp_path,
-                        output_path=output,
-                        workers=workers,
-                        chunk_size=chunk_size,
-                        output_format=output_format,
-                        test_mode=test,
-                        verbose=verbose
-                    )
+                    # Execute filtering — auto-detect database format
+                    db_format = detect_database_format(database)
+
+                    if db_format == "parquet":
+                        from ..core.parquet_filtering import filter_galaxy_data_parquet
+                        filter_galaxy_data_parquet(
+                            database_dir=database,
+                            config=config_obj,
+                            output_path=output,
+                            output_format=output_format,
+                            workers=workers,
+                            test_mode=test,
+                            verbose=verbose,
+                            sector_dirs=sector_files if resolver.is_parquet else None,
+                        )
+                    else:
+                        filter_galaxy_data(
+                            config=config_obj,
+                            input_dir=temp_path,
+                            output_path=output,
+                            workers=workers,
+                            chunk_size=chunk_size,
+                            output_format=output_format,
+                            test_mode=test,
+                            verbose=verbose
+                        )
             finally:
                 # Restore original stdout and stderr
                 sys.stdout = original_stdout

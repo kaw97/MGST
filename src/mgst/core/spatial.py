@@ -9,6 +9,8 @@ from pathlib import Path
 from typing import Dict, List, Tuple, Set, Optional, Any
 from dataclasses import dataclass
 
+from ..utils.math_utils import distance_3d as _math_distance_3d
+
 
 @dataclass
 class SpatialRange:
@@ -192,14 +194,10 @@ class SectorIndex:
         return sector_data.get('filename') if sector_data else None
 
 
-def calculate_distance(coord1: Tuple[float, float, float], 
+def calculate_distance(coord1: Tuple[float, float, float],
                       coord2: Tuple[float, float, float]) -> float:
     """Calculate 3D Euclidean distance between two coordinates."""
-    return math.sqrt(
-        (coord1[0] - coord2[0])**2 + 
-        (coord1[1] - coord2[1])**2 + 
-        (coord1[2] - coord2[2])**2
-    )
+    return _math_distance_3d(coord1, coord2)
 
 
 def find_sectors_in_range(sector_index: SectorIndex, 

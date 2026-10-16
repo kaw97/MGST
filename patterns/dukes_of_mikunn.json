@@ -1,0 +1,7 @@
+{
+  "description": "Systems controlled by The Dukes of Mikunn",
+  "name": "*",
+  "controllingFaction": {
+    "name": "The Dukes of Mikunn"
+  }
+}

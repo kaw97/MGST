@@ -20,6 +20,8 @@ from enum import Enum
 import json
 import logging
 
+from ..utils.math_utils import distance_3d, distance_to_line_segment
+
 logger = logging.getLogger(__name__)
 
 
@@ -40,45 +42,18 @@ class Coordinates:
 
     def distance_to(self, other: 'Coordinates') -> float:
         """Calculate distance to another coordinate."""
-        return math.sqrt(
-            (self.x - other.x) ** 2 +
-            (self.y - other.y) ** 2 +
-            (self.z - other.z) ** 2
+        return distance_3d(
+            (self.x, self.y, self.z),
+            (other.x, other.y, other.z)
         )
 
     def distance_to_line(self, start: 'Coordinates', end: 'Coordinates') -> float:
-        """Calculate distance from this point to a line segment.
-
-        Uses the formula for point-to-line distance in 3D space.
-        """
-        # Vector from start to end
-        line_vec = Coordinates(end.x - start.x, end.y - start.y, end.z - start.z)
-        line_length = start.distance_to(end)
-
-        if line_length == 0:
-            return self.distance_to(start)
-
-        # Vector from start to point
-        point_vec = Coordinates(self.x - start.x, self.y - start.y, self.z - start.z)
-
-        # Project point onto line
-        dot_product = (point_vec.x * line_vec.x +
-                      point_vec.y * line_vec.y +
-                      point_vec.z * line_vec.z)
-
-        projection_length = dot_product / line_length
-
-        # Clamp to line segment
-        projection_length = max(0, min(line_length, projection_length))
-
-        # Find closest point on line
-        closest = Coordinates(
-            start.x + (line_vec.x / line_length) * projection_length,
-            start.y + (line_vec.y / line_length) * projection_length,
-            start.z + (line_vec.z / line_length) * projection_length
+        """Calculate distance from this point to a line segment."""
+        return distance_to_line_segment(
+            (self.x, self.y, self.z),
+            (start.x, start.y, start.z),
+            (end.x, end.y, end.z)
         )
-
-        return self.distance_to(closest)
 
 
 @dataclass
@@ -108,8 +83,12 @@ class SectorResolver:
         # Sector naming pattern (just sector name, no subsector code)
         self.pattern = re.compile(r'^([A-Za-z\s_0-9]+)\.jsonl(\.gz)?$')
 
+        # Detect database format
+        from ..data.parquet_reader import detect_parquet_database
+        self.is_parquet = detect_parquet_database(self.database_path)
+
     def get_all_sector_files(self) -> List[Path]:
-        """Get list of all sector files in the database."""
+        """Get list of all sector files in the database (JSONL format)."""
         sector_files = []
 
         # Look for compressed sector files
@@ -120,6 +99,15 @@ class SectorResolver:
 
         logger.debug(f"Found {len(sector_files)} sector files")
         return sector_files
+
+    def get_all_sector_dirs(self) -> List[Path]:
+        """Get list of all sector directories in a Parquet database."""
+        sector_dirs = sorted(
+            d for d in self.database_path.iterdir()
+            if d.is_dir() and (d / "systems.parquet").exists()
+        )
+        logger.debug(f"Found {len(sector_dirs)} Parquet sector directories")
+        return sector_dirs
 
     def parse_sector_name(self, filename: str) -> Optional[str]:
         """Parse sector filename to extract sector name.
@@ -137,13 +125,33 @@ class SectorResolver:
         return None
 
     def resolve_galaxy_mode(self, params: SearchParameters) -> List[Path]:
-        """Resolve sector files for galaxy-wide search."""
+        """Resolve sector files/dirs for galaxy-wide search."""
+        if self.is_parquet:
+            return self.get_all_sector_dirs()
         return self.get_all_sector_files()
 
     def resolve_sectors_mode(self, params: SearchParameters) -> List[Path]:
-        """Resolve sector files for specific sectors search."""
+        """Resolve sector files/dirs for specific sectors search."""
         if not params.sectors:
             raise ValueError("Sectors mode requires --sectors parameter")
+
+        if self.is_parquet:
+            # For Parquet, sector names are directory names (with underscores)
+            target_dirs = []
+            for sector_name in params.sectors:
+                # Try the name as-is (with underscores) and with spaces→underscores
+                candidates = [
+                    sector_name,
+                    sector_name.replace(" ", "_"),
+                    sector_name.replace("_", " "),
+                ]
+                for candidate in candidates:
+                    sector_dir = self.database_path / candidate
+                    if sector_dir.is_dir() and (sector_dir / "systems.parquet").exists():
+                        target_dirs.append(sector_dir)
+                        break
+            logger.info(f"Found {len(target_dirs)} Parquet sectors for {len(params.sectors)} sectors")
+            return target_dirs
 
         target_files = []
         all_files = self.get_all_sector_files()
@@ -157,7 +165,7 @@ class SectorResolver:
         return target_files
 
     def resolve_corridor_mode(self, params: SearchParameters) -> List[Path]:
-        """Resolve sector files for corridor search using spatial prefiltering."""
+        """Resolve sector files/dirs for corridor search using spatial prefiltering."""
         if not all([params.start_coords, params.end_coords, params.radius]):
             raise ValueError("Corridor mode requires --start, --end, and --radius parameters")
 
@@ -173,7 +181,7 @@ class SectorResolver:
             with open(index_file, 'r') as f:
                 index = json.load(f)
 
-            target_files = []
+            target_paths = []
             max_distance = 2.2 * params.radius
 
             for sector_name, sector_data in index['sectors'].items():
@@ -184,25 +192,35 @@ class SectorResolver:
                 distance = center.distance_to_line(params.start_coords, params.end_coords)
 
                 if distance <= max_distance:
-                    sector_file = self.database_path / sector_data['filename']
-                    if sector_file.exists():
-                        target_files.append(sector_file)
+                    if self.is_parquet:
+                        # For Parquet, look for sector directory
+                        sector_dir = self.database_path / sector_name
+                        if sector_dir.is_dir() and (sector_dir / "systems.parquet").exists():
+                            target_paths.append(sector_dir)
+                    else:
+                        sector_file = self.database_path / sector_data['filename']
+                        if sector_file.exists():
+                            target_paths.append(sector_file)
 
-            logger.info(f"Found {len(target_files)} sector files near corridor "
+            logger.info(f"Found {len(target_paths)} sectors near corridor "
                        f"(radius: {params.radius}, max_distance: {max_distance:.1f} LY, "
-                       f"reduced search space by {100*(1-len(target_files)/len(index['sectors'])):.1f}%)")
-            return target_files
+                       f"reduced search space by {100*(1-len(target_paths)/len(index['sectors'])):.1f}%)")
+            return target_paths
         else:
             logger.warning(f"Sector index not found at {index_file}, searching all sectors")
+            if self.is_parquet:
+                return self.get_all_sector_dirs()
             return self.get_all_sector_files()
 
     def resolve_pattern_mode(self, params: SearchParameters) -> List[Path]:
-        """Resolve sector files for pattern-based search."""
+        """Resolve sector files/dirs for pattern-based search."""
         if not params.pattern_file:
             raise ValueError("Pattern mode requires --pattern-file parameter")
 
         # For pattern mode, we typically search all sectors unless
         # the pattern file specifies spatial constraints
+        if self.is_parquet:
+            return self.get_all_sector_dirs()
         return self.get_all_sector_files()
 
     def resolve_search_files(self, params: SearchParameters) -> List[Path]:

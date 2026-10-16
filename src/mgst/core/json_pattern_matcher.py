@@ -32,6 +32,7 @@ Pattern structure mirrors database exactly:
 """
 
 from typing import Dict, Any, List, Optional, Set
+from fnmatch import fnmatch
 import re
 
 
@@ -80,6 +81,12 @@ class JSONPatternMatcher:
         # Wildcard matches anything
         if pattern_value == "*":
             return True
+
+        # Glob pattern matching (strings containing * or ? wildcards)
+        if isinstance(pattern_value, str) and not pattern_value.startswith("$") and ("*" in pattern_value or "?" in pattern_value):
+            if data_value is None:
+                return False
+            return fnmatch(str(data_value).lower(), pattern_value.lower())
 
         # Null pattern matches null or missing
         if pattern_value is None:
@@ -235,13 +242,74 @@ class JSONPatternMatcher:
                     return False
                 continue
 
-            # Special handling for rings (empty array means no rings)
-            if key == "rings" and pattern_value == []:
-                if body.get("rings"):
-                    return False
-                continue
+            # Special handling for rings array
+            if key == "rings" and isinstance(pattern_value, list):
+                data_rings = body.get("rings", [])
+                # Empty pattern array means no rings
+                if pattern_value == []:
+                    if data_rings:
+                        return False
+                    continue
+                # Non-empty pattern array with wildcard means must have at least one ring
+                elif pattern_value == ["*"]:
+                    if not data_rings:
+                        return False
+                    continue
+                # Non-empty pattern array means must have at least one matching ring
+                else:
+                    if not self._match_rings(pattern_value, data_rings):
+                        return False
+                    continue
 
             if not self._match_value(pattern_value, body_value):
+                return False
+
+        return True
+
+    def _match_rings(self, pattern_rings: List[Dict], data_rings: List[Dict]) -> bool:
+        """Match ring patterns against body rings.
+
+        Args:
+            pattern_rings: Pattern ring list
+            data_rings: Actual ring list
+
+        Returns:
+            True if rings match pattern (at least one ring matches)
+        """
+        if not data_rings:
+            return False
+
+        # Each pattern ring must match at least one data ring
+        for pattern_ring in pattern_rings:
+            found_match = False
+            for data_ring in data_rings:
+                if self._match_ring_entry(pattern_ring, data_ring):
+                    found_match = True
+                    break
+
+            if not found_match:
+                return False
+
+        return True
+
+    def _match_ring_entry(self, pattern_ring: Dict[str, Any],
+                          data_ring: Dict[str, Any]) -> bool:
+        """Match a single ring entry.
+
+        Args:
+            pattern_ring: Pattern ring dict (e.g., {"type": "Metal Rich"})
+            data_ring: Actual ring dict
+
+        Returns:
+            True if ring entry matches
+        """
+        for key, pattern_value in pattern_ring.items():
+            # Skip documentation/metadata fields
+            if key.startswith(("comment", "description", "note", "_")):
+                continue
+
+            data_value = data_ring.get(key)
+            if not self._match_value(pattern_value, data_value):
                 return False
 
         return True
