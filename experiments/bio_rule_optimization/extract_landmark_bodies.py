@@ -51,9 +51,10 @@ def extract_sector(sector_dir):
     sids = pc.unique(bodies.column("system_id64"))
 
     star_classes = {}
+    star_ages = {}
     star_by_body = {}
     stars = reader.read_bodies(
-        columns=["system_id64", "bodyId", "spectralClass", "mainStar"],
+        columns=["system_id64", "bodyId", "spectralClass", "mainStar", "age"],
         filters=(pc.field("type") == "Star") & pc.field("system_id64").isin(sids),
     )
     for s in stars.to_pylist():
@@ -63,6 +64,7 @@ def extract_sector(sector_dir):
         star_by_body[(s["system_id64"], s.get("bodyId"))] = sc[0]
         if s.get("mainStar") or s["system_id64"] not in star_classes:
             star_classes[s["system_id64"]] = sc[0]
+            star_ages[s["system_id64"]] = s.get("age")
 
     coords = {}
     systems = reader.read_systems(
@@ -82,6 +84,7 @@ def extract_sector(sector_dir):
     sid_list = bodies.column("system_id64").to_pylist()
     xyz = [coords.get(sid, (None, None, None)) for sid in sid_list]
     bodies = bodies.append_column("star_class", pa.array([star_classes.get(s) for s in sid_list], pa.string()))
+    bodies = bodies.append_column("star_age", pa.array([star_ages.get(s) for s in sid_list], pa.float64()))
     for i, axis in enumerate(("system_x", "system_y", "system_z")):
         bodies = bodies.append_column(axis, pa.array([c[i] for c in xyz], pa.float64()))
     bodies = bodies.append_column("sector", pa.array([Path(sector_dir).name] * len(bodies), pa.string()))

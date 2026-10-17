@@ -80,10 +80,11 @@ def scan_sector(sector_dir):
 
     # Star class letter per candidate system (main star wins)
     star_classes = {}
+    star_ages = {}
     star_by_body = {}
     try:
         star_data = reader.read_bodies(
-            columns=["system_id64", "bodyId", "spectralClass", "mainStar"],
+            columns=["system_id64", "bodyId", "spectralClass", "mainStar", "age"],
             filters=(pc.field("type") == "Star")
             & pc.field("system_id64").isin(candidate_sids),
         )
@@ -95,6 +96,7 @@ def scan_sector(sector_dir):
             star_by_body[(sid, srow.get("bodyId"))] = sc[0]
             if srow.get("mainStar") or sid not in star_classes:
                 star_classes[sid] = sc[0]
+                star_ages[sid] = srow.get("age")
         del star_data
     except Exception:
         pass
@@ -125,6 +127,7 @@ def scan_sector(sector_dir):
     ):
         sid = row.get("system_id64")
         row["star_class"] = star_classes.get(sid)
+        row["star_age"] = star_ages.get(sid)
         row["parent_star_class"] = parent_star_class(row, star_by_body)
 
         coords = sys_coords.get(sid)

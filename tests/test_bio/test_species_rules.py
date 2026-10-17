@@ -215,3 +215,29 @@ class TestSpeculumiArrivalDistance:
 
     def test_missing_distance_rejected(self):
         assert "Clypeus Speculumi" not in names(score_body(self.BODY))
+
+
+class TestStarAgeRules:
+    HMC_WATER = {
+        "subType": "High metal content world", "atmosphereType": "Thin Water",
+        "volcanismType": "No volcanism", "gravity": 0.05, "surfaceTemperature": 420.0,
+        "star_class": "M", "parent_star_class": "M",
+    }
+
+    def test_osseus_discus_on_hmc_needs_old_star(self):
+        assert "Osseus Discus" not in names(score_body({**self.HMC_WATER, "star_age": 5000.0}))
+        assert "Osseus Discus" in names(score_body({**self.HMC_WATER, "star_age": 12000.0}))
+
+    def test_osseus_discus_on_rocky_ignores_age(self):
+        assert "Osseus Discus" in names(score_body({**self.HMC_WATER, "subType": "Rocky body", "star_age": 1000.0}))
+
+    def test_cactoida_vermis_on_hmc_needs_young_star(self):
+        assert "Cactoida Vermis" in names(score_body({**self.HMC_WATER, "star_age": 5000.0}))
+        assert "Cactoida Vermis" not in names(score_body({**self.HMC_WATER, "star_age": 12000.0}))
+
+    def test_cactoida_vermis_on_rocky_ignores_age(self):
+        assert "Cactoida Vermis" in names(score_body({**self.HMC_WATER, "subType": "Rocky body", "star_age": 12000.0}))
+
+    def test_missing_age_does_not_exclude(self):
+        hits = names(score_body(self.HMC_WATER))
+        assert {"Osseus Discus", "Cactoida Vermis"} <= hits

@@ -40,6 +40,9 @@ For bodies that have landmark data (someone landed and scanned):
 - **Precision (with data)** = TP / (TP + FP_wrong_species + FP_other_genus) — only bodies with confirmed ground truth
 - **Recall** = TP / (TP + FN) = TP / total_landmarks
 
+From 2026-10-16 the analysis uses a stricter ground truth that separates definitely-wrong from
+unverified predictions; see "Revised Validation Methodology" in the SrvSurvey section.
+
 ## Galaxy-Wide Validation Results
 
 ### Baseline (2026-10-15, post Tectonicas fix only)
@@ -299,9 +302,196 @@ New match precision: 96.6%.
 | Fumerola Extremus | 94.8% | 95.0% | 70.6% | **97.8%** |
 | All others | unchanged | unchanged | unchanged | unchanged |
 
+## SrvSurvey Comparison, Precision Sweep and Star Age (2026-10-16)
+
+Compared MGST's rules with [SrvSurvey](https://github.com/njthomson/SrvSurvey)'s bio criteria
+(cloned at `/mnt/z/SrvSurvey`), traced every disagreement to a rule and condition, swept every
+ruleset for precision, and tested main-star age as a discriminator. Rule changes from this work
+were committed in `3cdd52c`.
+
+### Revised Validation Methodology
+
+Ground truth is the 391,870 bodies in the Parquet database that carry landmark data
+(`extract_landmark_bodies.py` builds `output/landmark_bodies/landmark_bodies.parquet`, with each
+body's main-star class and age and the class of the star the body orbits).
+
+Every (body, species) pair is classified as:
+
+| Outcome | Meaning |
+|---|---|
+| Confirmed (TP) | the species is recorded on the body |
+| Definitely wrong (FP) | another species of the same genus is confirmed (a body hosts at most one species per genus), or the body's records are complete and exclude the species: confirmed species count equals the bio signal count, or the genus list is known, consistent with the confirmed species, and lacks the genus |
+| Unverified (UP) | neither: some bio signals are unidentified and the genus may be present. Excluded from FP and from the rates |
+| Missed (FN) | confirmed, not predicted |
+| Correctly rejected (TN) | definitely absent, not predicted |
+
+Rates: **FNR** = FN / (TP + FN); **FDR** = FP / (TP + FP) (= 1 − precision);
+**FPR** = FP / (FP + TN). Thresholds are chosen on two thirds of sectors and checked on the
+held-out third (`crc32(sector) % 3 == 0`).
+
+`scripts/validate_species_galaxy.py` remains the independent cross-check. It is stricter: it
+counts a body with only other genera recorded as wrong even when its records are incomplete.
+
+**Lesson:** the first SrvSurvey comparison counted every unscanned body as a false positive and
+reported "3.5M extra FP" for Stratum Tectonicas. Predictions on bodies without landmark data are
+unknown, never false positives.
+
+### SrvSurvey Comparison
+
+`srvsurv_parser.py` turns SrvSurvey's JSON criteria trees into an evaluator with the same
+interface as `score_body()` (114 species; all 18 targets). On landmark bodies, SrvSurvey found
+confirmed bodies that MGST missed for Stratum Tectonicas (+2,838), Osseus Discus (+1,126),
+Cactoida Vermis (+1,071), Clypeus Speculumi (+688) and Recepta Deltahedronix (+684), and avoided
+7,907 wrong Recepta Deltahedronix predictions. MGST was better for Tussock Virgam (SrvSurvey's
+extra predictions there are right only 7.5% of the time).
+
+`attribute_differences.py` attributed each disagreement to a rule and blocking condition:
+
+- **Star exclusions apply to the star a body orbits, not the main star.** With the main star
+  in an excluded class but the body orbiting a different star, Stratum Tectonicas has 1,965
+  confirmed bodies (92% hit rate). Where the body's own star is the excluded class there are
+  0 of 3,332. SrvSurvey has no star exclusions; its `star` clauses only choose colour variants,
+  but a species appears only around star classes that have a colour for it.
+- **Clypeus Speculumi's "2,000 ly from Sol" limit was wrong.** Distance from Sol has no effect
+  (hit rate 23–25% in every 500 ly band, confirmed sightings 48 ly from Sol). Distance from the
+  arrival star has a sharp edge near 2,500 ls.
+- **SrvSurvey's per-body-type branches** recover missed Stratum Tectonicas (carbon dioxide-rich,
+  oxygen on HMC) and Osseus Discus (Ammonia on Rocky, Rocky Ice and HMC; Argon on Rocky Ice)
+  bodies, and its sulphur dioxide split removes most wrong Recepta Deltahedronix predictions.
+  The translated rulesets match SrvSurvey's branches on all 1.57M bodies tested
+  (`check_translations.py`).
+
+### Applied Rule Changes (commit 3cdd52c)
+
+Each change measured on its own against landmark ground truth:
+
+| Change | TP | FN | FP | FNR | FDR |
+|---|---:|---:|---:|---:|---:|
+| Original rules | 142,676 | 7,113 | 78,938 | 4.75% | 35.62% |
+| Own-star exclusions for Stratum Tectonicas (G, A) and Cactoida Vermis (K) | 145,342 | 4,447 | 79,210 | 2.97% | 35.27% |
+| Stratum Tectonicas: carbon dioxide-rich and oxygen on HMC (SrvSurvey) | 142,779 | 7,010 | 78,938 | 4.68% | 35.60% |
+| Osseus Discus: Ammonia and Argon by body type; Rocky Water from 390 K | 142,980 | 6,809 | 79,035 | 4.55% | 35.60% |
+| Recepta Deltahedronix: sulphur dioxide split by body type and volcanism | 142,650 | 7,139 | 71,033 | 4.77% | 33.24% |
+| **First four together** | **145,728** | **4,061** | **71,402** | **2.71%** | **32.88%** |
+| + own-star colour-table exclusions (Aleoida G; Frutexa K, A; Cactoida B, C; Stratum Cucumisis A, G, B, N; Tussock Stigmasis A) | 145,712 | 4,077 | 63,632 | 2.72% | 30.40% |
+| + Clypeus Speculumi ≥ 2,500 ls from arrival star (Sol limit removed) | 146,324 | 3,465 | 60,298 | 2.31% | 29.18% |
+| + Clypeus Margaritus T exclusion on own star | 145,664 | 4,125 | 70,806 | 2.75% | 32.71% |
+| + Recepta Umbrux / Conditivus carbon dioxide rules need ≥ 1.10% sulphur dioxide | 145,705 | 4,084 | 70,523 | 2.73% | 32.62% |
+| + Recepta Conditivus carbon dioxide rule removed (3,679 of its 3,687 wrong bodies stay flagged as Umbrux) | 145,579 | 4,210 | 67,715 | 2.81% | 31.75% |
+| **All nine (committed)** | **146,074** | **3,715** | **47,812** | **2.48%** | **24.66%** |
+| + Osseus Discus Water on HMC: main-star age ≥ 9,000 My | 146,048 | 3,741 | 45,348 | 2.50% | 23.69% |
+| + Cactoida Vermis Water on HMC: main-star age ≤ 9,500 My | 145,500 | 4,289 | 46,805 | 2.86% | 24.34% |
+| **All eleven (live rules, age rules applied 2026-10-16)** | **145,474** | **4,315** | **44,341** | **2.88%** | **23.36%** |
+
+FPR went from 1.506% to 0.912% with the nine committed changes, and to 0.846% with the two age rules. The existing validator agrees: its precision went from 52.44%
+to 54.19% after the first four and 60.98% with all nine, with identical TP and FN.
+
+Not applied: own-star exclusions for Tussock Virgam (worse: −89 TP, +244 FP); a main-star
+fallback for bodies orbiting barycentres (−400 TP for −1,070 FP); Tubus Cavas gravity
+0.152 → 0.148 (−36 TP, −168 FP); region cuts for Stratum Cucumisis (likely overfitting).
+
+### Current Results (live rules)
+
+| Species | Value | Correct | Missed | Wrong | Unverified | FNR | FDR | FPR |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Fonticulua Fluctus | 20.0M | 649 | 1 | 3 | 13 | 0.15% | 0.46% | 0.001% |
+| Fonticulua Segmentatus | 19.0M | 1,990 | 22 | 0 | 0 | 1.09% | 0.00% | 0.000% |
+| Stratum Tectonicas | 19.0M | 32,532 | 807 | 2,893 | 17,373 | 2.42% | 8.17% | 1.099% |
+| Tussock Stigmasis | 19.0M | 3,520 | 7 | 150 | 707 | 0.20% | 4.09% | 0.048% |
+| Concha Biconcavis | 16.8M | 959 | 0 | 0 | 3 | 0.00% | 0.00% | 0.000% |
+| Cactoida Vermis | 16.2M | 10,310 | 1,080 | 618 | 2,419 | 9.48% | 5.66% | 0.209% |
+| Fumerola Extremus | 16.2M | 2,437 | 55 | 5 | 122 | 2.21% | 0.20% | 0.002% |
+| Recepta Deltahedronix | 16.2M | 1,988 | 710 | 2,911 | 339 | 26.32% | 59.42% | 0.999% |
+| Stratum Cucumisis | 16.2M | 10,061 | 20 | 3,958 | 1,295 | 0.20% | 28.23% | 1.381% |
+| Clypeus Speculumi | 16.2M | 6,499 | 92 | 3,808 | 1,597 | 1.40% | 36.95% | 1.306% |
+| Recepta Conditivus | 14.3M | 4,242 | 175 | 8,597 | 341 | 3.96% | 66.96% | 2.967% |
+| Tussock Virgam | 14.3M | 10,798 | 336 | 142 | 2,768 | 3.02% | 1.30% | 0.046% |
+| Recepta Umbrux | 12.9M | 7,501 | 68 | 8,726 | 1,017 | 0.90% | 53.77% | 3.045% |
+| Aleoida Gravis | 12.9M | 10,110 | 1 | 7,232 | 3,957 | 0.01% | 41.70% | 2.431% |
+| Clypeus Margaritus | 11.9M | 10,455 | 65 | 3 | 3,023 | 0.62% | 0.03% | 0.001% |
+| Osseus Discus | 12.9M | 9,728 | 863 | 2,015 | 3,781 | 8.15% | 17.16% | 0.707% |
+| Tubus Cavas | 11.9M | 10,313 | 1 | 2,666 | 994 | 0.01% | 20.54% | 0.913% |
+| Frutexa Flammasis | 10.3M | 11,382 | 12 | 614 | 5,083 | 0.10% | 5.12% | 0.210% |
+| **Total** | | **145,474** | **4,315** | **44,341** | **44,832** | **2.88%** | **23.36%** | **0.846%** |
+
+Per-ruleset statistics: `output/species_rules_eval/ruleset_breakdown.md`
+(`ruleset_breakdown.py` + `breakdown_report.py`).
+
+### Water-on-HMC Investigation
+
+The two weakest rulesets both cover thin-Water HMC bodies (gravity ≤ 0.063, 390–455 K).
+`extract_body_features.py` built 18,200 thin-Water HMC and Rocky landmark bodies with 98
+properties (orbit, rotation, mass, radius, materials, composition, both stars' properties,
+region); `explore_ruleset.py` ranked properties by ROC AUC and fitted shallow decision trees on
+training sectors.
+
+**Stratum Tectonicas, Water on HMC (rs3): no static discriminator.** Every property has an AUC
+of 0.46–0.54, the tree scores 0.517 on held-out sectors, and the hit rate is 31–47% in every
+star age, star class, luminosity, region and orbit group. Wrong and confirmed bodies host the
+same species at the same rates (Tussock Virgam, Clypeus Margaritus, Concha Renibus). Only the bio
+signal count separates them (AUC 0.865), and it is known only after a visit. Of the species'
+17,373 unverified predictions, 12,387 have a Stratum genus signal with no species logged; since
+every logged Stratum species on a predicted body is Tectonicas, these are almost certainly
+unlogged sightings, which puts the species' true FDR near 6.6%. Dropping rs3 would take FDR from
+8.17% to 2.09% but FNR from 2.42% to 6.87% (−1,482 confirmed). Kept.
+
+System context and location do not help either (`explore_system_context.py`,
+`output/species_rules_eval/tectonicas_system_context.txt`): counts of stars, planets, landable,
+HMC, thin-atmosphere and Water bodies, distance rank, body ID, siblings and the procedural mass
+code all have AUC 0.48–0.52 (mass codes b, c, d: 40%, 43%, 35% right), and a tree on them scores
+0.499 on held-out sectors. The hit rate of a body's 5, 10 or 25 nearest checkable neighbours in
+other systems has AUC 0.52, so there are no local patches. Two Water HMC bodies in the same system
+agree no more than chance (45% of pairs vs 52% if independent, 80 systems). Within the data
+available before a visit, Stratum Tectonicas on these bodies behaves like an independent ~40–50%
+draw per body.
+
+**Osseus Discus, Water on HMC (rs1): main-star age.** AUC 0.981. Below 8,000 My there are 14
+confirmed and 2,341 wrong; above 12,000 My all 795 checkable predictions are right. Stratum
+Tectonicas on the same bodies shows no age effect (AUC 0.506), and Osseus Discus on Rocky Water
+is good at every age, so this is species- and body-specific. Cactoida Vermis is the mirror
+image: 97–99% right around young stars, 32–48% around stars older than ~9,000 My.
+
+### Star Age Sweep (all rulesets)
+
+`sweep_star_age.py` tested main-star age on all 41 rulesets
+(`output/species_rules_eval/star_age_sweep.txt`). Age is missing for 0.8% of landmark bodies.
+
+| Ruleset | Age AUC | Finding |
+|---|---:|---|
+| Osseus Discus Water on HMC | 0.981 | Old stars only; clean cut at 9,000 My |
+| Cactoida Vermis Water | 0.113 | Young stars; drop-off above ~9,000 My (HMC) / ~8,500 My (Rocky) |
+| Osseus Discus Ammonia on Rocky | 0.739 | 52% right under 4,000 My, 93% above (small ruleset) |
+| Tussock Stigmasis | 0.683 | Wrong predictions concentrated under 4,000 My, but so are most confirmed |
+| Stratum Cucumisis sulphur dioxide | 0.640 | 78% right under 4,000 My, 92% above |
+| Clypeus Speculumi Water on Rocky | 0.376 | 22% right at 1,000–2,000 My vs 52–78% elsewhere; holds on held-out sectors and across 237 sectors, no known mechanism |
+| Recepta (all), Tubus Cavas, Frutexa Flammasis, Stratum Tectonicas, Aleoida Gravis | 0.45–0.56 | No useful age effect |
+
+Candidates tested with full statistics (`test_age_candidates.py`,
+`output/species_rules_eval/age_candidates.txt`), each on top of the committed rules:
+
+| Candidate | Species TP / FN / FP | Species FNR | Species FDR | All-species FNR / FDR / FPR | Held-out species FDR |
+|---|---|---:|---:|---|---:|
+| Committed rules | | | | 2.48% / 24.66% / 0.912% | |
+| A. Osseus Discus Water on HMC: age ≥ 9,000 My | 9,728 / 863 / 2,015 (was 9,754 / 837 / 4,479) | 8.15% (7.90%) | 17.16% (31.47%) | 2.50% / 23.69% / 0.865% | 18.02% (31.54%) |
+| B. Cactoida Vermis Water on HMC: age ≤ 9,500 My | 10,310 / 1,080 / 618 (was 10,884 / 506 / 1,625) | 9.48% (4.44%) | 5.66% (12.99%) | 2.86% / 24.34% / 0.893% | 5.38% (12.85%) |
+| C. Osseus Discus Ammonia on Rocky: age ≥ 4,000 My | 9,682 / 909 / 4,413 | 8.58% | 31.31% | 2.53% / 24.64% / 0.911% | 31.29% |
+| D. Clypeus Speculumi Water: skip ages 1,000–2,000 My | 6,412 / 179 / 3,498 (was 6,499 / 92 / 3,808) | 2.72% (1.40%) | 35.30% (36.95%) | 2.54% / 24.55% / 0.906% | 36.39% (37.79%) |
+| A + B | | | | 2.88% / 23.36% / 0.846% | |
+| A + B + C + D | | | | 2.99% / 23.23% / 0.839% | |
+
+**Status:** A (−26 TP, −2,464 FP) and B (−574 TP, −1,007 FP, a recall-for-precision tradeoff)
+were applied on 2026-10-16; the live rules reproduce the A + B result exactly. C is not worth it.
+D is a small gain with no known mechanism and was not applied. Callers now set `star_age` (main
+star's age in My) on each body row: `find_high_value_systems.py`, `validate_species_galaxy.py`,
+`compare_engines.py`; a missing age never excludes a body.
+
 ## Species Investigation Outcomes
 
-### Osseus Discus (CLOSED — No viable fix)
+### Osseus Discus (REOPENED 2026-10-16)
+> Superseded: splitting by body type (SrvSurvey branches) made Ammonia on Rocky Ice and HMC and Argon on
+> Rocky Ice clean enough to apply; Methane is still rejected. Main-star age fixes the Water-on-HMC
+> ruleset (applied: main-star age ≥ 9,000 My). See the SrvSurvey section above.
+
 Current: 52.3% precision, 89.2% recall. 1,141 FN.
 FN are on Methane (800), Ammonia (150 confirmed), Argon (1 confirmed), Water (80).
 
@@ -321,7 +511,11 @@ Deep analysis of Methane/Ammonia/Argon atmospheres (`scratchpad/osseus_analysis.
 
 **Argon**: 1 confirmed TP in the entire galaxy. **No ruleset possible.**
 
-### Cactoida Vermis (CLOSED — Not viable)
+### Cactoida Vermis (REOPENED 2026-10-16)
+> Superseded: the K exclusion now applies to the star the body orbits, which recovers 701 confirmed
+> bodies at unchanged precision, and B and C are excluded too. On HMC it is limited to stars up to
+> 9,500 My (applied; trades 574 confirmed for 1,007 fewer wrong). See the SrvSurvey section above.
+
 Current: 67.2% precision, 89.4% recall. 1,207 FN.
 65.5% of FN from K-star exclusion.
 
@@ -330,13 +524,19 @@ Proper testing with correct column names (`scratchpad/cactoida_kstar_test.py`) s
 removing K-star exclusion adds +721 TP but +1,472 FP (32.9% new match precision).
 Precision drops 5.2pp (71.9% → 66.7%). **Not worth it.**
 
-### Recepta Deltahedronix (CLOSED — Not viable)
+### Recepta Deltahedronix (REOPENED 2026-10-16)
+> Superseded: SrvSurvey's per-body-type sulphur dioxide rules cut FDR from 84% to 59% (−7,905 wrong,
+> −26 confirmed). The remaining wrong predictions are mostly bodies with Conditivus or Umbrux
+> confirmed instead. See the SrvSurvey section above.
+
 Current: 15.3% precision, 74.6% recall. 684 FN.
 99.4% of FN on Thin CO2 atmosphere (only SO2 ruleset exists). Adding CO2 ruleset
 would improve recall but precision is already terrible — within-genus confusion with
 Recepta Umbrux (6,566 FP) and Recepta Conditivus (4,239 FP) dominates.
 
 ### Uninvestigated Species
+> Superseded on 2026-10-16: the SrvSurvey comparison and precision sweep changed rules for several of
+> these. The figures below are the pre-2026-10-16 measurements.
 
 The following species were not investigated for FN reduction because they already have
 near-perfect recall (>=99.4%) or are primarily limited by within-genus FP confusion:
@@ -370,6 +570,17 @@ B-star +4.1pp, Aleoida Gravis exclude G-star +7.4pp, Frutexa Flammasis exclude K
 | 6 | Batch 1 | Tussock Stigmasis | max_gravity 0.2733 → 0.276 | -0.5pp | +5.4pp |
 | 7 | Batch 2 | Tussock Virgam | rs0 min_gravity 0.0463 → 0.04 | -0.6pp | +9.1pp |
 | 8 | Batch 2 | Fumerola Extremus | Remove star_solar_radius >= 0.605 from Methane rs2 | +0.2pp | +27.2pp |
+| 9 | SrvSurvey | Stratum Tectonicas, Cactoida Vermis | Star exclusions on the star the body orbits | see SrvSurvey section | |
+| 10 | SrvSurvey | Stratum Tectonicas | Carbon dioxide-rich and oxygen rulesets on HMC | | |
+| 11 | SrvSurvey | Osseus Discus | Ammonia and Argon rulesets by body type; Rocky Water from 390 K | | |
+| 12 | SrvSurvey | Recepta Deltahedronix | Sulphur dioxide rule split by body type and volcanism | | |
+| 13 | Sweep | Aleoida, Frutexa, Cactoida, Stratum Cucumisis, Tussock Stigmasis | Own-star colour-table exclusions | | |
+| 14 | Sweep | Clypeus Speculumi | ≥ 2,500 ls from arrival star replaces ≥ 2,000 ly from Sol | | |
+| 15 | Sweep | Clypeus Margaritus | T exclusion on own star | | |
+| 16 | Sweep | Recepta Umbrux / Conditivus | Carbon dioxide rules need ≥ 1.10% sulphur dioxide | | |
+| 17 | Sweep | Recepta Conditivus | Carbon dioxide ruleset removed | | |
+| 18 | Star age | Osseus Discus | Water on HMC needs main-star age ≥ 9,000 My | | |
+| 19 | Star age | Cactoida Vermis | Water on HMC needs main-star age ≤ 9,500 My | | |
 
 ### Aggregate Impact
 
@@ -381,6 +592,11 @@ B-star +4.1pp, Aleoida Gravis exclude G-star +7.4pp, Frutexa Flammasis exclude K
 | Species ≥95% precision | 2 of 18 | 3 of 18 | +1 |
 | Weighted avg recall | ~82% | ~95% | +13pp |
 
+After changes 9–17 (revised methodology, see the SrvSurvey section): 146,074 TP, 3,715 FN
+(FNR 2.48%), 47,812 definitely-wrong FP (FDR 24.66%, FPR 0.912%), up from 142,676 TP, 7,113 FN,
+78,938 FP (FNR 4.75%, FDR 35.62%, FPR 1.506%). With 18–19: 145,474 TP, 4,315 FN (FNR 2.88%),
+44,341 FP (FDR 23.36%, FPR 0.846%).
+
 ### Known Limitations
 
 - **Within-genus confusion** is the dominant FP source for Recepta (3 species), Clypeus (2 species),
@@ -391,244 +607,232 @@ B-star +4.1pp, Aleoida Gravis exclude G-star +7.4pp, Frutexa Flammasis exclude K
   bodies near Sol. Region-constrained species may be underrepresented in validation.
 - **Unvisited bodies**: The vast majority of predictions are on bodies with no landmark data
   (FP_no_landmark), excluded from precision calculation. True galaxy-wide precision may differ.
+- **Incomplete landmark records**: commanders often log only some species on a body. About 46,000
+  predictions are unverified (some signals unidentified); they are excluded from FP and the rates.
+- **Apparent randomness**: Stratum Tectonicas on Water HMC bodies appears on roughly half of the
+  eligible bodies with no stored property that predicts which (only the post-visit bio signal count does).
 
 ## Species Ruleset Reference
 
-Detailed breakdown of every ruleset for each high-value species, as defined in
-`src/mgst/bio/species_rules.py`. All gravity is in G, temperature in K, pressure in atm.
+Generated from `src/mgst/bio/species_rules.py` by `render_ruleset_reference.py` (regenerate after rule
+changes). Gravity in g, temperature in K, pressure in atm, gas shares in percent, `star_age` in My.
 
 ### Fonticulua Fluctus (20.0M cr) — 1 ruleset
 
-| Field | rs0 |
+| Field | rs0 (Oxygen) |
 |---|---|
-| Body type | Icy body |
-| Atmosphere | Oxygen |
+| Body type | Icy |
 | Volcanism | — |
-| Gravity | 0.23 – 0.276 |
-| Temperature | 143 – 200 K |
-| Pressure | ≥ 0.012 |
-| Star exclusions | — |
-| Region/distance | — |
+| Gravity (g) | 0.23 – 0.276 |
+| Temperature (K) | 143 – 200 |
+| Pressure (atm) | ≥ 0.012 |
+| Other | — |
 
 ### Fonticulua Segmentatus (19.0M cr) — 1 ruleset
 
-| Field | rs0 |
+| Field | rs0 (Neon+NeonRich) |
 |---|---|
-| Body type | Icy body |
-| Atmosphere | Neon, NeonRich |
-| Volcanism | None (required absent) |
-| Gravity | 0.25 – 0.276 |
-| Temperature | 50 – 75 K |
-| Pressure | ≤ 0.006 |
-| Star exclusions | — |
-| Region/distance | — |
+| Body type | Icy |
+| Volcanism | none |
+| Gravity (g) | 0.25 – 0.276 |
+| Temperature (K) | 50 – 75 |
+| Pressure (atm) | ≤ 0.006 |
+| Other | — |
 
-### Stratum Tectonicas (19.0M cr) — 4 rulesets
+### Stratum Tectonicas (19.0M cr) — 6 rulesets
 
-Species-level star exclusions: **G, A**
+Own-star exclusions (star the body orbits): **G, A**
 
-| Field | rs0 (Ammonia) | rs1 (CO2) | rs2 (SO2) | rs3 (Water) |
-|---|---|---|---|---|
-| Body type | HMC | HMC | HMC | HMC |
-| Atmosphere | Ammonia | CarbonDioxide | SulphurDioxide | Water |
-| Volcanism | — | — | — | — |
-| Gravity | 0.045 – 0.37 | 0.045 – 0.50 | 0.265 – 0.60 | 0.045 – 0.063 |
-| Temperature | 165 – 177 K | 165 – 197 K | 165 – 450 K | 390 – 455 K |
-| Pressure | — | — | — | — |
-| Extra | — | atm_SO2 ≥ 0.99 | — | — |
+| Field | rs0 (Ammonia) | rs1 (CarbonDioxide) | rs2 (SulphurDioxide) | rs3 (Water) | rs4 (CarbonDioxideRich) | rs5 (Oxygen) |
+|---|---|---|---|---|---|---|
+| Body type | HMC | HMC | HMC | HMC | HMC | HMC |
+| Volcanism | — | — | — | — | none | none, Major Rocky Magma, Major Silicate Vapour Geysers, Minor Metallic Magma, Minor Silicate Vapour Geysers |
+| Gravity (g) | 0.045 – 0.37 | 0.045 – 0.5 | 0.265 – 0.6 | 0.045 – 0.063 | ≤ 0.61 | ≤ 0.52 |
+| Temperature (K) | 165 – 177 | 165 – 197 | 165 – 450 | 390 – 455 | 165 – 246 | ≥ 165 |
+| Pressure (atm) | — | — | — | — | ≥ 0.007 | ≥ 0.02 |
+| Other | — | atm_Sulphur_dioxide ≥ 0.99 | — | — | any of: Oxygen ≥ 57%, Argon ≥ 50%, Sulphur dioxide ≥ 0.9% | Sulphur dioxide ≥ 0.8% |
 
 ### Tussock Stigmasis (19.0M cr) — 1 ruleset
 
-| Field | rs0 |
+Own-star exclusions (star the body orbits): **A**
+
+| Field | rs0 (SulphurDioxide) |
 |---|---|
-| Body type | Rocky body, HMC |
-| Atmosphere | SulphurDioxide |
+| Body type | Rocky, HMC |
 | Volcanism | — |
-| Gravity | 0.04 – 0.276 |
-| Temperature | 132 – 180 K |
-| Pressure | ≤ 0.01 |
-| Star exclusions | — |
-| Region/distance | — |
+| Gravity (g) | 0.04 – 0.276 |
+| Temperature (K) | 132 – 180 |
+| Pressure (atm) | ≤ 0.01 |
+| Other | — |
 
 ### Concha Biconcavis (16.8M cr) — 1 ruleset
 
-| Field | rs0 |
+| Field | rs0 (Nitrogen) |
 |---|---|
-| Body type | Rocky body, HMC |
-| Atmosphere | Nitrogen |
-| Volcanism | None (required absent) |
-| Gravity | 0.053 – 0.275 |
-| Temperature | 42 – 53 K |
-| Pressure | ≤ 0.01 |
-| Star exclusions | — |
-| Region/distance | — |
+| Body type | Rocky, HMC |
+| Volcanism | none |
+| Gravity (g) | 0.053 – 0.275 |
+| Temperature (K) | 42 – 53 |
+| Pressure (atm) | ≤ 0.01 |
+| Other | — |
 
-### Cactoida Vermis (16.2M cr) — 3 rulesets
+### Cactoida Vermis (16.2M cr) — 5 rulesets
 
-Species-level star exclusions: **K**
+Own-star exclusions (star the body orbits): **K, B, C**
 
-| Field | rs0 (SO2) | rs1 (Water/low-g) | rs2 (Water/volcanism) |
-|---|---|---|---|
-| Body type | Rocky body | Rocky body, HMC | Rocky body, HMC |
-| Atmosphere | SulphurDioxide | Water | Water |
-| Volcanism | None | None | water (substring) |
-| Gravity | 0.265 – 0.276 | 0.04 – 0.0612 | 0.04 – 0.276 |
-| Temperature | 160 – 210 K | — | — |
-| Pressure | ≤ 0.005 | — | — |
+| Field | rs0 (SulphurDioxide) | rs1 (Water) | rs2 (Water) | rs3 (Water) | rs4 (Water) |
+|---|---|---|---|---|---|
+| Body type | Rocky | Rocky | HMC | Rocky | HMC |
+| Volcanism | none | none | none | water | water |
+| Gravity (g) | 0.265 – 0.276 | 0.04 – 0.0612 | 0.04 – 0.0612 | 0.04 – 0.276 | 0.04 – 0.276 |
+| Temperature (K) | 160 – 210 | — | — | — | — |
+| Pressure (atm) | ≤ 0.005 | — | — | — | — |
+| Other | — | — | star_age ≤ 9500 | — | star_age ≤ 9500 |
 
 ### Fumerola Extremus (16.2M cr) — 4 rulesets
 
-All rulesets require active volcanism (silicate, metallic, or rocky).
-
-| Field | rs0 (Ammonia) | rs1 (Argon) | rs2 (Methane) | rs3 (SO2) |
+| Field | rs0 (Ammonia) | rs1 (Argon) | rs2 (Methane) | rs3 (SulphurDioxide) |
 |---|---|---|---|---|
 | Body type | Rocky, Rocky Ice, HMC | Rocky, Rocky Ice, HMC | Rocky, Rocky Ice, HMC | Rocky, Rocky Ice |
-| Atmosphere | Ammonia | Argon | Methane | SulphurDioxide |
-| Volcanism | silicate/metallic/rocky | silicate/metallic/rocky | silicate/metallic/rocky | silicate/metallic/rocky |
-| Gravity | 0.04 – 0.09 | 0.07 – 0.276 | 0.025 – 0.127 | 0.2656 – 0.276 |
-| Temperature | 161 – 177 K | 50 – 121 K | 77 – 109 K | 54 – 210 K |
-| Pressure | ≤ 0.0135 | — | ≥ 0.01 | — |
+| Volcanism | silicate, metallic, rocky | silicate, metallic, rocky | silicate, metallic, rocky | silicate, metallic, rocky |
+| Gravity (g) | 0.04 – 0.09 | 0.07 – 0.276 | 0.025 – 0.127 | 0.2656 – 0.276 |
+| Temperature (K) | 161 – 177 | 50 – 121 | 77 – 109 | 54 – 210 |
+| Pressure (atm) | ≤ 0.0135 | — | ≥ 0.01 | — |
+| Other | — | — | — | — |
 
-### Recepta Deltahedronix (16.2M cr / min 12.9M cr) — 1 ruleset
+### Recepta Deltahedronix (16.2M cr) — 4 rulesets
 
-| Field | rs0 |
-|---|---|
-| Body type | — (any) |
-| Atmosphere | SulphurDioxide |
-| Volcanism | — |
-| Gravity | 0.04 – 0.276 |
-| Temperature | 132 – 272 K |
-| Pressure | — |
-| Extra | atm_SO2 ≥ 1.05 |
-| Star exclusions | — |
+| Field | rs0 (SulphurDioxide) | rs1 (SulphurDioxide) | rs2 (SulphurDioxide) | rs3 (SulphurDioxide) |
+|---|---|---|---|---|
+| Body type | Icy | Rocky | Rocky Ice | HMC |
+| Volcanism | Carbon Dioxide Geysers, Major Water Geysers, Major Water Magma, Minor Ammonia Magma, Minor Carbon Dioxide Geysers, Minor Methane Magma, Minor Nitrogen Magma, Minor Water Magma, Water Geysers, Water Magma | none, Major Metallic Magma, Major Silicate Vapour Geysers, Metallic Magma, Minor Metallic Magma, Minor Rocky Magma, Minor Silicate Vapour Geysers, Minor Water Magma | Major Silicate Vapour Geysers, Major Water Geysers, Major Water Magma, Metallic Magma, Minor Carbon Dioxide Geysers, Minor Metallic Magma, Minor Silicate Vapour Geysers, Minor Water Geysers, Water Geysers | none |
+| Gravity (g) | 0.188 – 0.276 | ≤ 0.276 | 0.22 – 0.276 | ≤ 0.276 |
+| Temperature (K) | ≤ 272 | 132 – 207 | ≤ 231 | 132 – 135 |
+| Pressure (atm) | — | ≤ 0.06 | — | ≤ 0.0014 |
+| Other | Sulphur dioxide ≥ 100% | Sulphur dioxide ≥ 100% | Sulphur dioxide ≥ 100% | Sulphur dioxide ≥ 100% |
 
 ### Stratum Cucumisis (16.2M cr) — 4 rulesets
 
-Region constraint: **Sagittarius-Carina** arm only.
+Own-star exclusions (star the body orbits): **A, G, B, N**; Region: **sagittarius-carina**
 
-| Field | rs0 (CO2) | rs1 (CO2-rich) | rs2 (Oxygen) | rs3 (SO2) |
+| Field | rs0 (CarbonDioxide) | rs1 (CarbonDioxideRich) | rs2 (Oxygen) | rs3 (SulphurDioxide) |
 |---|---|---|---|---|
-| Body type | Rocky body | Rocky body | Rocky body | Rocky body |
-| Atmosphere | CarbonDioxide | CarbonDioxideRich | Oxygen | SulphurDioxide |
-| Volcanism | None | None | — | — |
-| Gravity | 0.04 – 0.6 | 0.44 – 0.56 | 0.4 – 0.6 | 0.26 – 0.55 |
-| Temperature | 191 – 371 K | 210 – 246 K | 200 – 250 K | 191 – 373 K |
-| Pressure | — | ≥ 0.01 | ≥ 0.01 | — |
+| Body type | Rocky | Rocky | Rocky | Rocky |
+| Volcanism | none | none | — | — |
+| Gravity (g) | 0.04 – 0.6 | 0.44 – 0.56 | 0.4 – 0.6 | 0.26 – 0.55 |
+| Temperature (K) | 191 – 371 | 210 – 246 | 200 – 250 | 191 – 373 |
+| Pressure (atm) | — | ≥ 0.01 | ≥ 0.01 | — |
+| Other | — | — | — | — |
 
 ### Clypeus Speculumi (16.2M cr) — 3 rulesets
 
-Distance constraint: **≥ 2,000 ly from Sol**.
-
-| Field | rs0 (CO2) | rs1 (Water/no volc) | rs2 (Water/water volc) |
+| Field | rs0 (CarbonDioxide) | rs1 (Water) | rs2 (Water) |
 |---|---|---|---|
-| Body type | Rocky body | Rocky body | Rocky body |
-| Atmosphere | CarbonDioxide | Water | Water |
-| Volcanism | None | None | water (substring) |
-| Gravity | 0.04 – 0.276 | 0.04 – 0.276 | 0.04 – 0.276 |
-| Temperature | 190 – 197 K | — | — |
-| Pressure | ≥ 0.055 | — | — |
+| Body type | Rocky | Rocky | Rocky |
+| Volcanism | none | none | water |
+| Gravity (g) | 0.04 – 0.276 | 0.04 – 0.276 | 0.04 – 0.276 |
+| Temperature (K) | 190 – 197 | — | — |
+| Pressure (atm) | ≥ 0.055 | — | — |
+| Other | distanceToArrival ≥ 2500 (required) | distanceToArrival ≥ 2500 (required) | distanceToArrival ≥ 2500 (required) |
 
-### Recepta Conditivus (14.3M cr) — 2 rulesets
+### Recepta Conditivus (14.3M cr) — 1 ruleset
 
-| Field | rs0 (CO2) | rs1 (SO2) |
-|---|---|---|
-| Body type | Icy, Rocky, HMC | — (any) |
-| Atmosphere | CarbonDioxide, CO2-Rich | SulphurDioxide |
-| Volcanism | None | — |
-| Gravity | 0.04 – 0.276 | 0.04 – 0.276 |
-| Temperature | 150 – 195 K | 132 – 275 K |
-| Pressure | — | — |
-| Extra | atm_SO2 ≥ 1.05 | atm_SO2 ≥ 1.05 |
+| Field | rs0 (SulphurDioxide) |
+|---|---|
+| Body type | any |
+| Volcanism | — |
+| Gravity (g) | 0.04 – 0.276 |
+| Temperature (K) | 132 – 275 |
+| Pressure (atm) | — |
+| Other | Sulphur dioxide ≥ 1.05% |
 
 ### Tussock Virgam (14.3M cr) — 2 rulesets
 
-Species-level star exclusions: **A, T, B**
+Main-star exclusions: **A, T, B**
 
-| Field | rs0 (Water/no volc) | rs1 (Water/water volc) |
+| Field | rs0 (Water) | rs1 (Water) |
 |---|---|---|
-| Body type | Rocky body, HMC | Rocky body, HMC |
-| Atmosphere | Water | Water |
-| Volcanism | None | water (substring) |
-| Gravity | 0.04 – 0.065 | 0.04 – 0.065 |
-| Temperature | — | — |
-| Pressure | — | — |
+| Body type | Rocky, HMC | Rocky, HMC |
+| Volcanism | none | water |
+| Gravity (g) | 0.04 – 0.065 | 0.04 – 0.065 |
+| Temperature (K) | — | — |
+| Pressure (atm) | — | — |
+| Other | — | — |
 
 ### Recepta Umbrux (12.9M cr) — 2 rulesets
 
-| Field | rs0 (CO2) | rs1 (SO2) |
+| Field | rs0 (CarbonDioxide) | rs1 (SulphurDioxide) |
 |---|---|---|
-| Body type | — (any) | — (any) |
-| Atmosphere | CarbonDioxide | SulphurDioxide |
+| Body type | any | any |
 | Volcanism | — | — |
-| Gravity | 0.04 – 0.276 | 0.04 – 0.276 |
-| Temperature | 151 – 200 K | 132 – 273 K |
-| Pressure | — | — |
-| Extra | atm_SO2 ≥ 1.05 | atm_SO2 ≥ 1.05 |
+| Gravity (g) | 0.04 – 0.276 | 0.04 – 0.276 |
+| Temperature (K) | 151 – 200 | 132 – 273 |
+| Pressure (atm) | — | — |
+| Other | Sulphur dioxide ≥ 1.1% | Sulphur dioxide ≥ 1.05% |
 
 ### Aleoida Gravis (12.9M cr) — 1 ruleset
 
-| Field | rs0 |
+Own-star exclusions (star the body orbits): **G**
+
+| Field | rs0 (CarbonDioxide) |
 |---|---|
-| Body type | Rocky body, HMC |
-| Atmosphere | CarbonDioxide |
-| Volcanism | None (required absent) |
-| Gravity | 0.04 – 0.276 |
-| Temperature | 190 – 197 K |
-| Pressure | ≥ 0.054 |
-| Star exclusions | — |
-| Region/distance | — |
+| Body type | Rocky, HMC |
+| Volcanism | none |
+| Gravity (g) | 0.04 – 0.276 |
+| Temperature (K) | 190 – 197 |
+| Pressure (atm) | ≥ 0.054 |
+| Other | — |
 
 ### Clypeus Margaritus (11.9M cr) — 2 rulesets
 
-Species-level star exclusions: **T**
+Own-star exclusions (star the body orbits): **T**
 
-| Field | rs0 (CO2) | rs1 (Water) |
+| Field | rs0 (CarbonDioxide) | rs1 (Water) |
 |---|---|---|
 | Body type | HMC | HMC |
-| Atmosphere | CarbonDioxide | Water |
-| Volcanism | None | None |
-| Gravity | 0.04 – 0.276 | 0.04 – 0.276 |
-| Temperature | 190 – 196 K | — |
-| Pressure | ≥ 0.050 | — |
+| Volcanism | none | none |
+| Gravity (g) | 0.04 – 0.276 | 0.04 – 0.276 |
+| Temperature (K) | 190 – 196 | — |
+| Pressure (atm) | ≥ 0.05 | — |
+| Other | — | — |
 
-### Osseus Discus (12.9M cr) — 1 ruleset
+### Osseus Discus (12.9M cr) — 6 rulesets
 
-| Field | rs0 |
-|---|---|
-| Body type | Rocky body, HMC |
-| Atmosphere | Water |
-| Volcanism | — |
-| Gravity | 0.04 – 0.063 |
-| Temperature | 400 – 455 K |
-| Pressure | — |
-| Star exclusions | — |
-| Region/distance | — |
+| Field | rs0 (Water) | rs1 (Water) | rs2 (Ammonia) | rs3 (Ammonia) | rs4 (Ammonia) | rs5 (Argon) |
+|---|---|---|---|---|---|---|
+| Body type | Rocky | HMC | Rocky | Rocky Ice | HMC | Rocky Ice |
+| Volcanism | — | — | Major Silicate Vapour Geysers, Metallic Magma, Minor Metallic Magma, Minor Rocky Magma, Minor Silicate Vapour Geysers, Minor Water Magma | Major Rocky Magma, Major Silicate Vapour Geysers, Major Water Geysers, Major Water Magma, Metallic Magma, Minor Metallic Magma, Minor Rocky Magma, Minor Silicate Vapour Geysers, Minor Water Magma, Rocky Magma, Water Magma | Major Rocky Magma, Major Silicate Vapour Geysers, Minor Metallic Magma, Minor Rocky Magma, Minor Silicate Vapour Geysers | Major Rocky Magma, Major Silicate Vapour Geysers, Major Water Geysers, Minor Carbon Dioxide Geysers, Minor Metallic Magma, Minor Silicate Vapour Geysers, Minor Water Geysers, Silicate Vapour Geysers, Water Geysers |
+| Gravity (g) | 0.04 – 0.063 | 0.04 – 0.063 | ≤ 0.058 | ≤ 0.09 | 0.046 – 0.054 | 0.22 – 0.276 |
+| Temperature (K) | 390 – 455 | 400 – 455 | ≥ 169 | ≥ 160.7 | ≥ 174 | ≤ 119 |
+| Pressure (atm) | — | — | ≥ 0.006 | — | ≥ 0.009 | — |
+| Other | — | star_age ≥ 9000 | Ammonia ≥ 100% | Ammonia ≥ 100% | Ammonia ≥ 100% | Argon ≥ 100% |
 
 ### Tubus Cavas (11.9M cr) — 1 ruleset
 
-Region constraint: **Scutum-Centaurus** arm only.
+Region: **scutum-centaurus**
 
-| Field | rs0 |
+| Field | rs0 (CarbonDioxide) |
 |---|---|
-| Body type | Rocky body |
-| Atmosphere | CarbonDioxide |
-| Volcanism | None (required absent) |
-| Gravity | 0.04 – 0.152 |
-| Temperature | 160 – 197 K |
-| Pressure | ≥ 0.003 |
+| Body type | Rocky |
+| Volcanism | none |
+| Gravity (g) | 0.04 – 0.152 |
+| Temperature (K) | 160 – 197 |
+| Pressure (atm) | ≥ 0.003 |
+| Other | — |
 
 ### Frutexa Flammasis (10.3M cr) — 1 ruleset
 
-Region constraint: **Scutum-Centaurus** arm only.
+Own-star exclusions (star the body orbits): **K, A**; Region: **scutum-centaurus**
 
-| Field | rs0 |
+| Field | rs0 (Ammonia) |
 |---|---|
-| Body type | Rocky body |
-| Atmosphere | Ammonia |
+| Body type | Rocky |
 | Volcanism | — |
-| Gravity | 0.04 – 0.276 |
-| Temperature | 152 – 177 K |
-| Pressure | ≤ 0.0135 |
+| Gravity (g) | 0.04 – 0.276 |
+| Temperature (K) | 152 – 177 |
+| Pressure (atm) | ≤ 0.0135 |
+| Other | — |
+
 
 ### Matching Engine Notes
 
@@ -637,11 +841,21 @@ Region constraint: **Scutum-Centaurus** arm only.
   are accepted (bio requires thin atmospheres).
 - **Volcanism** constraints: `"None"` = must have no volcanism, `["water"]` = volcanismType
   must contain "water" (case-insensitive substring), `["silicate", "metallic", "rocky"]` =
-  must contain at least one keyword, absent = no constraint.
+  must contain at least one keyword, absent = no constraint. A `"None"` entry inside a list
+  also accepts bodies without volcanism.
 - **Body type** maps BioScan names to Parquet subType values (e.g., "High metal content body"
   → "High metal content world"). Abbreviated as **HMC** in tables above.
-- **Star class** is derived from `spectralClass[0]` of the main star in the system (the body
-  in bodies.parquet with `type == "Star"` and `mainStar == True`).
+- **Star class**: `exclude_star_classes` checks `star_class`, the first letter of the main
+  star's `spectralClass`. `exclude_own_star_classes` checks `parent_star_class`, the class of
+  the first star up the body's `parent_N_*` chain (`parent_star_class()`); bodies orbiting only
+  barycentres have none and are never excluded by it. The first letter merges subclasses (e.g.
+  `A` includes Herbig Ae/Be stars, `T` includes T Tauri).
+- **Composition**: `atmosphere_component` requires every listed gas share; `atmosphere_component_any`
+  requires at least one.
+- **Constraints** (`{"field", "min"/"max"}`) read any body-row field; a missing value passes
+  unless the constraint has `"required": True` (used for Clypeus Speculumi's `distanceToArrival`).
+  `star_age` (main star's age, My) is set by callers and used by the Osseus Discus and Cactoida
+  Vermis Water-on-HMC rulesets.
 - **Region** is computed from system (x, y, z) coordinates using galactic region geometry.
 - **`atm_SO2 ≥ 1.05`** (atmosphere_component) checks the `atm_Sulphur_dioxide` column, which
   is a percentage value (1.05 = 1.05% SO2 content). Used by all three Recepta species as
@@ -656,6 +870,17 @@ Region constraint: **Scutum-Centaurus** arm only.
 | `scripts/validate_species_galaxy.py` | Galaxy-wide validation (precision/recall per species) |
 | `experiments/bio_rule_optimization/sweep_all_species.py` | Parameter sweep optimization |
 | `src/mgst/bio/species_rules.py` | Live species rule definitions |
+| `experiments/bio_rule_optimization/extract_landmark_bodies.py` | Build the landmark-body ground-truth extract (star class, own star, star age) |
+| `experiments/bio_rule_optimization/ruleset_breakdown.py` / `breakdown_report.py` | Per-species and per-ruleset TP/FN/FP/TN/UP with FNR/FDR/FPR |
+| `experiments/bio_rule_optimization/srvsurv_parser.py` | SrvSurvey bio-criteria evaluator |
+| `experiments/bio_rule_optimization/compare_engines.py` / `merge_analysis.py` | Galaxy-wide MGST vs SrvSurvey comparison |
+| `experiments/bio_rule_optimization/attribute_differences.py` | Attribute disagreements to rules and conditions |
+| `experiments/bio_rule_optimization/check_translations.py` | Verify SrvSurvey-derived rulesets match their branches |
+| `experiments/bio_rule_optimization/sweep_precision.py` | Threshold and category sweep for false positives |
+| `experiments/bio_rule_optimization/extract_body_features.py` / `explore_ruleset.py` | Full-property extract and per-ruleset discriminator search |
+| `experiments/bio_rule_optimization/sweep_star_age.py` / `test_age_candidates.py` / `test_water_hmc_candidates.py` | Star age sweep and candidate tests |
+| `experiments/bio_rule_optimization/explore_system_context.py` | System-context and position features for one ruleset |
+| `experiments/bio_rule_optimization/render_ruleset_reference.py` | Regenerate the ruleset reference above |
 
 ## File Locations
 
@@ -666,3 +891,10 @@ Region constraint: **Scutum-Centaurus** arm only.
 - Post-Batch-2 validation: `output/validation_post_batch2_fix/results.tsv`
 - Sweep results: `experiments/bio_rule_optimization/results/`
 - Pareto summary: `experiments/bio_rule_optimization/results/pareto_summary.txt`
+- Landmark ground truth extract: `output/landmark_bodies/landmark_bodies.parquet`
+- Committed-rule statistics: `output/species_rules_eval/ruleset_breakdown.md`
+- Pre-commit comparison: `output/rule_changes_eval/ruleset_breakdown_before_fold.md`
+- SrvSurvey comparison: `output/engine_comparison_landmark_only_20261016/`, `output/landmark_bodies/attribution_report.txt`
+- Precision sweep: `output/precision_sweep/`
+- Star age: `output/species_rules_eval/star_age_sweep.txt`, `age_candidates.txt`, `water_hmc_candidates.txt`
+- Validator runs: `output/validation_rule_changes_20261016/`

@@ -236,18 +236,35 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
                 "max_pressure": 0.005,
             },
             {
-                "body_type": ["Rocky body", "High metal content body"],
+                "body_type": ["Rocky body"],
                 "atmosphere": ["Water"],
                 "volcanism": "None",
                 "min_gravity": 0.04,
                 "max_gravity": 0.0612,
             },
+            # On HMC, Cactoida Vermis gives way to Osseus Discus around old stars
             {
-                "body_type": ["Rocky body", "High metal content body"],
+                "body_type": ["High metal content body"],
+                "atmosphere": ["Water"],
+                "volcanism": "None",
+                "min_gravity": 0.04,
+                "max_gravity": 0.0612,
+                "constraints": [{"field": "star_age", "max": 9500.0}],
+            },
+            {
+                "body_type": ["Rocky body"],
                 "atmosphere": ["Water"],
                 "volcanism": ["water"],
                 "min_gravity": 0.04,
                 "max_gravity": 0.276,
+            },
+            {
+                "body_type": ["High metal content body"],
+                "atmosphere": ["Water"],
+                "volcanism": ["water"],
+                "min_gravity": 0.04,
+                "max_gravity": 0.276,
+                "constraints": [{"field": "star_age", "max": 9500.0}],
             },
         ],
     },
@@ -581,6 +598,7 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
                 "min_temperature": 390.0,
                 "max_temperature": 455.0,
             },
+            # On HMC, Osseus Discus only appears around old stars
             {
                 "body_type": ["High metal content body"],
                 "atmosphere": ["Water"],
@@ -588,6 +606,7 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
                 "max_gravity": 0.063,
                 "min_temperature": 400.0,
                 "max_temperature": 455.0,
+                "constraints": [{"field": "star_age", "min": 9000.0}],
             },
             # SrvSurvey bio-criteria branches
             {
@@ -917,7 +936,8 @@ def score_body(
     Args:
         body_row: A dict from a Parquet body row (flat column names).
             Must include system_x, system_y, system_z for region/distance
-            constraints (set by the caller from system coordinates).
+            constraints (set by the caller from system coordinates), and
+            star_age, the main star's age in millions of years.
             exclude_star_classes is checked against star_class (the system's
             main star); exclude_own_star_classes against parent_star_class
             (the star the body orbits).

@@ -49,7 +49,7 @@ def scan_sector(sector_dir):
     try:
         star_data = reader.read_bodies(
             columns=["system_id64", "bodyId", "type", "spectralClass", "mainStar",
-                     "solarRadius"],
+                     "solarRadius", "age"],
         )
         for srow in star_data.filter(
             pc.equal(star_data.column("type"), "Star")
@@ -122,6 +122,7 @@ def scan_sector(sector_dir):
             sc = star_row.get("spectralClass", "")
             row["star_class"] = sc[0] if sc else None
             row["star_solar_radius"] = star_row.get("solarRadius")
+            row["star_age"] = star_row.get("age")
         else:
             row["star_class"] = None
         row["parent_star_class"] = parent_star_class(row, star_by_body)

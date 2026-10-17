@@ -134,7 +134,7 @@ def _scan_sector(
             columns=[
                 "system_id64", "bodyId", "type", "spectralClass", "mainStar",
                 "absoluteMagnitude", "solarMasses", "solarRadius",
-                "surfaceTemperature",
+                "surfaceTemperature", "age",
             ],
         )
         star_rows_f = star_data.filter(
@@ -223,6 +223,7 @@ def _scan_sector(
             row["star_abs_magnitude"] = sp.get("absoluteMagnitude")
             row["star_solar_masses"] = sp.get("solarMasses")
             row["star_solar_radius"] = sp.get("solarRadius")
+            row["star_age"] = sp.get("age")
         coords = sys_coords.get(sid)
         if coords:
             row["system_x"], row["system_y"], row["system_z"] = coords
@@ -311,7 +312,7 @@ def _scan_sector_validate(
             columns=[
                 "system_id64", "bodyId", "type", "spectralClass", "mainStar",
                 "absoluteMagnitude", "solarMasses", "solarRadius",
-                "surfaceTemperature",
+                "surfaceTemperature", "age",
             ],
         )
         star_rows_f = star_data.filter(
@@ -405,6 +406,7 @@ def _scan_sector_validate(
             row["star_abs_magnitude"] = sp.get("absoluteMagnitude")
             row["star_solar_masses"] = sp.get("solarMasses")
             row["star_solar_radius"] = sp.get("solarRadius")
+            row["star_age"] = sp.get("age")
         coords_v = sys_coords_v.get(sid_v)
         if coords_v:
             row["system_x"], row["system_y"], row["system_z"] = coords_v

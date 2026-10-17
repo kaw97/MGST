@@ -391,7 +391,7 @@ Rules are defined in `src/mgst/bio/species_rules.py`:
 - Some species have galactic region constraints (e.g., Tubus Cavas → Scutum-Centaurus, Stratum Cucumisis → Sagittarius-Carina)
 - Star-class exclusions come in two kinds: `exclude_star_classes` checks the system's main star (`star_class`); `exclude_own_star_classes` checks the star the body orbits (`parent_star_class`, found by walking the body's `parent_N_*` columns with `parent_star_class()`). Own-star exclusions follow SrvSurvey's genus colour tables: a species only appears around star classes that have a colour for it
 - Clypeus Speculumi requires >= 2,500 ls from the arrival star (`distanceToArrival` constraint), not a distance from Sol
-- The `score_body()` function takes a flat dict of body properties and returns matching species. Callers must set `star_class`, `parent_star_class` and `system_x/y/z` on the row
+- The `score_body()` function takes a flat dict of body properties and returns matching species. Callers must set `star_class`, `parent_star_class`, `star_age` (main star's age, millions of years) and `system_x/y/z` on the row
 - Evaluate rules against landmark ground truth with `experiments/bio_rule_optimization/ruleset_breakdown.py` (per-species and per-ruleset TP/FN/FP/TN and FNR/FDR/FPR) on the extract built by `extract_landmark_bodies.py`. Count a prediction as wrong only when the species is definitely absent; predictions on unscanned bodies are not false positives
 
 ### Validation Mode
