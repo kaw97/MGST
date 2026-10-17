@@ -146,6 +146,41 @@ def load_systems(input_file: Path) -> Tuple[List[Dict], List[str], List[str]]:
     return systems, body_type_columns, all_fieldnames
 
 
+def body_signal_counts(body_details: str) -> List[int]:
+    """Number of predicted species on each body in a find_high_value_systems body_details field.
+
+    The field looks like "Body A(Species 1 19.0M, Species 2 16.2M);Body B(Species 3 12.9M)".
+    An entry without a parenthesised species list counts as 0.
+    """
+    counts = []
+    for entry in body_details.split(';'):
+        entry = entry.strip()
+        if not entry:
+            continue
+        open_idx = entry.rfind('(')
+        if open_idx == -1 or not entry.endswith(')'):
+            counts.append(0)
+            continue
+        species = entry[open_idx + 1:-1]
+        counts.append(sum(1 for item in species.split(',') if item.strip()))
+    return counts
+
+
+def filter_by_body_signals(systems: List[Dict], min_signals: int, mode: str) -> List[Dict]:
+    """Keep systems whose bodies have at least min_signals predicted species.
+
+    mode 'any': at least one body qualifies; mode 'all': every listed body qualifies.
+    Systems without body_details are dropped.
+    """
+    check = any if mode == 'any' else all
+    kept = []
+    for system in systems:
+        counts = body_signal_counts(system['_row'].get('body_details') or '')
+        if counts and check(c >= min_signals for c in counts):
+            kept.append(system)
+    return kept
+
+
 def cluster_systems(systems: List[Dict], max_distance: float) -> Dict[int, List[Dict]]:
     """
     Cluster systems using KDTree + union-find algorithm.
@@ -395,7 +430,8 @@ def write_summary(clusters: Dict[int, List[Dict]], summary_file: Path,
                  body_type_columns: List[str],
                  max_distance: float, total_systems: int,
                  corridor_start: Tuple[float, float, float] = None,
-                 corridor_end: Tuple[float, float, float] = None):
+                 corridor_end: Tuple[float, float, float] = None,
+                 filter_note: str = None):
     """Write clustering summary."""
     sorted_clusters = sorted(clusters.items(),
                             key=lambda x: len(x[1]),
@@ -408,6 +444,8 @@ def write_summary(clusters: Dict[int, List[Dict]], summary_file: Path,
             f.write(f"Max Distance: {max_distance:.2f} LY\n")
         else:
             f.write(f"Method: HDBSCAN (adaptive density)\n")
+        if filter_note:
+            f.write(f"Signal filter: {filter_note}\n")
         f.write(f"Total Systems: {total_systems}\n")
         f.write(f"Total Clusters: {len(clusters)}\n")
         f.write(f"Isolated Systems (size 1): {sum(1 for c in clusters.values() if len(c) == 1)}\n")
@@ -605,6 +643,12 @@ Examples:
   # Cluster with corridor distance calculation
   %(prog)s -i results.tsv -d 50 -o clusters.tsv \\
     --start "-468,-92,4474" --end "-575,-37,5142"
+
+  # Only systems where at least one body has 2+ predicted species
+  %(prog)s -i results.tsv -d 50 -o clusters.tsv --min-body-signals 2
+
+  # Only systems where every predicted body has 2+ predicted species
+  %(prog)s -i results.tsv -d 50 -o clusters.tsv --min-body-signals 2 --signal-filter all
         """
     )
 
@@ -630,8 +674,18 @@ Examples:
                        help='Corridor start coordinates (format: "x,y,z")')
     parser.add_argument('--end', type=str,
                        help='Corridor end coordinates (format: "x,y,z")')
+    parser.add_argument('--min-body-signals', type=int, default=None,
+                       help='Before clustering, keep only systems whose bodies have at least '
+                            'this many predicted species (signals), counted from the '
+                            'body_details column of find_high_value_systems.py output')
+    parser.add_argument('--signal-filter', choices=['any', 'all'], default='any',
+                       help="With --min-body-signals: 'any' keeps a system if at least one body "
+                            "qualifies (default); 'all' requires every predicted body to qualify")
 
     args = parser.parse_args()
+
+    if args.min_body_signals is not None and args.min_body_signals < 1:
+        parser.error("--min-body-signals must be at least 1")
 
     if args.method != 'hdbscan' and args.distance is None:
         parser.error("--distance is required for union-find and dbscan methods")
@@ -656,6 +710,21 @@ Examples:
     systems, body_type_columns, all_fieldnames = load_systems(args.input)
     print(f"Loaded {len(systems)} systems")
     print(f"Body type columns: {', '.join(body_type_columns)}")
+
+    filter_note = None
+    if args.min_body_signals is not None:
+        if 'body_details' not in all_fieldnames:
+            parser.error("--min-body-signals needs a body_details column "
+                         "(output of find_high_value_systems.py)")
+        loaded = len(systems)
+        systems = filter_by_body_signals(systems, args.min_body_signals, args.signal_filter)
+        which = 'at least one body' if args.signal_filter == 'any' else 'every predicted body'
+        filter_note = (f"{which} with >= {args.min_body_signals} predicted species; "
+                       f"kept {len(systems)} of {loaded} systems")
+        print(f"Signal filter: {filter_note}")
+        if not systems:
+            print("No systems pass the signal filter; nothing to cluster.")
+            return
 
     if corridor_start and corridor_end:
         corridor_length = calculate_distance(corridor_start, corridor_end)
@@ -687,7 +756,7 @@ Examples:
 
     print(f"Writing summary to: {args.summary}")
     write_summary(clusters, args.summary, body_type_columns, args.distance,
-                 len(systems), corridor_start, corridor_end)
+                 len(systems), corridor_start, corridor_end, filter_note)
 
     print(f"\nWriting per-cluster files...")
     write_cluster_directory(clusters, args.output, all_fieldnames, body_type_columns)

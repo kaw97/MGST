@@ -429,6 +429,20 @@ This produces:
 
 The per-cluster files are ready-to-use route plans: systems are ordered by greedy nearest-neighbor traversal starting from the system closest to galactic center, with jump distances between consecutive systems.
 
+To route only through richer systems, filter by predicted signals (species predicted per body, counted from the `body_details` column) before clustering:
+
+```bash
+# Keep systems where at least one body has 2+ predicted species
+python -I scripts/cluster_systems.py -i results.tsv -o clusters.tsv -m hdbscan \
+  --min-cluster-size 3 --min-samples 2 --min-body-signals 2
+
+# Keep systems where every predicted body has 2+ predicted species
+python -I scripts/cluster_systems.py -i results.tsv -o clusters.tsv -m hdbscan \
+  --min-cluster-size 3 --min-samples 2 --min-body-signals 2 --signal-filter all
+```
+
+The summary file records the filter and how many systems passed.
+
 ### Spansh Landmark Validation (Galaxy-Wide)
 
 For deeper validation against species-level ground truth from Spansh:
