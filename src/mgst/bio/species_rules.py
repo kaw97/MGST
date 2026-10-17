@@ -61,6 +61,12 @@ for _bk, _pv in BODY_TYPE_MAP.items():
 # High-value species definitions
 # ---------------------------------------------------------------------------
 
+# Clypeus Speculumi is only found far from the arrival star; bodies without a
+# recorded distance fail the check
+SPECULUMI_ARRIVAL_DISTANCE: Dict[str, Any] = {
+    "field": "distanceToArrival", "min": 2500.0, "required": True,
+}
+
 HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
     # --- Tier 1: >= 19M ---
     {
@@ -103,7 +109,8 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
         "value": 19_010_800,
         "min_value": 19_010_800,
         "genus_signal": "$Codex_Ent_Stratum_Genus_Name;",
-        "exclude_star_classes": ["G", "A"],
+        # Stratum has no G or A colour variant
+        "exclude_own_star_classes": ["G", "A"],
         "rulesets": [
             {
                 "body_type": ["High metal content body"],
@@ -140,6 +147,36 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
                 "min_temperature": 390.0,
                 "max_temperature": 455.0,
             },
+            # SrvSurvey bio-criteria branches
+            {
+                "body_type": ["High metal content body"],
+                "atmosphere": ["CarbonDioxideRich"],
+                "volcanism": "None",
+                "max_gravity": 0.61,
+                "min_temperature": 165.0,
+                "max_temperature": 246.0,
+                "min_pressure": 0.007,
+                "atmosphere_component_any": {
+                    "atm_Oxygen": 57.0,
+                    "atm_Argon": 50.0,
+                    "atm_Sulphur_dioxide": 0.9,
+                },
+            },
+            {
+                "body_type": ["High metal content body"],
+                "atmosphere": ["Oxygen"],
+                "volcanism": [
+                    "None",
+                    "Major Rocky Magma",
+                    "Major Silicate Vapour Geysers",
+                    "Minor Metallic Magma",
+                    "Minor Silicate Vapour Geysers",
+                ],
+                "max_gravity": 0.52,
+                "min_temperature": 165.0,
+                "min_pressure": 0.02,
+                "atmosphere_component": {"atm_Sulphur_dioxide": 0.8},
+            },
         ],
     },
     {
@@ -147,6 +184,8 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
         "value": 19_010_800,
         "min_value": 19_010_800,
         "genus_signal": "$Codex_Ent_Tussocks_Genus_Name;",
+        # Tussock has no A colour variant
+        "exclude_own_star_classes": ["A"],
         "rulesets": [
             {
                 "body_type": ["Rocky body", "High metal content body"],
@@ -183,7 +222,8 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
         "value": 16_202_800,
         "min_value": 16_202_800,
         "genus_signal": "$Codex_Ent_Cactoid_Genus_Name;",
-        "exclude_star_classes": ["K"],
+        # Cactoida has no K, B or C colour variant
+        "exclude_own_star_classes": ["K", "B", "C"],
         "rulesets": [
             {
                 "body_type": ["Rocky body"],
@@ -263,13 +303,74 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
         "min_value": 12_934_900,
         "genus_signal": "$Codex_Ent_Recepta_Genus_Name;",
         "rulesets": [
+            # SrvSurvey bio-criteria branches
             {
+                "body_type": ["Icy body"],
                 "atmosphere": ["SulphurDioxide"],
-                "min_gravity": 0.04,
+                "volcanism": [
+                    "Carbon Dioxide Geysers",
+                    "Major Water Geysers",
+                    "Major Water Magma",
+                    "Minor Ammonia Magma",
+                    "Minor Carbon Dioxide Geysers",
+                    "Minor Methane Magma",
+                    "Minor Nitrogen Magma",
+                    "Minor Water Magma",
+                    "Water Geysers",
+                    "Water Magma",
+                ],
+                "min_gravity": 0.188,
+                "max_gravity": 0.276,
+                "max_temperature": 272.0,
+                "atmosphere_component": {"atm_Sulphur_dioxide": 100.0},
+            },
+            {
+                "body_type": ["Rocky body"],
+                "atmosphere": ["SulphurDioxide"],
+                "volcanism": [
+                    "None",
+                    "Major Metallic Magma",
+                    "Major Silicate Vapour Geysers",
+                    "Metallic Magma",
+                    "Minor Metallic Magma",
+                    "Minor Rocky Magma",
+                    "Minor Silicate Vapour Geysers",
+                    "Minor Water Magma",
+                ],
                 "max_gravity": 0.276,
                 "min_temperature": 132.0,
-                "max_temperature": 272.0,
-                "atmosphere_component": {"atm_Sulphur_dioxide": 1.05},
+                "max_temperature": 207.0,
+                "max_pressure": 0.06,
+                "atmosphere_component": {"atm_Sulphur_dioxide": 100.0},
+            },
+            {
+                "body_type": ["Rocky Ice world"],
+                "atmosphere": ["SulphurDioxide"],
+                "volcanism": [
+                    "Major Silicate Vapour Geysers",
+                    "Major Water Geysers",
+                    "Major Water Magma",
+                    "Metallic Magma",
+                    "Minor Carbon Dioxide Geysers",
+                    "Minor Metallic Magma",
+                    "Minor Silicate Vapour Geysers",
+                    "Minor Water Geysers",
+                    "Water Geysers",
+                ],
+                "min_gravity": 0.22,
+                "max_gravity": 0.276,
+                "max_temperature": 231.0,
+                "atmosphere_component": {"atm_Sulphur_dioxide": 100.0},
+            },
+            {
+                "body_type": ["High metal content body"],
+                "atmosphere": ["SulphurDioxide"],
+                "volcanism": "None",
+                "max_gravity": 0.276,
+                "min_temperature": 132.0,
+                "max_temperature": 135.0,
+                "max_pressure": 0.0014,
+                "atmosphere_component": {"atm_Sulphur_dioxide": 100.0},
             },
         ],
     },
@@ -279,6 +380,8 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
         "min_value": 16_202_800,
         "genus_signal": "$Codex_Ent_Stratum_Genus_Name;",
         "region": "sagittarius-carina",
+        # Stratum has no A, G, B or N colour variant
+        "exclude_own_star_classes": ["A", "G", "B", "N"],
         "rulesets": [
             {
                 "body_type": ["Rocky body"],
@@ -323,7 +426,6 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
         "value": 16_202_800,
         "min_value": 16_202_800,
         "genus_signal": "$Codex_Ent_Clypeus_Genus_Name;",
-        "min_distance_from_sol": 2000.0,
         "rulesets": [
             {
                 "body_type": ["Rocky body"],
@@ -334,6 +436,7 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
                 "min_temperature": 190.0,
                 "max_temperature": 197.0,
                 "min_pressure": 0.055,
+                "constraints": [SPECULUMI_ARRIVAL_DISTANCE],
             },
             {
                 "body_type": ["Rocky body"],
@@ -341,6 +444,7 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
                 "volcanism": "None",
                 "min_gravity": 0.04,
                 "max_gravity": 0.276,
+                "constraints": [SPECULUMI_ARRIVAL_DISTANCE],
             },
             {
                 "body_type": ["Rocky body"],
@@ -348,6 +452,7 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
                 "volcanism": ["water"],
                 "min_gravity": 0.04,
                 "max_gravity": 0.276,
+                "constraints": [SPECULUMI_ARRIVAL_DISTANCE],
             },
         ],
     },
@@ -358,16 +463,6 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
         "min_value": 14_313_700,
         "genus_signal": "$Codex_Ent_Recepta_Genus_Name;",
         "rulesets": [
-            {
-                "body_type": ["Icy body", "Rocky body", "High metal content body"],
-                "atmosphere": ["CarbonDioxide", "CarbonDioxideRich"],
-                "volcanism": "None",
-                "min_gravity": 0.04,
-                "max_gravity": 0.276,
-                "min_temperature": 150.0,
-                "max_temperature": 195.0,
-                "atmosphere_component": {"atm_Sulphur_dioxide": 1.05},
-            },
             {
                 "atmosphere": ["SulphurDioxide"],
                 "min_gravity": 0.04,
@@ -413,7 +508,7 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
                 "max_gravity": 0.276,
                 "min_temperature": 151.0,
                 "max_temperature": 200.0,
-                "atmosphere_component": {"atm_Sulphur_dioxide": 1.05},
+                "atmosphere_component": {"atm_Sulphur_dioxide": 1.10},
             },
             {
                 "atmosphere": ["SulphurDioxide"],
@@ -430,6 +525,8 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
         "value": 12_934_900,
         "min_value": 12_934_900,
         "genus_signal": "$Codex_Ent_Aleoids_Genus_Name;",
+        # Aleoida has no G colour variant
+        "exclude_own_star_classes": ["G"],
         "rulesets": [
             {
                 "body_type": ["Rocky body", "High metal content body"],
@@ -448,7 +545,8 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
         "value": 11_873_200,
         "min_value": 11_873_200,
         "genus_signal": "$Codex_Ent_Clypeus_Genus_Name;",
-        "exclude_star_classes": ["T"],
+        # Clypeus has no T colour variant
+        "exclude_own_star_classes": ["T"],
         "rulesets": [
             {
                 "body_type": ["High metal content body"],
@@ -476,12 +574,92 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
         "genus_signal": "$Codex_Ent_Osseus_Genus_Name;",
         "rulesets": [
             {
-                "body_type": ["Rocky body", "High metal content body"],
+                "body_type": ["Rocky body"],
+                "atmosphere": ["Water"],
+                "min_gravity": 0.04,
+                "max_gravity": 0.063,
+                "min_temperature": 390.0,
+                "max_temperature": 455.0,
+            },
+            {
+                "body_type": ["High metal content body"],
                 "atmosphere": ["Water"],
                 "min_gravity": 0.04,
                 "max_gravity": 0.063,
                 "min_temperature": 400.0,
                 "max_temperature": 455.0,
+            },
+            # SrvSurvey bio-criteria branches
+            {
+                "body_type": ["Rocky body"],
+                "atmosphere": ["Ammonia"],
+                "volcanism": [
+                    "Major Silicate Vapour Geysers",
+                    "Metallic Magma",
+                    "Minor Metallic Magma",
+                    "Minor Rocky Magma",
+                    "Minor Silicate Vapour Geysers",
+                    "Minor Water Magma",
+                ],
+                "max_gravity": 0.058,
+                "min_temperature": 169.0,
+                "min_pressure": 0.006,
+                "atmosphere_component": {"atm_Ammonia": 100.0},
+            },
+            {
+                "body_type": ["Rocky Ice world"],
+                "atmosphere": ["Ammonia"],
+                "volcanism": [
+                    "Major Rocky Magma",
+                    "Major Silicate Vapour Geysers",
+                    "Major Water Geysers",
+                    "Major Water Magma",
+                    "Metallic Magma",
+                    "Minor Metallic Magma",
+                    "Minor Rocky Magma",
+                    "Minor Silicate Vapour Geysers",
+                    "Minor Water Magma",
+                    "Rocky Magma",
+                    "Water Magma",
+                ],
+                "max_gravity": 0.09,
+                "min_temperature": 160.7,
+                "atmosphere_component": {"atm_Ammonia": 100.0},
+            },
+            {
+                "body_type": ["High metal content body"],
+                "atmosphere": ["Ammonia"],
+                "volcanism": [
+                    "Major Rocky Magma",
+                    "Major Silicate Vapour Geysers",
+                    "Minor Metallic Magma",
+                    "Minor Rocky Magma",
+                    "Minor Silicate Vapour Geysers",
+                ],
+                "min_gravity": 0.046,
+                "max_gravity": 0.054,
+                "min_temperature": 174.0,
+                "min_pressure": 0.009,
+                "atmosphere_component": {"atm_Ammonia": 100.0},
+            },
+            {
+                "body_type": ["Rocky Ice world"],
+                "atmosphere": ["Argon"],
+                "volcanism": [
+                    "Major Rocky Magma",
+                    "Major Silicate Vapour Geysers",
+                    "Major Water Geysers",
+                    "Minor Carbon Dioxide Geysers",
+                    "Minor Metallic Magma",
+                    "Minor Silicate Vapour Geysers",
+                    "Minor Water Geysers",
+                    "Silicate Vapour Geysers",
+                    "Water Geysers",
+                ],
+                "min_gravity": 0.22,
+                "max_gravity": 0.276,
+                "max_temperature": 119.0,
+                "atmosphere_component": {"atm_Argon": 100.0},
             },
         ],
     },
@@ -510,6 +688,8 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
         "min_value": 10_326_000,
         "genus_signal": "$Codex_Ent_Shrubs_Genus_Name;",
         "region": "scutum-centaurus",
+        # Frutexa has no K or A colour variant
+        "exclude_own_star_classes": ["K", "A"],
         "rulesets": [
             {
                 "body_type": ["Rocky body"],
@@ -536,11 +716,39 @@ BODY_COLUMNS: List[str] = [
     "gravity",
     "surfacePressure",
     "atm_Sulphur_dioxide",
+    "atm_Ammonia",
+    "atm_Argon",
+    "atm_Oxygen",
     "signals_genuses",
     "sig_$SAA_SignalType_Biological;",
     "updateTime",
     "distanceToArrival",
 ]
+
+# Parent chain columns, used to find the star a body orbits
+PARENT_COLUMNS: List[str] = [
+    f"parent_{i}_{kind}" for i in range(7) for kind in ("type", "id")
+]
+BODY_COLUMNS += PARENT_COLUMNS
+
+
+def parent_star_class(
+    body_row: dict,
+    star_by_body: Dict[Tuple[int, int], str],
+) -> Optional[str]:
+    """Spectral class letter of the first star up the body's parent chain.
+
+    star_by_body maps (system_id64, bodyId) to a class letter. Returns None
+    when the chain contains no star (e.g. a body orbiting only barycentres).
+    """
+    sid = body_row.get("system_id64")
+    for i in range(7):
+        ptype = body_row.get(f"parent_{i}_type")
+        if ptype is None:
+            return None
+        if ptype == "Star":
+            return star_by_body.get((sid, body_row.get(f"parent_{i}_id")))
+    return None
 
 # Columns needed from systems.parquet
 SYSTEM_COLUMNS: List[str] = [
@@ -610,7 +818,7 @@ def matches_volcanism(
     Constraint types:
     - 'None': body must have no volcanism (null, empty, or "No volcanism")
     - list of strings: volcanismType must contain at least one as a substring
-      (case-insensitive)
+      (case-insensitive); a "None" entry also accepts bodies without volcanism
     - absent/None: no constraint (always matches)
     """
     if ruleset_volc is None:
@@ -632,9 +840,13 @@ def matches_volcanism(
 
     if isinstance(ruleset_volc, list):
         if volc_type is None or volc_type == "" or volc_type == "No volcanism":
-            return False
+            return "None" in ruleset_volc
         volc_lower = volc_type.lower()
-        return any(keyword.lower() in volc_lower for keyword in ruleset_volc)
+        return any(
+            keyword.lower() in volc_lower
+            for keyword in ruleset_volc
+            if keyword != "None"
+        )
 
     return False
 
@@ -696,13 +908,21 @@ _REGION_GROUP_SETS: Dict[str, Set[int]] = {
 }
 
 
-def score_body(body_row: dict) -> List[Tuple[str, int]]:
+def score_body(
+    body_row: dict,
+    species_list: Optional[List[Dict[str, Any]]] = None,
+) -> List[Tuple[str, int]]:
     """Score a flat Parquet body row against all high-value species rulesets.
 
     Args:
         body_row: A dict from a Parquet body row (flat column names).
             Must include system_x, system_y, system_z for region/distance
             constraints (set by the caller from system coordinates).
+            exclude_star_classes is checked against star_class (the system's
+            main star); exclude_own_star_classes against parent_star_class
+            (the star the body orbits).
+        species_list: Species definitions to score against; defaults to
+            HIGH_VALUE_SPECIES.
 
     Returns:
         List of (species_name, min_value) for each matching species.
@@ -715,6 +935,7 @@ def score_body(body_row: dict) -> List[Tuple[str, int]]:
     temperature = body_row.get("surfaceTemperature")
 
     star_class = body_row.get("star_class")
+    own_star_class = body_row.get("parent_star_class")
     sys_x = body_row.get("system_x")
     sys_y = body_row.get("system_y")
     sys_z = body_row.get("system_z")
@@ -736,9 +957,12 @@ def score_body(body_row: dict) -> List[Tuple[str, int]]:
 
     matches: List[Tuple[str, int]] = []
 
-    for species in HIGH_VALUE_SPECIES:
+    for species in species_list if species_list is not None else HIGH_VALUE_SPECIES:
         excluded = species.get("exclude_star_classes")
         if excluded and star_class and star_class in excluded:
+            continue
+        own_excluded = species.get("exclude_own_star_classes")
+        if own_excluded and own_star_class and own_star_class in own_excluded:
             continue
 
         region_group = species.get("region")
@@ -813,13 +1037,25 @@ def score_body(body_row: dict) -> List[Tuple[str, int]]:
                 if not matches_atmosphere_component(body_row, atm_component):
                     continue
 
-            # Generic constraints (orbital, star, composition filters)
+            atm_component_any = ruleset.get("atmosphere_component_any")
+            if atm_component_any is not None:
+                if not any(
+                    matches_atmosphere_component(body_row, {col: min_value})
+                    for col, min_value in atm_component_any.items()
+                ):
+                    continue
+
+            # Generic constraints (orbital, star, composition filters);
+            # a missing value passes unless the constraint is marked required
             constraints = ruleset.get("constraints")
             if constraints:
                 constraint_failed = False
                 for c in constraints:
                     val = body_row.get(c["field"])
                     if val is None:
+                        if c.get("required"):
+                            constraint_failed = True
+                            break
                         continue
                     if "min" in c and val < c["min"]:
                         constraint_failed = True

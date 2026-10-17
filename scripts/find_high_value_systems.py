@@ -54,6 +54,7 @@ from mgst.bio.species_rules import (
     HIGH_VALUE_SPECIES,
     RELEVANT_BODY_TYPES,
     SYSTEM_COLUMNS,
+    parent_star_class,
     score_body,
 )
 from mgst.data.parquet_reader import ParquetSectorReader
@@ -127,10 +128,11 @@ def _scan_sector(
     # Build star class + star properties lookup
     star_lookup = {}
     star_props = {}
+    star_by_body: Dict[Tuple[int, int], str] = {}
     try:
         star_data = reader.read_bodies(
             columns=[
-                "system_id64", "type", "spectralClass", "mainStar",
+                "system_id64", "bodyId", "type", "spectralClass", "mainStar",
                 "absoluteMagnitude", "solarMasses", "solarRadius",
                 "surfaceTemperature",
             ],
@@ -145,6 +147,8 @@ def _scan_sector(
                 continue
             s_class = srow.get("spectralClass", "")
             is_main = srow.get("mainStar", False)
+            if s_class:
+                star_by_body[(s_id, srow.get("bodyId"))] = s_class[0]
             if is_main and s_class:
                 star_lookup[s_id] = s_class[0]
                 star_props[s_id] = srow
@@ -157,7 +161,9 @@ def _scan_sector(
 
     # Read bodies with column pruning and pushdown filter on body type
     try:
-        body_filter = pc.field("subType").isin(RELEVANT_BODY_TYPES)
+        body_filter = pc.field("subType").isin(RELEVANT_BODY_TYPES) & pc.starts_with(
+            pc.field("atmosphereType"), "Thin"
+        )
         bodies_table = reader.read_bodies(
             columns=BODY_COLUMNS,
             filters=body_filter,
@@ -210,6 +216,7 @@ def _scan_sector(
 
         sid = row.get("system_id64")
         row["star_class"] = star_lookup.get(sid)
+        row["parent_star_class"] = parent_star_class(row, star_by_body)
         sp = star_props.get(sid)
         if sp:
             row["star_temperature"] = sp.get("surfaceTemperature")
@@ -298,10 +305,11 @@ def _scan_sector_validate(
     # Build star class + star properties lookup
     star_lookup = {}
     star_props = {}
+    star_by_body: Dict[Tuple[int, int], str] = {}
     try:
         star_data = reader.read_bodies(
             columns=[
-                "system_id64", "type", "spectralClass", "mainStar",
+                "system_id64", "bodyId", "type", "spectralClass", "mainStar",
                 "absoluteMagnitude", "solarMasses", "solarRadius",
                 "surfaceTemperature",
             ],
@@ -316,6 +324,8 @@ def _scan_sector_validate(
                 continue
             s_class = srow.get("spectralClass", "")
             is_main = srow.get("mainStar", False)
+            if s_class:
+                star_by_body[(s_id, srow.get("bodyId"))] = s_class[0]
             if is_main and s_class:
                 star_lookup[s_id] = s_class[0]
                 star_props[s_id] = srow
@@ -388,6 +398,7 @@ def _scan_sector_validate(
         # Score the body
         sid_v = row.get("system_id64")
         row["star_class"] = star_lookup.get(sid_v)
+        row["parent_star_class"] = parent_star_class(row, star_by_body)
         sp = star_props.get(sid_v)
         if sp:
             row["star_temperature"] = sp.get("surfaceTemperature")

@@ -31,7 +31,7 @@ import pyarrow.compute as pc
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from mgst.bio.species_rules import (
-    BODY_COLUMNS, HIGH_VALUE_SPECIES, RELEVANT_BODY_TYPES, score_body,
+    BODY_COLUMNS, HIGH_VALUE_SPECIES, RELEVANT_BODY_TYPES, parent_star_class, score_body,
 )
 from mgst.data.parquet_reader import ParquetSectorReader
 
@@ -45,9 +45,10 @@ def scan_sector(sector_dir):
 
     # Star lookup
     star_lookup = {}
+    star_by_body = {}
     try:
         star_data = reader.read_bodies(
-            columns=["system_id64", "type", "spectralClass", "mainStar",
+            columns=["system_id64", "bodyId", "type", "spectralClass", "mainStar",
                      "solarRadius"],
         )
         for srow in star_data.filter(
@@ -58,6 +59,8 @@ def scan_sector(sector_dir):
                 continue
             sc = srow.get("spectralClass", "")
             is_main = srow.get("mainStar", False)
+            if sc:
+                star_by_body[(sid, srow.get("bodyId"))] = sc[0]
             if is_main and sc:
                 star_lookup[sid] = srow
             elif sid not in star_lookup and sc:
@@ -87,7 +90,11 @@ def scan_sector(sector_dir):
             BODY_COLUMNS + extra_cols +
             ["star_solar_radius", "earthMasses"]
         ))
-        body_filter = pc.field("subType").isin(RELEVANT_BODY_TYPES)
+        # Only thin-atmosphere bodies can be predicted; landmark bodies are kept for FN
+        body_filter = pc.field("subType").isin(RELEVANT_BODY_TYPES) & (
+            pc.starts_with(pc.field("atmosphereType"), "Thin")
+            | pc.field("landmark_species").is_valid()
+        )
         bodies_table = reader.read_bodies(columns=cols, filters=body_filter)
     except Exception:
         return {}
@@ -117,6 +124,7 @@ def scan_sector(sector_dir):
             row["star_solar_radius"] = star_row.get("solarRadius")
         else:
             row["star_class"] = None
+        row["parent_star_class"] = parent_star_class(row, star_by_body)
 
         coords = sys_coords.get(sid)
         if coords:
