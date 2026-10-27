@@ -8,6 +8,7 @@ distance of at least one other system in the cluster.
 
 import argparse
 import csv
+import difflib
 import math
 import re
 from pathlib import Path
@@ -18,6 +19,9 @@ import numpy as np
 from scipy.spatial import KDTree
 from sklearn.cluster import DBSCAN
 import hdbscan
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
+from mgst.bio.species_rules import HIGH_VALUE_SPECIES
 
 
 class UnionFind:
@@ -146,24 +150,34 @@ def load_systems(input_file: Path) -> Tuple[List[Dict], List[str], List[str]]:
     return systems, body_type_columns, all_fieldnames
 
 
-def body_signal_counts(body_details: str) -> List[int]:
-    """Number of predicted species on each body in a find_high_value_systems body_details field.
+SPECIES_VALUE_SUFFIX = re.compile(r'\s+[\d.]+M$')
+
+
+def body_species(body_details: str) -> List[Tuple[str, List[str]]]:
+    """Body names and predicted species from a find_high_value_systems body_details field.
 
     The field looks like "Body A(Species 1 19.0M, Species 2 16.2M);Body B(Species 3 12.9M)".
-    An entry without a parenthesised species list counts as 0.
+    The credit value is stripped from each species. An entry without a parenthesised
+    species list gives the whole entry as the body name and no species.
     """
-    counts = []
+    bodies = []
     for entry in body_details.split(';'):
         entry = entry.strip()
         if not entry:
             continue
         open_idx = entry.rfind('(')
         if open_idx == -1 or not entry.endswith(')'):
-            counts.append(0)
+            bodies.append((entry, []))
             continue
-        species = entry[open_idx + 1:-1]
-        counts.append(sum(1 for item in species.split(',') if item.strip()))
-    return counts
+        species = [SPECIES_VALUE_SUFFIX.sub('', item.strip())
+                   for item in entry[open_idx + 1:-1].split(',') if item.strip()]
+        bodies.append((entry[:open_idx].strip(), species))
+    return bodies
+
+
+def body_signal_counts(body_details: str) -> List[int]:
+    """Number of predicted species on each body in a body_details field (see body_species)."""
+    return [len(species) for _, species in body_species(body_details)]
 
 
 def filter_by_body_signals(systems: List[Dict], min_signals: int, mode: str) -> List[Dict]:
@@ -178,6 +192,69 @@ def filter_by_body_signals(systems: List[Dict], min_signals: int, mode: str) -> 
         counts = body_signal_counts(system['_row'].get('body_details') or '')
         if counts and check(c >= min_signals for c in counts):
             kept.append(system)
+    return kept
+
+
+def resolve_species_targets(species: List[str], genera: List[str]) -> List[Set[str]]:
+    """Turn --species and --genus names into target groups of canonical species names.
+
+    Each listed species is a group of one; each listed genus is a group holding all of
+    its species. Names are case-insensitive. Raises ValueError for an unknown name.
+    """
+    all_species = [entry['name'] for entry in HIGH_VALUE_SPECIES]
+    by_species = {name.lower(): name for name in all_species}
+    by_genus: Dict[str, Set[str]] = {}
+    for name in all_species:
+        by_genus.setdefault(name.split()[0].lower(), set()).add(name)
+    genus_names = sorted({name.split()[0] for name in all_species})
+
+    def unknown(kind, name, choices):
+        close = difflib.get_close_matches(name, choices, n=3, cutoff=0.6)
+        hint = f" Did you mean: {', '.join(close)}?" if close else ""
+        return ValueError(f"Unknown {kind} '{name}'.{hint} Known: {', '.join(choices)}")
+
+    groups = []
+    for name in species:
+        key = name.strip().lower()
+        if key not in by_species:
+            raise unknown('species', name.strip(), sorted(all_species))
+        groups.append({by_species[key]})
+    for name in genera:
+        key = name.strip().lower()
+        if key not in by_genus:
+            raise unknown('genus', name.strip(), genus_names)
+        groups.append(by_genus[key])
+    return groups
+
+
+def filter_by_species(systems: List[Dict], groups: List[Set[str]], match: str,
+                      scope: str) -> List[Dict]:
+    """Keep systems with the target species predicted.
+
+    match 'any': at least one target group is predicted; 'all': every group is.
+    scope 'body': the match must hold on a single body; 'system': anywhere in the system.
+    Kept systems get a matched_species field listing each body's target species.
+    Systems without body_details are dropped.
+    """
+    targets = set().union(*groups)
+    check = any if match == 'any' else all
+
+    def satisfied(predicted: Set[str]) -> bool:
+        return check(group & predicted for group in groups)
+
+    kept = []
+    for system in systems:
+        bodies = body_species(system['_row'].get('body_details') or '')
+        if scope == 'body':
+            ok = any(satisfied(set(species)) for _, species in bodies)
+        else:
+            ok = satisfied({sp for _, species in bodies for sp in species})
+        if not ok:
+            continue
+        matched = [(body, [sp for sp in species if sp in targets]) for body, species in bodies]
+        system['_row']['matched_species'] = ';'.join(
+            f"{body}({', '.join(species)})" for body, species in matched if species)
+        kept.append(system)
     return kept
 
 
@@ -431,7 +508,7 @@ def write_summary(clusters: Dict[int, List[Dict]], summary_file: Path,
                  max_distance: float, total_systems: int,
                  corridor_start: Tuple[float, float, float] = None,
                  corridor_end: Tuple[float, float, float] = None,
-                 filter_note: str = None):
+                 filter_notes: List[str] = None):
     """Write clustering summary."""
     sorted_clusters = sorted(clusters.items(),
                             key=lambda x: len(x[1]),
@@ -444,8 +521,8 @@ def write_summary(clusters: Dict[int, List[Dict]], summary_file: Path,
             f.write(f"Max Distance: {max_distance:.2f} LY\n")
         else:
             f.write(f"Method: HDBSCAN (adaptive density)\n")
-        if filter_note:
-            f.write(f"Signal filter: {filter_note}\n")
+        for note in filter_notes or []:
+            f.write(f"{note}\n")
         f.write(f"Total Systems: {total_systems}\n")
         f.write(f"Total Clusters: {len(clusters)}\n")
         f.write(f"Isolated Systems (size 1): {sum(1 for c in clusters.values() if len(c) == 1)}\n")
@@ -649,6 +726,13 @@ Examples:
 
   # Only systems where every predicted body has 2+ predicted species
   %(prog)s -i results.tsv -d 50 -o clusters.tsv --min-body-signals 2 --signal-filter all
+
+  # Only systems with a body predicted to host Stratum Tectonicas or any Recepta
+  %(prog)s -i results.tsv -d 50 -o clusters.tsv --species "Stratum Tectonicas" --genus Recepta
+
+  # Only systems with a body predicted to host both Tubus Cavas and Clypeus Speculumi
+  %(prog)s -i results.tsv -d 50 -o clusters.tsv \\
+    --species "Tubus Cavas,Clypeus Speculumi" --species-match all
         """
     )
 
@@ -681,11 +765,34 @@ Examples:
     parser.add_argument('--signal-filter', choices=['any', 'all'], default='any',
                        help="With --min-body-signals: 'any' keeps a system if at least one body "
                             "qualifies (default); 'all' requires every predicted body to qualify")
+    parser.add_argument('--species', type=str, default=None,
+                       help='Before clustering, keep only systems with these predicted species '
+                            '(comma-separated, case-insensitive), from body_details')
+    parser.add_argument('--genus', type=str, default=None,
+                       help='Like --species, but each genus matches any of its species '
+                            '(comma-separated, e.g. "Recepta,Clypeus")')
+    parser.add_argument('--species-match', choices=['any', 'all'], default='any',
+                       help="With --species/--genus: 'any' needs at least one listed species or "
+                            "genus (default); 'all' needs every one")
+    parser.add_argument('--species-scope', choices=['body', 'system'], default='body',
+                       help="With --species/--genus: 'body' needs the match on a single body "
+                            "(default); 'system' allows it to be spread across the system's bodies")
 
     args = parser.parse_args()
 
     if args.min_body_signals is not None and args.min_body_signals < 1:
         parser.error("--min-body-signals must be at least 1")
+
+    split_names = lambda value: [n for n in (value or '').split(',') if n.strip()]
+    species_groups = None
+    if args.species or args.genus:
+        try:
+            species_groups = resolve_species_targets(split_names(args.species),
+                                                     split_names(args.genus))
+        except ValueError as e:
+            parser.error(str(e))
+        if not species_groups:
+            parser.error("--species/--genus needs at least one name")
 
     if args.method != 'hdbscan' and args.distance is None:
         parser.error("--distance is required for union-find and dbscan methods")
@@ -711,20 +818,36 @@ Examples:
     print(f"Loaded {len(systems)} systems")
     print(f"Body type columns: {', '.join(body_type_columns)}")
 
-    filter_note = None
+    filter_notes = []
+    if (args.min_body_signals is not None or species_groups) and 'body_details' not in all_fieldnames:
+        parser.error("--min-body-signals, --species and --genus need a body_details column "
+                     "(output of find_high_value_systems.py)")
+
     if args.min_body_signals is not None:
-        if 'body_details' not in all_fieldnames:
-            parser.error("--min-body-signals needs a body_details column "
-                         "(output of find_high_value_systems.py)")
         loaded = len(systems)
         systems = filter_by_body_signals(systems, args.min_body_signals, args.signal_filter)
         which = 'at least one body' if args.signal_filter == 'any' else 'every predicted body'
-        filter_note = (f"{which} with >= {args.min_body_signals} predicted species; "
-                       f"kept {len(systems)} of {loaded} systems")
-        print(f"Signal filter: {filter_note}")
-        if not systems:
-            print("No systems pass the signal filter; nothing to cluster.")
-            return
+        note = (f"{which} with >= {args.min_body_signals} predicted species; "
+                f"kept {len(systems)} of {loaded} systems")
+        print(f"Signal filter: {note}")
+        filter_notes.append(f"Signal filter: {note}")
+
+    if species_groups:
+        loaded = len(systems)
+        systems = filter_by_species(systems, species_groups, args.species_match,
+                                    args.species_scope)
+        listed = split_names(args.species) + [f"{g.strip()} (genus)" for g in split_names(args.genus)]
+        which = 'any of' if args.species_match == 'any' else 'all of'
+        where = 'on a single body' if args.species_scope == 'body' else 'anywhere in the system'
+        note = (f"{which} {', '.join(n.strip() for n in listed)} {where}; "
+                f"kept {len(systems)} of {loaded} systems")
+        print(f"Species filter: {note}")
+        filter_notes.append(f"Species filter: {note}")
+        all_fieldnames = list(all_fieldnames) + ['matched_species']
+
+    if filter_notes and not systems:
+        print("No systems pass the filters; nothing to cluster.")
+        return
 
     if corridor_start and corridor_end:
         corridor_length = calculate_distance(corridor_start, corridor_end)
@@ -756,7 +879,7 @@ Examples:
 
     print(f"Writing summary to: {args.summary}")
     write_summary(clusters, args.summary, body_type_columns, args.distance,
-                 len(systems), corridor_start, corridor_end, filter_note)
+                 len(systems), corridor_start, corridor_end, filter_notes)
 
     print(f"\nWriting per-cluster files...")
     write_cluster_directory(clusters, args.output, all_fieldnames, body_type_columns)

@@ -441,7 +441,25 @@ python -I scripts/cluster_systems.py -i results.tsv -o clusters.tsv -m hdbscan \
   --min-cluster-size 3 --min-samples 2 --min-body-signals 2 --signal-filter all
 ```
 
-The summary file records the filter and how many systems passed.
+To route only to particular targets, filter by predicted species or genus (case-insensitive; unknown names are rejected with suggestions):
+
+```bash
+# Keep systems with a body predicted to host Stratum Tectonicas or any Recepta species
+python -I scripts/cluster_systems.py -i results.tsv -o clusters.tsv -m hdbscan \
+  --min-cluster-size 3 --min-samples 2 --species "Stratum Tectonicas" --genus Recepta
+
+# Keep systems with a body predicted to host both species
+python -I scripts/cluster_systems.py -i results.tsv -o clusters.tsv -m hdbscan \
+  --min-cluster-size 3 --min-samples 2 \
+  --species "Stratum Tectonicas,Clypeus Margaritus" --species-match all
+```
+
+- `--species-match any` (default) needs at least one listed species or genus; `all` needs every one. A genus counts as matched if any of its species is predicted.
+- `--species-scope body` (default) needs the match on a single body; `system` allows it to be spread across the system's bodies.
+- Route files gain a `matched_species` column listing each body's selected species.
+- The species and signal filters can be combined; a system must pass both, and each is checked on its own (the 2+ signals need not be on the body with the selected species).
+
+The summary file records each filter and how many systems passed.
 
 ### Spansh Landmark Validation (Galaxy-Wide)
 
