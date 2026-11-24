@@ -61,10 +61,11 @@ for _bk, _pv in BODY_TYPE_MAP.items():
 # High-value species definitions
 # ---------------------------------------------------------------------------
 
-# Clypeus Speculumi is only found far from the arrival star; bodies without a
-# recorded distance fail the check
-SPECULUMI_ARRIVAL_DISTANCE: Dict[str, Any] = {
-    "field": "distanceToArrival", "min": 2500.0, "required": True,
+# Clypeus Speculumi is only found far from the first star or binary up the
+# parent chain (see parent_chain_ls). Arrival distance stands in where an orbit
+# on the way isn't on record; bodies with neither fail the check
+SPECULUMI_CHAIN_DISTANCE: Dict[str, Any] = {
+    "field": "parent_chain_ls", "fallback": "distanceToArrival", "min": 2500.0, "required": True,
 }
 
 HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
@@ -111,6 +112,8 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
         "genus_signal": "$Codex_Ent_Stratum_Genus_Name;",
         # Stratum has no G or A colour variant
         "exclude_own_star_classes": ["G", "A"],
+        # Confirmed finds thin out sharply above 200 K, or 177 K on Ammonia, so all but Water stop there.
+        # Gravity falls off too gradually to justify a tighter limit than each atmosphere's range
         "rulesets": [
             {
                 "body_type": ["High metal content body"],
@@ -124,9 +127,9 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
                 "body_type": ["High metal content body"],
                 "atmosphere": ["CarbonDioxide"],
                 "min_gravity": 0.045,
-                "max_gravity": 0.50,
+                "max_gravity": 0.61,
                 "min_temperature": 165.0,
-                "max_temperature": 197.0,
+                "max_temperature": 200.0,
                 "constraints": [
                     {"field": "atm_Sulphur_dioxide", "min": 0.99},
                 ],
@@ -135,9 +138,9 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
                 "body_type": ["High metal content body"],
                 "atmosphere": ["SulphurDioxide"],
                 "min_gravity": 0.265,
-                "max_gravity": 0.60,
+                "max_gravity": 0.61,
                 "min_temperature": 165.0,
-                "max_temperature": 450.0,
+                "max_temperature": 200.0,
             },
             {
                 "body_type": ["High metal content body"],
@@ -154,7 +157,7 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
                 "volcanism": "None",
                 "max_gravity": 0.61,
                 "min_temperature": 165.0,
-                "max_temperature": 246.0,
+                "max_temperature": 200.0,
                 "min_pressure": 0.007,
                 "atmosphere_component_any": {
                     "atm_Oxygen": 57.0,
@@ -165,17 +168,10 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
             {
                 "body_type": ["High metal content body"],
                 "atmosphere": ["Oxygen"],
-                "volcanism": [
-                    "None",
-                    "Major Rocky Magma",
-                    "Major Silicate Vapour Geysers",
-                    "Minor Metallic Magma",
-                    "Minor Silicate Vapour Geysers",
-                ],
                 "max_gravity": 0.52,
                 "min_temperature": 165.0,
+                "max_temperature": 200.0,
                 "min_pressure": 0.02,
-                "atmosphere_component": {"atm_Sulphur_dioxide": 0.8},
             },
         ],
     },
@@ -453,7 +449,7 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
                 "min_temperature": 190.0,
                 "max_temperature": 197.0,
                 "min_pressure": 0.055,
-                "constraints": [SPECULUMI_ARRIVAL_DISTANCE],
+                "constraints": [SPECULUMI_CHAIN_DISTANCE],
             },
             {
                 "body_type": ["Rocky body"],
@@ -461,7 +457,7 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
                 "volcanism": "None",
                 "min_gravity": 0.04,
                 "max_gravity": 0.276,
-                "constraints": [SPECULUMI_ARRIVAL_DISTANCE],
+                "constraints": [SPECULUMI_CHAIN_DISTANCE],
             },
             {
                 "body_type": ["Rocky body"],
@@ -469,7 +465,7 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
                 "volcanism": ["water"],
                 "min_gravity": 0.04,
                 "max_gravity": 0.276,
-                "constraints": [SPECULUMI_ARRIVAL_DISTANCE],
+                "constraints": [SPECULUMI_CHAIN_DISTANCE],
             },
         ],
     },
@@ -495,7 +491,7 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
         "value": 14_313_700,
         "min_value": 14_313_700,
         "genus_signal": "$Codex_Ent_Tussocks_Genus_Name;",
-        "exclude_star_classes": ["A", "T", "B"],
+        "exclude_own_star_classes": ["A", "T", "B"],
         "rulesets": [
             {
                 "body_type": ["Rocky body", "High metal content body"],
@@ -503,6 +499,7 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
                 "volcanism": "None",
                 "min_gravity": 0.04,
                 "max_gravity": 0.065,
+                "max_temperature": 450.0,
             },
             {
                 "body_type": ["Rocky body", "High metal content body"],
@@ -510,6 +507,7 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
                 "volcanism": ["water"],
                 "min_gravity": 0.04,
                 "max_gravity": 0.065,
+                "max_temperature": 450.0,
             },
         ],
     },
@@ -694,7 +692,7 @@ HIGH_VALUE_SPECIES: List[Dict[str, Any]] = [
                 "atmosphere": ["CarbonDioxide"],
                 "volcanism": "None",
                 "min_gravity": 0.04,
-                "max_gravity": 0.152,
+                "max_gravity": 0.1515,
                 "min_temperature": 160.0,
                 "max_temperature": 197.0,
                 "min_pressure": 0.003,
@@ -742,7 +740,11 @@ BODY_COLUMNS: List[str] = [
     "sig_$SAA_SignalType_Biological;",
     "updateTime",
     "distanceToArrival",
+    "semiMajorAxis",
+    "bodyId",
 ]
+
+LS_PER_AU = 499.005
 
 # Parent chain columns, used to find the star a body orbits
 PARENT_COLUMNS: List[str] = [
@@ -768,6 +770,47 @@ def parent_star_class(
         if ptype == "Star":
             return star_by_body.get((sid, body_row.get(f"parent_{i}_id")))
     return None
+
+
+def star_barycentres(star_rows: List[dict]) -> Set[Tuple[int, int]]:
+    """(system_id64, barycentre id) pairs that hold a star: barycentres reached before any other parent."""
+    found: Set[Tuple[int, int]] = set()
+    for row in star_rows:
+        if not row.get("subType"):
+            continue
+        for i in range(7):
+            if row.get(f"parent_{i}_type") != "Null":
+                break
+            found.add((row.get("system_id64"), row.get(f"parent_{i}_id")))
+    return found
+
+
+def parent_chain_ls(
+    body_row: dict,
+    orbit_by_body: Dict[Tuple[int, int], float],
+    barycentres: Set[Tuple[int, int]],
+) -> Optional[float]:
+    """Orbit sizes added up from the body to the first star or star-bearing barycentre, in light-seconds.
+
+    orbit_by_body maps (system_id64, bodyId) to the semi-major axis in AU.
+    Returns None when an orbit on the way isn't on record.
+    """
+    sid = body_row.get("system_id64")
+    total = body_row.get("semiMajorAxis")
+    if not total:
+        return None
+    for i in range(7):
+        ptype, pid = body_row.get(f"parent_{i}_type"), body_row.get(f"parent_{i}_id")
+        if ptype is None:
+            return None
+        if ptype == "Star" or (ptype == "Null" and (sid, pid) in barycentres):
+            return total * LS_PER_AU
+        axis = orbit_by_body.get((sid, pid))
+        if not axis:
+            return None
+        total += axis
+    return None
+
 
 # Columns needed from systems.parquet
 SYSTEM_COLUMNS: List[str] = [
@@ -1072,6 +1115,8 @@ def score_body(
                 constraint_failed = False
                 for c in constraints:
                     val = body_row.get(c["field"])
+                    if val is None and "fallback" in c:
+                        val = body_row.get(c["fallback"])
                     if val is None:
                         if c.get("required"):
                             constraint_failed = True

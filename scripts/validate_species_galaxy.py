@@ -30,9 +30,8 @@ import pyarrow.compute as pc
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from mgst.bio.species_rules import (
-    BODY_COLUMNS, HIGH_VALUE_SPECIES, RELEVANT_BODY_TYPES, parent_star_class, score_body,
-)
+from mgst.bio.sector_scoring import SectorStars
+from mgst.bio.species_rules import BODY_COLUMNS, HIGH_VALUE_SPECIES, RELEVANT_BODY_TYPES
 from mgst.data.parquet_reader import ParquetSectorReader
 
 DATABASE = Path("/data/Databases_v2/galaxy_sectors_parquet")
@@ -43,31 +42,7 @@ def scan_sector(sector_dir):
     if not reader.has_bodies:
         return {}
 
-    # Star lookup
-    star_lookup = {}
-    star_by_body = {}
-    try:
-        star_data = reader.read_bodies(
-            columns=["system_id64", "bodyId", "type", "spectralClass", "mainStar",
-                     "solarRadius", "age"],
-        )
-        for srow in star_data.filter(
-            pc.equal(star_data.column("type"), "Star")
-        ).to_pylist():
-            sid = srow.get("system_id64")
-            if sid is None:
-                continue
-            sc = srow.get("spectralClass", "")
-            is_main = srow.get("mainStar", False)
-            if sc:
-                star_by_body[(sid, srow.get("bodyId"))] = sc[0]
-            if is_main and sc:
-                star_lookup[sid] = srow
-            elif sid not in star_lookup and sc:
-                star_lookup[sid] = srow
-        del star_data
-    except Exception:
-        pass
+    stars = SectorStars(reader)
 
     # System coords
     sys_coords = {}
@@ -115,22 +90,7 @@ def scan_sector(sector_dir):
     # Track all landmark species on relevant body types (for FN calculation)
     landmark_bodies_by_species = defaultdict(int)
 
-    for row in bodies_table.to_pylist():
-        sid = row.get("system_id64")
-        star_row = star_lookup.get(sid)
-        if star_row:
-            sc = star_row.get("spectralClass", "")
-            row["star_class"] = sc[0] if sc else None
-            row["star_solar_radius"] = star_row.get("solarRadius")
-            row["star_age"] = star_row.get("age")
-        else:
-            row["star_class"] = None
-        row["parent_star_class"] = parent_star_class(row, star_by_body)
-
-        coords = sys_coords.get(sid)
-        if coords:
-            row["system_x"], row["system_y"], row["system_z"] = coords
-
+    for row, predictions in stars.score(bodies_table.to_pylist(), sys_coords):
         # Parse landmarks on this body
         lm_species_json = row.get("landmark_species")
         body_species = set()
@@ -151,8 +111,6 @@ def scan_sector(sector_dir):
         for sp_name in body_species:
             landmark_bodies_by_species[sp_name] += 1
 
-        # Run prediction
-        predictions = score_body(row)
         predicted_species = {name for name, _ in predictions}
 
         # Compare predictions vs ground truth

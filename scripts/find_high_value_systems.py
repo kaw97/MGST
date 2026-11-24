@@ -2,7 +2,7 @@
 """Find systems with multiple high-value exobiology bodies.
 
 Scans a Parquet galaxy database and applies BioScan-derived species rulesets
-to predict which bodies harbor high-value (>=15M cr) exobiology species.
+to predict which bodies harbor high-value (>=10M cr) exobiology species.
 Systems are ranked by number of qualifying bodies and total predicted value.
 
 Supports:
@@ -14,19 +14,19 @@ Usage:
     # Search specific sectors for multi-body systems
     python scripts/find_high_value_systems.py \\
         --database /data/Databases_v2/galaxy_sectors_parquet \\
-        --output /tmp/bio_test/results.jsonl \\
+        --output /tmp/bio_test/results.tsv \\
         --sectors Col_285_Sector --min-bodies 1 --workers 8
 
     # Full galaxy search
     python scripts/find_high_value_systems.py \\
         --database /data/Databases_v2/galaxy_sectors_parquet \\
-        --output output/high_value_bio/results.jsonl \\
+        --output output/high_value_bio/results.tsv \\
         --min-bodies 3 --workers 8
 
     # Validation mode
     python scripts/find_high_value_systems.py \\
         --database /data/Databases_v2/galaxy_sectors_parquet \\
-        --output /tmp/bio_validate/results.jsonl \\
+        --output /tmp/bio_validate/results.tsv \\
         --mode validate --workers 8
 """
 
@@ -54,9 +54,8 @@ from mgst.bio.species_rules import (
     HIGH_VALUE_SPECIES,
     RELEVANT_BODY_TYPES,
     SYSTEM_COLUMNS,
-    parent_star_class,
-    score_body,
 )
+from mgst.bio.sector_scoring import SectorStars
 from mgst.data.parquet_reader import ParquetSectorReader
 
 logger = logging.getLogger(__name__)
@@ -125,39 +124,7 @@ def _scan_sector(
         if not allowed_sids:
             return []
 
-    # Build star class + star properties lookup
-    star_lookup = {}
-    star_props = {}
-    star_by_body: Dict[Tuple[int, int], str] = {}
-    try:
-        star_data = reader.read_bodies(
-            columns=[
-                "system_id64", "bodyId", "type", "spectralClass", "mainStar",
-                "absoluteMagnitude", "solarMasses", "solarRadius",
-                "surfaceTemperature", "age",
-            ],
-        )
-        star_rows_f = star_data.filter(
-            pc.equal(star_data.column("type"), "Star")
-        ).to_pylist()
-        del star_data
-        for srow in star_rows_f:
-            s_id = srow.get("system_id64")
-            if s_id is None:
-                continue
-            s_class = srow.get("spectralClass", "")
-            is_main = srow.get("mainStar", False)
-            if s_class:
-                star_by_body[(s_id, srow.get("bodyId"))] = s_class[0]
-            if is_main and s_class:
-                star_lookup[s_id] = s_class[0]
-                star_props[s_id] = srow
-            elif s_id not in star_lookup and s_class:
-                star_lookup[s_id] = s_class[0]
-                star_props[s_id] = srow
-        del star_rows_f
-    except Exception:
-        pass
+    stars = SectorStars(reader)
 
     # Read bodies with column pruning and pushdown filter on body type
     try:
@@ -207,32 +174,17 @@ def _scan_sector(
         defaultdict(list)
     )
 
-    for row in body_rows:
-        # In validate mode, filter by date
-        if date_cutoff is not None:
-            update_time = row.get("updateTime")
-            if update_time is None or update_time < date_cutoff:
-                continue
+    # In validate mode, filter by date
+    if date_cutoff is not None:
+        body_rows = [
+            row for row in body_rows
+            if row.get("updateTime") is not None and row["updateTime"] >= date_cutoff
+        ]
 
-        sid = row.get("system_id64")
-        row["star_class"] = star_lookup.get(sid)
-        row["parent_star_class"] = parent_star_class(row, star_by_body)
-        sp = star_props.get(sid)
-        if sp:
-            row["star_temperature"] = sp.get("surfaceTemperature")
-            row["star_abs_magnitude"] = sp.get("absoluteMagnitude")
-            row["star_solar_masses"] = sp.get("solarMasses")
-            row["star_solar_radius"] = sp.get("solarRadius")
-            row["star_age"] = sp.get("age")
-        coords = sys_coords.get(sid)
-        if coords:
-            row["system_x"], row["system_y"], row["system_z"] = coords
-        species_hits = score_body(row)
+    for row, species_hits in stars.score(body_rows, sys_coords):
         if not species_hits:
             continue
-
-        body_name = row.get("name", "")
-        scored_by_system[sid].append((body_name, species_hits))
+        scored_by_system[row.get("system_id64")].append((row.get("name", ""), species_hits))
 
     if not scored_by_system:
         return []
@@ -303,39 +255,7 @@ def _scan_sector_validate(
     if not reader.has_bodies:
         return {"predictions": {}, "actuals": {}, "bonus": 0}
 
-    # Build star class + star properties lookup
-    star_lookup = {}
-    star_props = {}
-    star_by_body: Dict[Tuple[int, int], str] = {}
-    try:
-        star_data = reader.read_bodies(
-            columns=[
-                "system_id64", "bodyId", "type", "spectralClass", "mainStar",
-                "absoluteMagnitude", "solarMasses", "solarRadius",
-                "surfaceTemperature", "age",
-            ],
-        )
-        star_rows_f = star_data.filter(
-            pc.equal(star_data.column("type"), "Star")
-        ).to_pylist()
-        del star_data
-        for srow in star_rows_f:
-            s_id = srow.get("system_id64")
-            if s_id is None:
-                continue
-            s_class = srow.get("spectralClass", "")
-            is_main = srow.get("mainStar", False)
-            if s_class:
-                star_by_body[(s_id, srow.get("bodyId"))] = s_class[0]
-            if is_main and s_class:
-                star_lookup[s_id] = s_class[0]
-                star_props[s_id] = srow
-            elif s_id not in star_lookup and s_class:
-                star_lookup[s_id] = s_class[0]
-                star_props[s_id] = srow
-        del star_rows_f
-    except Exception:
-        pass
+    stars = SectorStars(reader)
 
     try:
         body_filter = pc.field("subType").isin(RELEVANT_BODY_TYPES)
@@ -380,11 +300,12 @@ def _scan_sector_validate(
     # Build set of genus signals we track
     tracked_genuses = {s["genus_signal"] for s in HIGH_VALUE_SPECIES}
 
-    for row in body_rows:
-        update_time = row.get("updateTime")
-        if update_time is None or update_time < date_cutoff:
-            continue
+    body_rows = [
+        row for row in body_rows
+        if row.get("updateTime") is not None and row["updateTime"] >= date_cutoff
+    ]
 
+    for row, species_hits in stars.score(body_rows, sys_coords_v):
         # Parse actual genuses from signals
         genuses_json = row.get("signals_genuses")
         actual_genuses: Set[str] = set()
@@ -395,22 +316,6 @@ def _scan_sector_validate(
                     actual_genuses = set(parsed)
             except (json.JSONDecodeError, TypeError):
                 pass
-
-        # Score the body
-        sid_v = row.get("system_id64")
-        row["star_class"] = star_lookup.get(sid_v)
-        row["parent_star_class"] = parent_star_class(row, star_by_body)
-        sp = star_props.get(sid_v)
-        if sp:
-            row["star_temperature"] = sp.get("surfaceTemperature")
-            row["star_abs_magnitude"] = sp.get("absoluteMagnitude")
-            row["star_solar_masses"] = sp.get("solarMasses")
-            row["star_solar_radius"] = sp.get("solarRadius")
-            row["star_age"] = sp.get("age")
-        coords_v = sys_coords_v.get(sid_v)
-        if coords_v:
-            row["system_x"], row["system_y"], row["system_z"] = coords_v
-        species_hits = score_body(row)
 
         # Track predictions
         predicted_genuses: Set[str] = set()
@@ -862,7 +767,7 @@ def main() -> None:
         "--output",
         type=Path,
         required=True,
-        help="Output JSONL file path.",
+        help="Output TSV file path.",
     )
     parser.add_argument(
         "--workers",
